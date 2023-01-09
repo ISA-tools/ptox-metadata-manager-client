@@ -77,8 +77,8 @@ export const createFile = async (state, commit, token) => {
         "replicate4control": state.controls,
         "replicate4exposure": state.replicates,
         "replicate_blank": state.blanks,
-        "start_date": state.dates[1],
-        "timepoints": 3,
+        "start_date": state.dates[0],
+        "timepoints": state.timepoints,
         "vehicle": state.solvent === "DMSO" ? "DMSO" : "water"
     }
     try {

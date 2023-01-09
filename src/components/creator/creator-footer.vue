@@ -64,8 +64,7 @@ export default {
     ...mapActions("creator", ["resetForm", "submitForm"]),
     async submit() {
       await this.submitForm(this.token);
-      const URL = this.$store.state.creator.created;
-      window.open(URL, "_blank")
+      window.open(this.$store.state.creator.created, "_blank")
     }
   }
 }
