@@ -42,6 +42,7 @@ export default {
   name: "CreatorPartner",
   async fetch() {
     this.setSelectedPartner(this.userData.organisation)
+    this.setUserOrganisation(this.userData.organisation)
   },
   computed: {
     ...mapState("user", ["userData"]),
@@ -53,7 +54,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("creator", ["setSelectedPartner"]),
+    ...mapMutations("creator", ["setSelectedPartner", "setUserOrganisation"]),
     ...mapActions("user", ["getMyself"]),
   },
 }

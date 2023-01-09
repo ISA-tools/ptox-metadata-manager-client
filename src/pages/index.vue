@@ -61,7 +61,7 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex"
-import CreateSpreadsheet from "@/components/creator/create-spreadsheet"
+import CreateSpreadsheet from "@/components/creator/"
 
 
 export default {

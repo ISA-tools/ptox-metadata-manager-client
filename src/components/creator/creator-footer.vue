@@ -35,7 +35,7 @@
             tile
             class="primary darken-4 white--text fullWidth py-7"
             :loading="loading"
-            @click="submitForm(token)"
+            @click="submit()"
           >
             <v-icon
               class="white--text"
@@ -60,7 +60,14 @@ export default {
     ...mapState("user", ["token"]),
     ...mapState("creator", ["loading"])
   },
-  methods: { ...mapActions("creator", ["resetForm", "submitForm"]) }
+  methods: {
+    ...mapActions("creator", ["resetForm", "submitForm"]),
+    async submit() {
+      await this.submitForm(this.token);
+      const URL = this.$store.state.creator.created;
+      window.open(URL, "_blank")
+    }
+  }
 }
 </script>
 

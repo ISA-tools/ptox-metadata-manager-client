@@ -5,7 +5,7 @@
     class="white pb-5 px-5 pt-0"
   >
     <v-select
-      :value="organism"
+      v-model="organism"
       label="Select an organism"
       :items="availableOrganisms"
       item-text="ptox_biosystem_name"

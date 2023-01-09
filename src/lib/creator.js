@@ -63,7 +63,6 @@ export const createFile = async (state, commit, token) => {
     const chemicals = state.availableChemicals.filter(
         chemical => state.selectedChemicals.includes(chemical['chemical_id'])
     )
-    console.log(chemicals)
     const body = {
         "end_date": state.dates[1],
         "exposure_batch": state.batch,
@@ -80,15 +79,31 @@ export const createFile = async (state, commit, token) => {
         "replicate_blank": state.blanks,
         "start_date": state.dates[1],
         "timepoints": 3,
-        "vehicle": state.solvent.toLowerCase()
+        "vehicle": state.solvent === "DMSO" ? "DMSO" : "water"
     }
     try {
         commit('setLoading', true)
         const response = await create_file(token, body)
-        commit('setCreated', response.data['file_url'])
+        const URL = response.data['file_url']
+        commit('setCreated', URL)
     }
     catch (error) { commit('setError', error.response.data.message) }
     finally { commit('setLoading', false) }
+}
+
+
+export const resetCreator = (commit, state) => {
+    commit('setSelectedChemicals', [])
+    commit('setSelectedOrganism', 1)
+    commit('setSelectedPartner', state.userOrganisation)
+    commit('setDates', [today.format(), today.format()])
+    commit('setDose', 1)
+    commit('setSolvent', 'WATER')
+    commit('setBatch', 'AA')
+    commit('setControls', 4)
+    commit('setReplicates', 4)
+    commit('setTimepoints', 3)
+    commit('setBlanks', 3)
 }
 
 

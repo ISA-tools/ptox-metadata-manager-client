@@ -79,10 +79,12 @@ import CreatorConditions from "./conditions/creator-conditions";
 import CreatorPartner from "./creator-partner";
 import CreatorBatch from "./creator-batch";
 import CreatorReplicates from "./conditions/creator-replicates";
+import CreatorOrganism from "./creator-organism";
 
 export default {
   name: "CreateSpreadsheet",
   components: {
+    CreatorOrganism,
     CreatorReplicates,
     CreatorBatch,
     CreatorPartner, CreatorConditions, SolventDose, CreateDates, AddChemicals, CreatorFooter, CreatorSubtitle
@@ -96,8 +98,8 @@ export default {
         batch: "A string containing any two capital letters. This will be used to identify the batch in the " +
                "spreadsheet name and to generate the final identifiers.",
         replicates: "The number of empty tubes <span class='red--text font-weight-bold'>(998)</span>, " +
-            "exposed replicates <span class='red--text font-weight-bold'>(###)</span> " +
-            "and controls <span class='red--text font-weight-bold'>(999/000)</span> to be generated.",
+            "exposed replicates <span class='red--text font-weight-bold'>(998)</span> " +
+            "and controls <span class='red--text font-weight-bold'>(999/997)</span> to be generated.",
       }
     }
   }

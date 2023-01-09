@@ -39,7 +39,7 @@
   </v-col>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 import DateShow from "./date-show";
 export default {
@@ -49,10 +49,10 @@ export default {
     ...mapState("creator", ["dates"]),
     selectedDates: {
       get() { return this.dates },
-      set(value) { this.setDates(value) }
+      set(value) { this.sortDates(value) }
     }
   },
-  methods: { ...mapMutations("creator", ["setDates"]) },
+  methods: { ...mapActions("creator", ["sortDates"]) },
 }
 </script>
 <style>
