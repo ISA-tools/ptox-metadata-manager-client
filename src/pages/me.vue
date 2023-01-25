@@ -20,30 +20,41 @@
             <div class="mb-2">
               Files:
             </div>
-            <v-card
-              v-for="(file, file_index) in userData.files"
-              :key="'userFile_' + file_index"
-            >
-              <v-card-title class="py-1 primary white--text">
-                {{ file.name }}
-              </v-card-title>
-              <v-card-text class="pt-2">
-                <ul>
-                  <li>
-                    URL:
-                    <a
-                      :href="'https://docs.google.com/spreadsheets/d/' + file.gdrive_id"
-                      target="_blank"
-                    >
-                      {{ file.gdrive_id }}
-                    </a>
-                  </li>
-                  <li>batch: {{ file.batch }}</li>
-                  <li>organisation: {{ file.organisation }}</li>
-                  <li>organism: {{ file.organism }}</li>
-                </ul>
-              </v-card-text>
-            </v-card>
+            <v-container>
+              <v-row>
+                <v-col
+                  v-for="(file, file_index) in userData.files"
+                  :key="'userFile_' + file_index"
+                  xs="12"
+                  sm="12"
+                  md="6"
+                  lg="6"
+                  xl="4"
+                >
+                  <v-card>
+                    <v-card-title class="py-1 primary white--text">
+                      {{ file.name }}
+                    </v-card-title>
+                    <v-card-text class="pt-2">
+                      <ul>
+                        <li>
+                          Link:
+                          <a
+                            :href="'https://docs.google.com/spreadsheets/d/' + file.gdrive_id"
+                            target="_blank"
+                          >
+                            ...{{ file.gdrive_id }}
+                          </a>
+                        </li>
+                        <li>batch: {{ file.batch }}</li>
+                        <li>organisation: {{ file.organisation }}</li>
+                        <li>organism: {{ file.organism }}</li>
+                      </ul>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
           </li>
         </ul>
       </v-card-text>
