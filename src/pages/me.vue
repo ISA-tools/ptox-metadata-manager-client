@@ -16,7 +16,35 @@
           <li> Organisation: {{ userData.organisation }}</li>
           <li> Google Drive: {{ userData.googleDriveID }}</li>
           <li> User ID: {{ userData.userID }}</li>
-          <li> Files: {{ userData.files }}</li>
+          <li class="pr-4">
+            <div class="mb-2">
+              Files:
+            </div>
+            <v-card
+              v-for="(file, file_index) in userData.files"
+              :key="'userFile_' + file_index"
+            >
+              <v-card-title class="py-1 primary white--text">
+                {{ file.name }}
+              </v-card-title>
+              <v-card-text class="pt-2">
+                <ul>
+                  <li>
+                    URL:
+                    <a
+                      :href="'https://docs.google.com/spreadsheets/d/' + file.gdrive_id"
+                      target="_blank"
+                    >
+                      {{ file.gdrive_id }}
+                    </a>
+                  </li>
+                  <li>batch: {{ file.batch }}</li>
+                  <li>organisation: {{ file.organisation }}</li>
+                  <li>organism: {{ file.organism }}</li>
+                </ul>
+              </v-card-text>
+            </v-card>
+          </li>
         </ul>
       </v-card-text>
       <v-card-actions>
