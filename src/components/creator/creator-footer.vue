@@ -58,13 +58,13 @@ export default {
   name: "CreatorFooter",
   computed: {
     ...mapState("user", ["token"]),
-    ...mapState("creator", ["loading"])
+    ...mapState("creator", ["loading", "created"])
   },
   methods: {
     ...mapActions("creator", ["resetForm", "submitForm"]),
     async submit() {
       await this.submitForm(this.token);
-      window.open(this.$store.state.creator.created, "_blank")
+      if (this.created) window.open(this.created, "_blank")
     }
   }
 }

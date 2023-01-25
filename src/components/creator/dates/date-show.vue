@@ -1,21 +1,23 @@
 <template>
   <div
     class="d-flex justify-center flex-column flex-grow-1"
-    :class="{'align-start': left, 'align-end': !left}"
+    :class="{'align-left': left || $vuetify.breakpoint.smAndUp, 'align-end': !left && $vuetify.breakpoint.xsOnly}"
   >
     <div class="label">
       {{ label }}
     </div>
     <div class="mainDate">
-      {{ formattedDate }}
+      {{ formattedDate[0] }}
     </div>
     <div class="miniLabel">
-      {{ miniLabel }}
+      {{ formattedDate[1] }}
     </div>
   </div>
 </template>
 
 <script>
+import { formatDate } from "@/utils/dates"
+
 export default {
   name: "DateShow",
   props: {
@@ -23,22 +25,7 @@ export default {
     label: { type: String, required: true },
     left: { type: Boolean, default: false }
   },
-  computed: {
-    formattedDate() {
-      const date = new Date(this.date)
-      date.setDate(date.getDate() + 1);
-      const day = date.getDate().toString()
-      const month = date.toLocaleString('default', { month: 'short' }).toString().toUpperCase()
-      return `${day} ${month}`
-    },
-    miniLabel() {
-      const date = new Date(this.date)
-      date.setDate(date.getDate() + 1);
-      const day = date.toLocaleDateString('default', { weekday: 'long' });
-      const year = date.getFullYear()
-      return `${day}, ${year}`
-    }
-  }
+  computed: { formattedDate() { return formatDate(this.date) } }
 }
 </script>
 

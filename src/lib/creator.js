@@ -57,6 +57,9 @@ export const incrementBlanks = (commit, state, value) => {
 export const createFile = async (state, commit, token) => {
     commit('setError', false)
     commit('setCreated', false)
+
+    if (!state.selectedChemicals.length) return commit('setError', "You must select at least one chemical")
+
     const partner = state.availablePartners.filter(organisation => organisation.name === state.selectedPartner)[0]
     const organism = state.availableOrganisms.filter(organism => organism['organism_id'] === state.selectedOrganism)[0]
     const dose = state.availableDoses.filter(dose => dose.id === state.selectedDose)[0]

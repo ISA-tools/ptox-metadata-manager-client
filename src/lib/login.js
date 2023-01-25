@@ -72,6 +72,7 @@ export async function getMyself(token, commit) {
     commit("setUserData", {
         organisation: user.organisation.name,
         googleDriveID: user.organisation.gdrive_id || 'None',
-        userID: user.id
+        userID: user.id,
+        files: user.organisation.files
     })
 }

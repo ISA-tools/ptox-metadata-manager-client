@@ -45,15 +45,20 @@
     </v-container>
     <v-snackbar v-model="showSnackbar">
       <template #action="{ attrs }">
-        There was en error: {{ error }}
-        <v-btn
-          color="error"
-          text
-          v-bind="attrs"
-          @click="showSnackbar = false"
-        >
-          Close
-        </v-btn>
+        <div class="d-flex flex-column align-center justify-center pa-2 text-center error--text">
+          There was en error: {{ error }}
+          <v-divider
+            class="my-4 error"
+            style="width: 100%; height:1px"
+          />
+          <v-btn
+            class="primary"
+            v-bind="attrs"
+            @click="showSnackbar = false"
+          >
+            Close
+          </v-btn>
+        </div>
       </template>
     </v-snackbar>
   </div>
@@ -87,5 +92,8 @@ export default {
 }
 #createSpreadsheet .v-snack__wrapper {
   bottom: 50px;
+}
+#createSpreadsheet  .v-snack__content {
+  display: none;
 }
 </style>

@@ -16,6 +16,7 @@
           <li> Organisation: {{ userData.organisation }}</li>
           <li> Google Drive: {{ userData.googleDriveID }}</li>
           <li> User ID: {{ userData.userID }}</li>
+          <li> Files: {{ userData.files }}</li>
         </ul>
       </v-card-text>
       <v-card-actions>

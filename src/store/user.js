@@ -9,7 +9,8 @@ export const state = () => ({
     userData: {
         organisation: null,
         googleDriveID: null,
-        userID: null
+        userID: null,
+        files: []
     }
 })
 
