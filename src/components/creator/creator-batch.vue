@@ -61,7 +61,8 @@ export default {
     text-transform: uppercase;
     text-shadow: 3px 3px 6px #6E6D6D;
     padding: 0 !important;
-    height: 50px;
+    height: 100%;
+    max-height: 100%;
   }
   #batchSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:before {
     border-style: none;
