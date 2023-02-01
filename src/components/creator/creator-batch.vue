@@ -61,4 +61,7 @@ export default {
   #batchSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:after {
     border-style: none;
   }
+  #batchSelector input {
+    padding: 0 !important;
+  }
 </style>
