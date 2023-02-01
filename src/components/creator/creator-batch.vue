@@ -48,6 +48,12 @@ export default {
     border: 1px solid #FF5252 !important;
     margin-bottom: 5px;
   }
+  .batch .v-input__slot {
+    height: 50px;
+  }
+  .batch .v-text-field__slot {
+    height: 100%;
+  }
   .batch.v-input input {
     text-align: center;
     letter-spacing: 5px;
