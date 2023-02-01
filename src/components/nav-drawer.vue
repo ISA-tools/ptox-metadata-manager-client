@@ -2,9 +2,12 @@
   <v-container
     fluid
     class="pa-0"
+    :class="{'pt-6': $vuetify.breakpoint.lgAndUp}"
   >
-    <div
+    <v-row
+      no-gutters
       class="user pa-2"
+      :class="{'mt-10': $vuetify.breakpoint.lgAndUp}"
       style="border-bottom: 1px solid dimgrey"
     >
       <v-icon class="white--text mr-2">
@@ -16,7 +19,22 @@
       >
         Welcome, {{ username }}
       </nuxt-link>
-    </div>
+    </v-row>
+    <v-row
+      no-gutters
+      class="user pa-2 pl-3"
+      style="border-bottom: 1px solid dimgrey"
+    >
+      <v-icon class="white--text mr-2">
+        fas fa-file-excel
+      </v-icon>
+      <nuxt-link
+        to="/"
+        class="white--text"
+      >
+        Create spreadsheet
+      </nuxt-link>
+    </v-row>
   </v-container>
 </template>
 

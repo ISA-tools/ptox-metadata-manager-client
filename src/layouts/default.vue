@@ -4,12 +4,13 @@
       v-model="drawer"
       fixed
       clipped
-      width="80%"
-      height="80%"
+      :width="drawerWidth"
+      :height="drawerHeight"
       class="fixed elevation-0"
       bottom
       centered
       color="primary darken-3"
+      style="z-index: 9"
     >
       <NavDrawer />
     </v-navigation-drawer>
@@ -18,6 +19,7 @@
       fixed
       app
       class="elevation-0 primary"
+      style="z-index: 10"
     >
       <a
         href="/"
@@ -53,7 +55,11 @@ export default {
       fixed: false,
       title: 'Metadata Manager'
     }
-  }
+  },
+  computed: {
+    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '100%' },
+    drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' }
+  },
 }
 </script>
 
