@@ -9,15 +9,15 @@
     >
       <v-row no-gutters>
         <CreatorControls
+          target="replicates"
+          class="borderRight"
+        />
+        <CreatorControls
           target="blanks"
           class="borderRight"
         />
         <CreatorControls
           target="controls"
-          class="borderRight"
-        />
-        <CreatorControls
-          target="replicates"
         />
       </v-row>
     </v-container>
