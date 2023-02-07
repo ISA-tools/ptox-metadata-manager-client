@@ -84,7 +84,6 @@ export default {
     ...mapActions('creator', ['addDose', 'decreaseDose']),
     ...mapMutations('creator', ['setSolvent'])
   }
-
 }
 </script>
 

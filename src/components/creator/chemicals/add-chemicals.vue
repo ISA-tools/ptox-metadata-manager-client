@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="pa-0 grey lighten-2 mb-0"
+    class="pa-0 grey lighten-2 mb-0 pb-4"
   >
     <v-row
       no-gutters
@@ -46,7 +46,7 @@
         </v-btn>
       </v-col>
       <v-col
-        class="pa-3 primary--text"
+        class="pa-3 primary--text pt-7"
         style="cursor: pointer;"
       >
         <AddButton />

@@ -1,7 +1,6 @@
 <template>
-  <v-col
+  <div
     id="selectPartner"
-    cols="12"
     class="white py-5 pl-8 pr-6 grey lighten-2"
   >
     <v-select
@@ -32,7 +31,7 @@
         </div>
       </template>
     </v-select>
-  </v-col>
+  </div>
 </template>
 
 <script>
