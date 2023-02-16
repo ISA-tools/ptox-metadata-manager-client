@@ -59,10 +59,10 @@ export default {
     letter-spacing: 5px;
     color: #1976d2;
     text-transform: uppercase;
-    text-shadow: 3px 3px 6px #6E6D6D;
     padding: 0 !important;
     height: 100%;
     max-height: 100%;
+    font-weight: bolder;
   }
   #batchSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:before {
     border-style: none;

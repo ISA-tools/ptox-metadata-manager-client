@@ -6,7 +6,7 @@ export const state = () => ({
     availablePartners: [],
     availableDoses: [
         { id: 1, dose: 'BMD10', value: 'LOW' },
-        { id: 2, dose: 'BMD25', value: 'MED.' },
+        { id: 2, dose: 'BMD25', value: 'MEDIUM' },
         { id: 3, dose: '10mg/L', value: 'HIGH' }
     ],
     selectedChemicals: [],

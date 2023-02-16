@@ -4,7 +4,10 @@
     class="pa-3 d-flex flex-column justify-center align-center pb-5"
   >
     <v-container class="pa-0">
-      <v-row bo-gutters>
+      <v-row
+        v-if="target !== 'timepoints'"
+        bo-gutters
+      >
         <v-col cols="12 conditionLabel text-center">
           {{ getLabel() }}
         </v-col>
