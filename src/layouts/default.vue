@@ -32,6 +32,7 @@
       </a>
       <v-spacer />
       <v-app-bar-nav-icon
+        v-if="isLoggedIn"
         class="white--text"
         @click.stop="drawer = !drawer"
       />
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import NavDrawer from "../components/nav-drawer";
 
 export default {
@@ -58,7 +60,8 @@ export default {
   },
   computed: {
     drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '100%' },
-    drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' }
+    drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
+    ...mapState('user', ['isLoggedIn'])
   },
 }
 </script>

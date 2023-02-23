@@ -1,4 +1,4 @@
-import { login_request, get_myself } from "@/lib/RESTClient"
+import { login_request, get_myself, create_user } from "@/lib/RESTClient"
 
 
 /**
@@ -75,4 +75,24 @@ export async function getMyself(token, commit) {
         userID: user.id,
         files: user.organisation.files
     })
+}
+
+
+export async function createUser(token, data, commit) {
+    commit("error", null)
+    try {
+        await create_user(token, {
+            organisation: data.organisation,
+            username: data.username,
+            password: data.password,
+            confirm_password: data.confirmPassword
+        })
+        commit('setCreationSuccess', true)
+        commit("resetNewUser")
+    }
+    catch (error) {
+        commit('setCreationSuccess', false)
+        commit("error", error.response.data.msg)
+    }
+
 }
