@@ -77,8 +77,7 @@ export default {
   components: { CreatorIndex },
   data() {
     return {
-      showSnackbar: false,
-      stepper: 1
+      showSnackbar: false
     }
   },
   computed: {
@@ -87,9 +86,11 @@ export default {
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { await this.getFormData(this.token) },
+  beforeDestroy() { this.setStep(1) },
   methods: {
     ...mapActions('creator-general', ['getFormData']),
-    ...mapMutations('creator-general', ['backButton'])
+    ...mapMutations('creator-general', ['backButton']),
+    ...mapMutations('creator-steps', ['setStep'])
   }
 }
 </script>
