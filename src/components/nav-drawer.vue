@@ -35,6 +35,22 @@
         Create spreadsheet
       </nuxt-link>
     </v-row>
+    <v-row
+      no-gutters
+      class="user py-2"
+      style="border-bottom: 1px solid dimgrey"
+    >
+      <nuxt-link
+        v-if="username === 'admin'"
+        to="/create_user"
+        class="white--text"
+      >
+        <v-icon class="ml-2 white--text">
+          fas fa-user-plus
+        </v-icon>
+        Create new user
+      </nuxt-link>
+    </v-row>
   </v-container>
 </template>
 

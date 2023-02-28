@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = "https://pretox.isa-tools.org/api"
+const BASE_URL = "https://pretox.isa-tools.org/api" // "http://127.0.0.1:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -45,6 +45,18 @@ export const get = async (token, path) => {
         method: "GET",
         url: `${BASE_URL}/${path}`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    const response = await axios(request)
+    return response.data
+}
+
+
+export const create_user = async (token, data) => {
+    const request = {
+        method: "POST",
+        url: `${BASE_URL}/user`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
+        data
     }
     const response = await axios(request)
     return response.data
