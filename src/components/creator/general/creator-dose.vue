@@ -75,8 +75,8 @@ export default {
     value() { return this.getDose().value }
   },
   methods: {
-    ...mapGetters('creator', ['getDose']),
-    ...mapActions('creator', ['addDose', 'decreaseDose']),
+    ...mapGetters('creator-general', ['getDose']),
+    ...mapActions('creator-general', ['addDose', 'decreaseDose']),
   }
 }
 </script>

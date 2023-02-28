@@ -43,13 +43,13 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   name: "CreatorOrganism",
   computed: {
-    ...mapState("creator", ['selectedOrganism', 'availableOrganisms']),
+    ...mapState("creator-general", ['selectedOrganism', 'availableOrganisms']),
     organism: {
       get() { return this.selectedOrganism },
       set(value) { this.setSelectedOrganism(value) }
     }
   },
-  methods: { ...mapMutations("creator", ['setSelectedOrganism']) }
+  methods: { ...mapMutations("creator-general", ['setSelectedOrganism']) }
 
 
 }

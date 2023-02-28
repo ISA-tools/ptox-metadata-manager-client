@@ -111,7 +111,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 
-import CreatorSubtitle from "../components/creator/creator-subtitle.vue";
+import CreatorSubtitle from "../components/creator/general/creator-subtitle.vue";
 
 export default {
   name: "CreateUser",
@@ -119,7 +119,7 @@ export default {
   data() { return { showSnackbar: false } },
   computed: {
     ...mapState('user', ['createUserData', 'token', 'error', 'creationSuccess']),
-    ...mapState('creator', ['availablePartners']),
+    ...mapState('creator-general', ['availablePartners']),
     username: {
       get() { return this.createUserData.username },
       set(value) { this.setNewUserUsername(value) }
@@ -140,7 +140,7 @@ export default {
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { if (this.availablePartners.length === 0) await this.getFormData(this.token) },
   methods: {
-    ...mapActions('creator', ['getFormData']),
+    ...mapActions('creator-general', ['getFormData']),
     ...mapActions('user', ['createUser']),
     ...mapMutations('user', [
         'setNewUserUsername', 'setNewUserPassword', 'setNewUserConfirmPassword', 'setNewUserOrganisation'

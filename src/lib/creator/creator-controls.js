@@ -1,29 +1,32 @@
-import { get_chemicals, get_organisms, get_organisations, create_file } from "./RESTClient";
+import { get_chemicals, get_organisms, get_organisations, create_file } from "../RESTClient";
 
 
 export const getFormData = async (commit, token) => {
-    const chemicals = get_chemicals(token)
     const organisms = get_organisms(token)
     const organisations = get_organisations(token)
-    Promise.all([chemicals, organisms, organisations]).then((values) => {
-        commit("setAvailableChemicals", values[0]['data'])
-        commit("setAvailableOrganisms", values[1]['data'])
-        commit("setAvailablePartners", values[2]['data'])
+    Promise.all([organisms, organisations]).then((values) => {
+        commit("setAvailableOrganisms", values[0]['data'])
+        commit("setAvailablePartners", values[1]['data'])
     })
 }
 
 
-export const incrementDose = (commit, state, value) => {
-    let dose = value < 0 ? state.selectedDose - 1 : state.selectedDose + 1
-    if (dose >= 1 && dose <= 3) commit('setDose', dose)
-    if (dose === 4) commit('setDose', 1)
-    if (dose === 0) commit('setDose', 3)
+export const getChemicalsData = async (commit, token) => {
+    const chemicals = await get_chemicals(token)
+    commit("setAvailableChemicals", chemicals['data'])
+}
+
+
+export const controlDose = (commit, state, value, index) => {
+    let dose = value < 0 ? state.selectedChemicalsGroups[index].dose - 1 : state.selectedChemicalsGroups[index].dose + 1
+    if (dose >= 1 && dose <= 3) commit('setDose', { index, dose })
+    if (dose === 4) commit('setDose', { index, dose: 1 })
+    if (dose === 0) commit('setDose', { index, dose: 3 })
 }
 
 
 export const incrementField = (commit, state, field, value) => {
-    if (field === 'dose') incrementDose(commit, state, value)
-    else if (field === "controls") incrementControls(commit, state, value)
+    if (field === "controls") incrementControls(commit, state, value)
     else if (field === "replicates") incrementReplicates(commit, state, value)
     else if (field === "timepoints") incrementTimepoints(commit, state, value)
     else if (field === "blanks") incrementBlanks(commit, state, value)
@@ -96,17 +99,25 @@ export const createFile = async (state, commit, token) => {
 
 
 export const resetCreator = (commit, state) => {
-    commit('setSelectedChemicals', [])
     commit('setSelectedOrganism', 1)
     commit('setSelectedPartner', state.userOrganisation)
     commit('setDates', [today.format(), today.format()])
-    commit('setDose', 1)
     commit('setSolvent', 'WATER')
     commit('setBatch', 'AA')
     commit('setControls', 4)
     commit('setReplicates', 4)
     commit('setTimepoints', 3)
     commit('setBlanks', 3)
+}
+
+
+export const getAvailableChemicals = (state, index)  => {
+    const usedChemicals = state.selectedChemicalsGroups.map((group, i) =>
+        i === index ? [] : group.chemicals
+    ).flat()
+    return state.availableChemicals.map(chemical => {
+        if (!usedChemicals.includes(chemical['common_name'])) return chemical
+    })
 }
 
 

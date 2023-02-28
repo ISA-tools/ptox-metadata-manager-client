@@ -67,18 +67,18 @@
 <script>
 import { mapState, mapActions } from "vuex";
 
-import DateShow from "./date-show";
+import DateShow from "./date-show.vue";
 export default {
   name: "CreateDates",
   components: { DateShow },
   computed: {
-    ...mapState("creator", ["dates"]),
+    ...mapState("creator-general", ["dates"]),
     selectedDates: {
       get() { return this.dates },
       set(value) { this.sortDates(value) }
     }
   },
-  methods: { ...mapActions("creator", ["sortDates"]) },
+  methods: { ...mapActions("creator-general", ["sortDates"]) },
 }
 </script>
 <style>

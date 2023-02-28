@@ -12,7 +12,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }]
   },
-  css: ["@/assets/styles/colors.css", "@/assets/styles/layout.css"],
+  css: ["@/assets/styles/colors.css", "@/assets/styles/layout.css", "animate.css/animate.min.css"],
   plugins: [],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],

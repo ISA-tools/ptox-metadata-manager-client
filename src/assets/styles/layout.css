@@ -2,3 +2,7 @@
     font-family: 'Righteous';
     src: url('../fonts/Righteous.ttf')  format('truetype');
 }
+
+.v-stepper__content {
+    padding: 0 !important;
+}

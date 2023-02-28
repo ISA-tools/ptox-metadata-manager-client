@@ -19,6 +19,7 @@
       fixed
       app
       class="elevation-0 primary"
+      height="64"
       style="z-index: 10"
     >
       <a

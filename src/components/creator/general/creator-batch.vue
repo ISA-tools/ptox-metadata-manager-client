@@ -26,10 +26,10 @@ export default {
       }
     }},
   computed: {
-    ...mapState("creator", ["batch"]),
+    ...mapState("creator-general", ["batch"]),
     selectedBath: {
       get() { return this.batch },
-      set(value) { this.$store.commit("creator/setBatch", value) }
+      set(value) { this.$store.commit("creator-general/setBatch", value) }
     }
   }
 }

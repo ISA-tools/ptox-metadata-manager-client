@@ -60,7 +60,7 @@ export default {
     target: {type: String, required: true}
   },
   data() {
-    this.$options.computed = { ...mapState("creator", [this.target]) }
+    this.$options.computed = { ...mapState("creator-general", [this.target]) }
     return {}
   },
   computed: {
@@ -70,7 +70,7 @@ export default {
     blanks() { return this[this.target] }
   },
   methods: {
-    ...mapActions("creator", ["changeField"]),
+    ...mapActions("creator-general", ["changeField"]),
     increment() { this.changeField({ field: this.target, value: 1 }) },
     decrement() { this.changeField({ field: this.target, value: -1 }) },
     getLabel() {

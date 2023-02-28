@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import CreatorControls from "./creator-controls";
+import CreatorControls from "./creator-controls.vue";
 export default {
   name: "CreatorConditions",
   components: { CreatorControls }

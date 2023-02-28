@@ -45,15 +45,15 @@ export default {
   },
   computed: {
     ...mapState("user", ["userData"]),
-    ...mapState("creator", ["selectedPartner", "availablePartners"]),
-    ...mapGetters("creator", ["getPartner"]),
+    ...mapState("creator-general", ["selectedPartner", "availablePartners"]),
+    ...mapGetters("creator-general", ["getPartner"]),
     partner: {
       get() { return this.getPartner },
       set(value) { this.setSelectedPartner(value) }
     }
   },
   methods: {
-    ...mapMutations("creator", ["setSelectedPartner", "setUserOrganisation"]),
+    ...mapMutations("creator-general", ["setSelectedPartner", "setUserOrganisation"]),
     ...mapActions("user", ["getMyself"]),
   },
 }

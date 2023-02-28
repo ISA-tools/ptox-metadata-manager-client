@@ -1,6 +1,9 @@
 <template>
-  <div id="createSpreadsheet">
-    <CreateSpreadsheet v-if="!created" />
+  <div
+    id="createSpreadsheet"
+    style="height:100%"
+  >
+    <CreatorIndex v-if="!created" />
     <v-container v-else-if="!error">
       <v-card>
         <v-card-title class="text-center primary white--text">
@@ -66,22 +69,27 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex"
-import CreateSpreadsheet from "@/components/creator/"
+import CreatorIndex from "@/components/creator/"
 
 
 export default {
   name: 'IndexPage',
-  components: { CreateSpreadsheet },
-  data() { return { showSnackbar: false } },
+  components: { CreatorIndex },
+  data() {
+    return {
+      showSnackbar: false,
+      stepper: 1
+    }
+  },
   computed: {
     ...mapState('user', ['token']),
-    ...mapState('creator', ['created', 'error'])
+    ...mapState('creator-general', ['created', 'error'])
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { await this.getFormData(this.token) },
   methods: {
-    ...mapActions('creator', ['getFormData']),
-    ...mapMutations('creator', ['backButton'])
+    ...mapActions('creator-general', ['getFormData']),
+    ...mapMutations('creator-general', ['backButton'])
   }
 }
 </script>
@@ -95,5 +103,14 @@ export default {
 }
 #createSpreadsheet  .v-snack__content {
   display: none;
+}
+#createSpreadsheet .v-stepper:not(.v-stepper--vertical) .v-stepper__label {
+  display: block !important;
+  font-size: 12px;
+  color: #1976d2;
+  max-width: 70px;
+  word-break: break-word;
+  overflow: hidden;
+  text-align: center;
 }
 </style>

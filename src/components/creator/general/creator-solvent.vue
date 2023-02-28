@@ -37,9 +37,9 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: "CreatorSolvent",
-  computed: { ...mapState('creator', ['solvent']) },
+  computed: { ...mapState('creator-general', ['solvent']) },
   methods: {
-    ...mapMutations('creator', ['setSolvent']),
+    ...mapMutations('creator-general', ['setSolvent']),
     color(solvent) { return this.solvent.toLowerCase() === solvent ? 'primary lighten-2' : '' }
   }
 }
