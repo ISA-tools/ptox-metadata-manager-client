@@ -57,6 +57,7 @@
         class="px-6"
       >
         <v-autocomplete
+          :id="'ChemicalAutocomplete_' + index"
           v-model="chemicals"
           :items="getAvailableChemicals()(index) || [] "
           label="Select chemicals"
@@ -69,6 +70,8 @@
           hide-details
           :color="doseColor(1)"
           :filter="searchChemicals"
+          @focus="$vuetify.goTo('#ChemicalAutocomplete_' + index, scrollOption)"
+          @change="$vuetify.goTo('#ChemicalAutocomplete_' + index, scrollOption)"
         >
           <template #item="{item}">
             <div class="py-2 d-flex">
@@ -92,6 +95,7 @@
 </template>
 
 <script>
+import * as easing from 'vuetify/lib/services/goto/easing-patterns'
 import { mapGetters, mapActions, mapMutations } from "vuex"
 import { searchChemicals } from "@/utils/search"
 import doseMixin from "@/mixins/doseCSSMixin"
@@ -101,7 +105,10 @@ export default {
   mixins: [doseMixin],
   props: { index: { type: Number, required: true } },
   data () {
-    return { def: ""}
+    return {
+      def: "",
+      scrollOption: { duration: 1000, easing: easing.easeInOutQuint, offset: 0 }
+    }
   },
   computed: {
     chemicals: {
