@@ -56,7 +56,7 @@
                 </v-stepper-step>
                 <v-divider />
                 <v-stepper-step
-                  :complete="created"
+                  :complete="currentStep === 3"
                   step="3"
                   color="white"
                   class="primary"
@@ -73,6 +73,9 @@
             <v-stepper-content step="2">
               <ExposureConditions />
             </v-stepper-content>
+            <v-stepper-content step="3">
+              <CreatorResults />
+            </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
       </v-col>
@@ -83,14 +86,18 @@
 <script>
 import { mapState } from "vuex";
 import CreatorGeneralStep from "@/components/creator/general/"
-import ExposureConditions from "@/components/creator/exposure-conditions/";
+import ExposureConditions from "@/components/creator/exposure-conditions/"
+import CreatorResults from "@/components/creator/creator-results.vue"
 
 export default {
   name: "CreatorIndex",
-  components: { CreatorGeneralStep, ExposureConditions },
+  components: { CreatorGeneralStep, ExposureConditions, CreatorResults },
   computed: {
     ...mapState('creator-steps', ['currentStep']),
-    ...mapState('creator-general', ['created'])
+    ...mapState('creator', ['created'])
+  },
+  watch: {
+    created() { if (this.created) window.open(this.created, '_blank') }
   }
 }
 </script>

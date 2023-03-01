@@ -3,49 +3,7 @@
     id="createSpreadsheet"
     style="height:100%"
   >
-    <CreatorIndex v-if="!created" />
-    <v-container v-else-if="!error">
-      <v-card>
-        <v-card-title class="text-center primary white--text">
-          Your URL is ready
-        </v-card-title>
-        <v-card-text class="pt-2">
-          <div
-            id="viewURL"
-            class="d-flex flex-column justify-center align-center"
-          >
-            <v-btn
-              fab
-              x-large
-              icon
-              class="green mb-3"
-            >
-              <v-icon class="white--text">
-                fas fa-file-excel
-              </v-icon>
-            </v-btn>
-            <v-text-field
-              v-model="created"
-              disabled
-              rounded
-              outlined
-              hide-details
-              style="width:100%"
-            />
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            rounded
-            color="primary"
-            class="px-3 mt-10"
-            @click="backButton()"
-          >
-            Go back
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-container>
+    <CreatorIndex />
     <v-snackbar v-model="showSnackbar">
       <template #action="{ attrs }">
         <div class="d-flex flex-column align-center justify-center pa-2 text-center error--text">
@@ -75,21 +33,16 @@ import CreatorIndex from "@/components/creator/"
 export default {
   name: 'IndexPage',
   components: { CreatorIndex },
-  data() {
-    return {
-      showSnackbar: false
-    }
-  },
+  data() { return { showSnackbar: false }  },
   computed: {
     ...mapState('user', ['token']),
-    ...mapState('creator-general', ['created', 'error'])
+    ...mapState('creator', ['created', 'error'])
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { await this.getFormData(this.token) },
   beforeDestroy() { this.setStep(1) },
   methods: {
     ...mapActions('creator-general', ['getFormData']),
-    ...mapMutations('creator-general', ['backButton']),
     ...mapMutations('creator-steps', ['setStep'])
   }
 }

@@ -1,4 +1,4 @@
-import { getFormData, today, incrementField, createFile, resetCreator } from "@/lib/creator/creator-controls";
+import { getFormData, today, incrementField, resetCreator } from "@/lib/creator/creator-controls";
 
 export const state = () => ({
     availableOrganisms: [],
@@ -12,9 +12,6 @@ export const state = () => ({
     replicates: 4,
     timepoints: 3,
     blanks: 3,
-    loading: false,
-    error: null,
-    created: false,
     userOrganisation: null
 })
 
@@ -31,9 +28,6 @@ export const mutations = {
     setReplicates(state, replicates) { state.replicates = replicates },
     setTimepoints(state, timepoints) { state.timepoints = timepoints },
     setBlanks(state, blanks) { state.blanks = blanks },
-    setLoading(state, loading) { state.loading = loading },
-    setError(state, error) { state.error = error },
-    setCreated(state, created) { state.created = created },
     backButton(state) {
         state.created = false;
         state.error = false;
@@ -45,7 +39,6 @@ export const actions = {
     async getFormData({ commit }, token) { await getFormData(commit, token) },
     changeField({ commit, state }, { field, value }) { incrementField(commit, state, field, value) },
     resetForm({ commit, state }) { resetCreator(commit, state) },
-    async submitForm({ commit, state }, token) { await(createFile(state, commit, token))},
     sortDates({ commit }, dates) { commit('setDates', dates.sort((a, b) => new Date(a) - new Date(b)))}
 }
 

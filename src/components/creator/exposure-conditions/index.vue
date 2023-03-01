@@ -91,6 +91,8 @@
           text
           tile
           style="border-left: 1px solid white !important"
+          :loading="loading"
+          @click="submitForm()"
         >
           Submit
         </v-btn>
@@ -119,14 +121,16 @@ export default {
   },
   computed: {
     ...mapState("creator-chemicals", ["selectedChemicalsGroups", "availableDoses"]),
-    ...mapState("user", ["token"])
+    ...mapState("user", ["token"]),
+    ...mapState("creator", ["loading"])
   },
   async mounted() { await this.getFormData(this.token) },
   methods: {
     ...mapActions("creator-chemicals", ["getFormData"]),
     ...mapActions("creator-steps", ["decreaseStep"]),
     ...mapMutations("creator-chemicals", ["resetSelected"]),
-    ...mapGetters('creator-chemicals', ['getDose'])
+    ...mapGetters('creator-chemicals', ['getDose']),
+    ...mapActions('creator', ['submitForm'])
   },
 }
 </script>

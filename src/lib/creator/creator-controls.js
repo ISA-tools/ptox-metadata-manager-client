@@ -88,7 +88,6 @@ export const createFile = async (state, commit, token) => {
     finally { commit('setLoading', false) }
 }
 
-
 export const resetCreator = (commit, state) => {
     commit('setSelectedOrganism', 1)
     commit('setSelectedPartner', state.userOrganisation)

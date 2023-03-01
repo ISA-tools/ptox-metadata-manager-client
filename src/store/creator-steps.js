@@ -10,3 +10,5 @@ export const actions = {
     increaseStep({ commit, state }) { commit("setStep", state.currentStep + 1) },
     decreaseStep({ commit, state }) { commit("setStep", state.currentStep - 1) },
 }
+
+export default { namespaced: true, state, mutations, actions }
