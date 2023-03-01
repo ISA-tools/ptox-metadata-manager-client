@@ -1,4 +1,4 @@
-import { get_chemicals, get_organisms, get_organisations, create_file } from "../RESTClient";
+import { get_chemicals, get_organisms, get_organisations } from "../RESTClient";
 
 
 export const getFormData = async (commit, token) => {
@@ -26,13 +26,13 @@ export const incrementField = (commit, state, field, value) => {
 
 export const incrementControls = (commit, state, value) => {
     if (value > 0) commit('setControls', state.controls + 1)
-    else if (state.controls > 1) commit('setControls', state.controls - 1)
+    else if (state.controls > 4) commit('setControls', state.controls - 1)
 }
 
 
 export const incrementReplicates = (commit, state, value) => {
     if (value > 0) commit('setReplicates', state.replicates + 1)
-    else if (state.replicates > 1) commit('setReplicates', state.replicates - 1)
+    else if (state.replicates > 4) commit('setReplicates', state.replicates - 1)
 }
 
 
@@ -47,46 +47,6 @@ export const incrementBlanks = (commit, state, value) => {
     else if (state.blanks > 1 && value < 0) commit('setBlanks', state.blanks - 1)
 }
 
-
-export const createFile = async (state, commit, token) => {
-    commit('setError', false)
-    commit('setCreated', false)
-
-    if (!state.selectedChemicals.length) return commit('setError', "You must select at least one chemical")
-
-    const partner = state.availablePartners.filter(organisation => organisation.name === state.selectedPartner)[0]
-    const organism = state.availableOrganisms.filter(organism => organism['organism_id'] === state.selectedOrganism)[0]
-    const dose = state.availableDoses.filter(dose => dose.id === state.selectedDose)[0]
-    const chemicals = state.availableChemicals.filter(
-        chemical => state.selectedChemicals.includes(chemical['chemical_id'])
-    )
-    const body = {
-        "end_date": state.dates[1],
-        "exposure_batch": state.batch,
-        "exposure_conditions": [
-            {
-                "chemicals_name": chemicals.map(chemical => chemical.common_name),
-                "dose": dose.dose
-            }
-        ],
-        "organism": organism['ptox_biosystem_name'],
-        "partner": partner.name,
-        "replicate4control": state.controls,
-        "replicate4exposure": state.replicates,
-        "replicate_blank": state.blanks,
-        "start_date": state.dates[0],
-        "timepoints": state.timepoints,
-        "vehicle": state.solvent === "DMSO" ? "DMSO" : "water"
-    }
-    try {
-        commit('setLoading', true)
-        const response = await create_file(token, body)
-        const URL = response.data['file_url']
-        commit('setCreated', URL)
-    }
-    catch (error) { commit('setError', error.response.data.message) }
-    finally { commit('setLoading', false) }
-}
 
 export const resetCreator = (commit, state) => {
     commit('setSelectedOrganism', 1)

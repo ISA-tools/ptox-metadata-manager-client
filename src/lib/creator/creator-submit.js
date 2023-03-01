@@ -50,6 +50,9 @@ export async function submitForm ({ rootState, commit })  {
         commit('setCreated', URL)
         commit('creator-steps/setStep', 3, { root: true })
     }
-    catch(error) {  commit('setError', error) }
+    catch(error) {
+        if (error.response) commit('setError', error.response.data.message)
+        else commit('setError', error)
+    }
     finally { commit('setLoading', false) }
 }
