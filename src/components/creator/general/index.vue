@@ -4,7 +4,6 @@
     ref="createForm"
     v-model="valid"
     lazy-validation
-    style="min-height: 100%"
   >
     <v-container class="pa-0">
       <v-row no-gutters>
@@ -74,6 +73,7 @@
         <v-col
           cols="12"
           class="d-flex flex-row py-0"
+          :class="{'mb-3': $vuetify.breakpoint.mdAndDown}"
         >
           <v-btn
             class="flex-grow-1 white--text primary lighten-2"
