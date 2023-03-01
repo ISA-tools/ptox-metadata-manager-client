@@ -16,15 +16,6 @@ export const getChemicalsData = async (commit, token) => {
     commit("setAvailableChemicals", chemicals['data'])
 }
 
-
-export const controlDose = (commit, state, value, index) => {
-    let dose = value < 0 ? state.selectedChemicalsGroups[index].dose - 1 : state.selectedChemicalsGroups[index].dose + 1
-    if (dose >= 1 && dose <= 3) commit('setDose', { index, dose })
-    if (dose === 4) commit('setDose', { index, dose: 1 })
-    if (dose === 0) commit('setDose', { index, dose: 3 })
-}
-
-
 export const incrementField = (commit, state, field, value) => {
     if (field === "controls") incrementControls(commit, state, value)
     else if (field === "replicates") incrementReplicates(commit, state, value)

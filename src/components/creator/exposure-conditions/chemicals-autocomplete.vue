@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import * as easing from 'vuetify/lib/services/goto/easing-patterns'
+import { easeInOutQuint } from 'vuetify/lib/services/goto/easing-patterns'
 import { mapGetters, mapActions, mapMutations } from "vuex"
 import { searchChemicals } from "@/utils/search"
 import doseMixin from "@/mixins/doseCSSMixin"
@@ -107,7 +107,7 @@ export default {
   data () {
     return {
       def: "",
-      scrollOption: { duration: 1000, easing: easing.easeInOutQuint, offset: 0 }
+      scrollOption: { duration: 1000, easing: easeInOutQuint, offset: 0 }
     }
   },
   computed: {

@@ -1,4 +1,4 @@
-import { getChemicalsData, getAvailableChemicals, controlDose } from "@/lib/creator/creator-controls";
+import { getChemicalsData, getAvailableChemicals } from "@/lib/creator/creator-controls";
 
 
 export const state = () => ({
@@ -40,11 +40,7 @@ export const actions = {
     async getFormData({ commit }, token) { await getChemicalsData(commit, token) },
     setChemicalGroupChemicals({ commit }, { chemicals, index }) {
         commit('setChemicalGroupChemicalNames', { chemicals, index })
-    },
-    addDose({ commit, state }, index) {
-        controlDose(commit, state, 1, index)
-    },
-    decreaseDose({ commit, state }, index) { controlDose(commit, state, -1, index) }
+    }
 }
 
 export const getters = {

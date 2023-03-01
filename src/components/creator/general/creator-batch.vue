@@ -12,7 +12,7 @@
   </v-col>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { required, isBatch, maxSize } from "@/utils/rules";
 
 export default {
@@ -29,9 +29,10 @@ export default {
     ...mapState("creator-general", ["batch"]),
     selectedBath: {
       get() { return this.batch },
-      set(value) { this.$store.commit("creator-general/setBatch", value) }
+      set(value) { this.setBatch(value) }
     }
-  }
+  },
+  methods: { ...mapMutations("creator-general", ["setBatch"]) }
 }
 </script>
 

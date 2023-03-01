@@ -21,5 +21,14 @@ export default {
   vuetify: { defaultAssets: { icons: 'fa' }},
   static: { prefix: false },
   srcDir: 'src/',
-  router: { middleware: 'auth' }
+  router: { middleware: 'auth' },
+  build: {
+    extend(config) {
+      config.module.rules.push({
+        test: /\.ya?ml$/,
+        type: 'json',
+        use: 'yaml-loader'
+      })
+    }
+  }
 }

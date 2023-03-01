@@ -110,6 +110,8 @@ import CreatorReplicates from "./conditions/creator-replicates.vue";
 import CreatorOrganism from "./creator-organism.vue";
 import CreatorSolvent from "./creator-solvent.vue";
 
+import definitions from "@/assets/data/definitions.yml"
+
 export default {
   name: "CreateSpreadsheet",
   components: {
@@ -125,29 +127,7 @@ export default {
   data() {
     return {
       valid: true,
-      definitions: {
-        partner: "The partner is the entity that will be responsible for the data collection. By default, it is " +
-                 "the organisation bound to your user account.",
-        batch: "A string containing any two capital letters. This will be used to identify the batch in the " +
-               "spreadsheet name and to generate the final identifiers.",
-        replicates: "The number of empty tubes, exposed replicates and controls to be generated.",
-        organism: "The organism to be used in the experiment. This will be used to generate the final identifiers.",
-        timeframe: "The experiment start and end dates. This is just an indicator and will not " +
-                   "be used to generate the final identifiers.",
-        dose: "The exposition dose for the choosen chemicals, to select between: " +
-            "<ul>" +
-            "<li><b class='red--text'>High</b> (10mg/L)</li>" +
-            "<li> <b class='primary--text'>Medium</b> (BM25)</li>" +
-            "<li> <b class='green--text'>Low</b> (BMD10)</li>" +
-            "</ul>",
-        solvent: "The solvent to be used in the experiment (water or DMSO). Only one solvent can be selected, so " +
-            "make sure all chemicals are soluble in the selected solvent for this batch. This will be used to " +
-            "generate the final identifiers.",
-        chemicals: "You need to select at least one chemical. The chemicals will be used to generate " +
-            "the final identifiers. You can search chemicals using their name or internal identifier.",
-        timepoints: "The number of timepoints to be used in the experiment. This will be used to generate the " +
-            "final identifiers."
-      }
+      definitions: { ...definitions }
     }
   },
   methods: {

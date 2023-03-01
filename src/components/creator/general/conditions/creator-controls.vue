@@ -74,13 +74,12 @@ export default {
     increment() { this.changeField({ field: this.target, value: 1 }) },
     decrement() { this.changeField({ field: this.target, value: -1 }) },
     getLabel() {
-      const labels = {
+      return {
         'controls': 'Controls',
         'timepoints': 'Timepoints',
         'replicates': 'Exposed',
         'blanks': 'Empty tubes'
-      }
-      return labels[this.target]
+      }[this.target]
     }
   }
 }
