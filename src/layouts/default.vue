@@ -24,7 +24,7 @@
       style="z-index: 10"
     >
       <nuxt-link
-        to="/home"
+        to="/"
         class="white--text"
       >
         <v-toolbar-title
