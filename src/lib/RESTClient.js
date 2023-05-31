@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = "https://pretox.isa-tools.org/api" // "http://127.0.0.1:5000/api"
+// const BASE_URL = "https://pretox.isa-tools.org/api"
+const BASE_URL = "http://127.0.0.1:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -12,7 +13,7 @@ const HEADERS = { "Content-Type": "application/json", "Accept": "application/jso
 export const login_request = async (username, password) => {
     const request = {
         method: "POST",
-        url: `${BASE_URL}/login`,
+        url: `${BASE_URL}/session`,
         headers: HEADERS,
         data: { username, password }
     }
@@ -21,10 +22,20 @@ export const login_request = async (username, password) => {
 }
 
 
+export const logout_request = async (token) => {
+    const request = {
+        method: "DELETE",
+        url: `${BASE_URL}/session`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    return axios(request)
+}
+
+
 export const create_file = async (token, data) => {
     const request = {
         method: "POST",
-        url: `${BASE_URL}/create_file`,
+        url: `${BASE_URL}/files`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
         data
     }
@@ -34,17 +45,27 @@ export const create_file = async (token, data) => {
 }
 
 
-export const get_myself = async (token) => await get(token, 'me')
+export const validate_file = async (token, file_id) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/files/${file_id}/validate`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    return axios(request)
+}
+
+
+export const get_myself = async (token) => await get(token, 'users')
 export const get_organisms = async (token) => await get(token, "organisms")
 export const get_chemicals = async(token) => await get(token, "chemicals")
-export const get_organisations = async(token) => await get(token, "organisations")
+export const get_organisations = async() => await get(null, "organisations")
 
 
 export const get = async (token, path) => {
     const request = {
         method: "GET",
         url: `${BASE_URL}/${path}`,
-        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+        headers: token ? { ...HEADERS, "Authorization": `Bearer ${token}` } : { ...HEADERS}
     }
     const response = await axios(request)
     return response.data
@@ -54,10 +75,20 @@ export const get = async (token, path) => {
 export const create_user = async (token, data) => {
     const request = {
         method: "POST",
-        url: `${BASE_URL}/user`,
+        url: `${BASE_URL}/users`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
         data
     }
     const response = await axios(request)
     return response.data
+}
+
+
+export const enable_user = async (token) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/users/enable/${token}`,
+        headers: { ...HEADERS }
+    }
+    return axios(request)
 }

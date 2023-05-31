@@ -56,7 +56,6 @@ export const resetCreator = (commit, state) => {
     commit('setBatch', 'AA')
     commit('setControls', 4)
     commit('setReplicates', 4)
-    commit('setTimepoints', 3)
     commit('setBlanks', 3)
 }
 

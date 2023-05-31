@@ -12,7 +12,7 @@ export const state = () => ({
         { id: 1, dose: 'BMD10', value: 'LOW' },
         { id: 2, dose: 'BMD25', value: 'MEDIUM' },
         { id: 3, dose: '10mg/L', value: 'HIGH' }
-    ],
+    ]
 })
 
 export const mutations = {
@@ -32,6 +32,14 @@ export const mutations = {
         state.selectedChemicalsGroups[index].chemicals = state.selectedChemicalsGroups[index].chemicals.filter(
             chem => chem !== chemical
         )
+    },
+    resetStore(state) {
+        state.availableChemicals = []
+        state.selectedChemicalsGroups = [
+            { chemicals: [], dose: 1 },
+            { chemicals: [], dose: 2 },
+            { chemicals: [], dose: 3 }
+        ]
     }
 }
 
@@ -40,7 +48,8 @@ export const actions = {
     async getFormData({ commit }, token) { await getChemicalsData(commit, token) },
     setChemicalGroupChemicals({ commit }, { chemicals, index }) {
         commit('setChemicalGroupChemicalNames', { chemicals, index })
-    }
+    },
+    resetForm({ commit }) { commit('resetStore') }
 }
 
 export const getters = {

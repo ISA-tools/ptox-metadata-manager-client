@@ -3,7 +3,7 @@
     <h1>
       {{ pageNotFound }}
     </h1>
-    <NuxtLink to="/">
+    <NuxtLink to="/home">
       Home page
     </NuxtLink>
   </v-app>

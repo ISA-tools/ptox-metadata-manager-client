@@ -1,8 +1,7 @@
 <template>
   <v-container
     id="ExposureGroupCreator"
-    class="pa-0 d-flex flex-column align-content-space-between"
-    style="min-height: calc(100vh - 216px);"
+    class="pa-0 d-flex flex-column align-content-space-between elevation-5"
   >
     <v-row class="flex-grow-0">
       <v-col cols="12">
@@ -31,7 +30,7 @@
             v-for="(dose, selectedChemicalIndex) in availableDoses"
             :id="'ChemicalGroupSlider_' + selectedChemicalIndex"
             :key="'ChemicalGroupSlider_' + selectedChemicalIndex"
-            class="faster"
+            class="elevation-0"
           >
             <v-expansion-panel-header :class="doseColor(1)">
               <div
@@ -60,44 +59,6 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <v-row
-      no-gutter
-      class="mt-2 flex-grow-0"
-    >
-      <v-col
-        cols="12"
-        class="d-flex flex-row py-0 mb-3"
-      >
-        <v-btn
-          class="primary lighten-2 flex-grow-1 white--text"
-          text
-          tile
-          style="border-right: 1px solid white !important"
-          @click="resetSelected()"
-        >
-          Reset
-        </v-btn>
-        <v-btn
-          class="primary flex-grow-1 white--text"
-          text
-          tile
-          style="border-right: 1px solid white !important;border-left: 1px solid white !important"
-          @click="decreaseStep()"
-        >
-          Back
-        </v-btn>
-        <v-btn
-          class="primary darken-3 flex-grow-1"
-          text
-          tile
-          style="border-left: 1px solid white !important"
-          :loading="loading"
-          @click="submitForm()"
-        >
-          Submit
-        </v-btn>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -105,7 +66,7 @@
 
 import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 import ChemicalAutocomplete from "./chemicals-autocomplete.vue";
-import CreatorSubtitle from "../general/creator-subtitle.vue";
+import CreatorSubtitle from "../general-information/creator-subtitle.vue";
 import doseMixin from "@/mixins/doseCSSMixin"
 
 export default {

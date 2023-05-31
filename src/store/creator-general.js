@@ -10,7 +10,6 @@ export const state = () => ({
     batch: 'AA',
     controls: 4,
     replicates: 4,
-    timepoints: 3,
     blanks: 3,
     userOrganisation: null
 })
@@ -32,7 +31,7 @@ export const mutations = {
         state.created = false;
         state.error = false;
         state.loading = false
-    },
+    }
 }
 
 export const actions = {
@@ -43,7 +42,10 @@ export const actions = {
 }
 
 export const getters = {
-    getPartner: state => state.availablePartners.find(partner => partner['name'] === state.selectedPartner),
+    getPartner: state => {
+        if (!state.selectedPartner) return 'UOB'
+        return state.availablePartners.find(partner => partner['name'] === state.selectedPartner)
+    },
 }
 
 export default { namespaced: true, state, mutations, actions, getters }

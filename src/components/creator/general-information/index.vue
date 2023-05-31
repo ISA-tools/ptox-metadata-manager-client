@@ -5,7 +5,10 @@
     v-model="valid"
     lazy-validation
   >
-    <v-container class="pa-0">
+    <v-container
+      class="pa-0 elevation-5"
+      :class="$vuetify.breakpoint.lgAndUp ? 'mb-2' : ''"
+    >
       <v-row no-gutters>
         <v-col cols="12">
           <CreatorSubtitle
@@ -41,15 +44,6 @@
         </v-col>
         <v-col cols="12">
           <CreatorSubtitle
-            text="Timepoints"
-            icon="fas fa-clock"
-            :definition="definitions['timepoints']"
-          />
-          <CreatorConditions />
-        </v-col>
-
-        <v-col cols="12">
-          <CreatorSubtitle
             text="Solvent"
             icon="fas fa-flask-vial"
             :definition="definitions['solvent']"
@@ -66,35 +60,6 @@
           <CreatorReplicates />
         </v-col>
       </v-row>
-      <v-row
-        no-gutter
-        class="mt-0"
-      >
-        <v-col
-          cols="12"
-          class="d-flex flex-row py-0"
-          :class="{'mb-3': $vuetify.breakpoint.mdAndDown}"
-        >
-          <v-btn
-            class="flex-grow-1 white--text primary lighten-2"
-            text
-            tile
-            style="border-right: 1px solid white !important"
-            @click="resetForm()"
-          >
-            Reset
-          </v-btn>
-          <v-btn
-            class="flex-grow-1 primary darken-3"
-            text
-            tile
-            style="border-left: 1px solid white !important"
-            @click="increaseStep()"
-          >
-            Next
-          </v-btn>
-        </v-col>
-      </v-row>
     </v-container>
   </v-form>
 </template>
@@ -103,7 +68,6 @@
 import { mapActions } from "vuex";
 import CreatorSubtitle from "./creator-subtitle.vue";
 import CreateDates from "./dates/create-dates.vue";
-import CreatorConditions from "./conditions/creator-conditions.vue";
 import CreatorPartner from "./creator-partner.vue";
 import CreatorBatch from "./creator-batch.vue";
 import CreatorReplicates from "./conditions/creator-replicates.vue";
@@ -119,7 +83,6 @@ export default {
     CreatorReplicates,
     CreatorBatch,
     CreatorPartner,
-    CreatorConditions,
     CreatorSolvent,
     CreateDates,
     CreatorSubtitle

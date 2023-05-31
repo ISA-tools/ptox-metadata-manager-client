@@ -16,8 +16,7 @@ export function prepareGeneralData(state) {
         replicate_blank: state.blanks,
         start_date: state.dates[0],
         end_date: state.dates[1],
-        timepoints: state.timepoints,
-        vehicle: state.solvent === "DMSO" ? "DMSO" : "water"
+        vehicle: state.solvent === "DMSO" ? "DMSO" : "Water"
     }
 }
 
@@ -26,7 +25,7 @@ export function prepareChemicalData(state) {
     state.selectedChemicalsGroups.reduce((accumulator, group) => {
         if (group.chemicals.length > 0) {
             accumulator.push({
-                chemicals_name: group.chemicals,
+                chemicals: group.chemicals,
                 dose: state.availableDoses.find(d => d.id === group.dose).dose
             })
         }
@@ -37,13 +36,14 @@ export function prepareChemicalData(state) {
 }
 
 
-export async function submitForm ({ rootState, commit })  {
+export async function submitCreatorForm ({ rootState, commit })  {
     commit('setError', false)
     commit('setCreated', false)
     try {
         const token = rootState['user'].token
         const exposure_conditions = prepareChemicalData(rootState['creator-chemicals'])
         const body = { ...prepareGeneralData(rootState['creator-general']), exposure_conditions }
+        body['timepoints'] = rootState['creator-timepoints'].timepoints.map(tp => parseInt(tp.value))
         commit('setLoading', true)
         const response = await create_file(token, body)
         const URL = response.data['file_url']

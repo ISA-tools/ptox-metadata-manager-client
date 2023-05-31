@@ -1,21 +1,19 @@
 export default async function ({ store, redirect, route }) {
-    await store.dispatch('user/autologin')
-
-    // Protect all routes from unauthenticated users
-    if (route.path !== "/login" && !store.state.user.isLoggedIn) return redirect('/login')
-
-    // Protect admin routes from non-admin users
-    if (route.path === "/create_user") {
-        if (!store.state.user.isLoggedIn) return redirect('/login')
-        else if (store.state.user.username !== "admin") return redirect('/me')
+    if (route.path === '/logout') {
+        await store.dispatch('user/logout')
+        return redirect('/')
     }
+    if (route.path === '/')
+        return redirect('/home')
 
-    // Redirect authenticated users to the home page
-    else if (route.path === "/login" && store.state.user.isLoggedIn) return redirect('/')
+    else if (!route.path.includes('/users/enable/')) {
+        store.dispatch('user/autologin')
+        if (route.path !== "/home") {
+            // Protect all routes from unauthenticated users
+            if (route.path !== "/login" && !store.state.user.isLoggedIn) return redirect('/login')
 
-    // Logout user
-    else if (route.path === '/logout') {
-        store.dispatch('user/logout')
-        return redirect('/login')
+            // Redirect authenticated users to the home page
+            else if (route.path === "/login" && store.state.user.isLoggedIn) return redirect('/home')
+        }
     }
 }

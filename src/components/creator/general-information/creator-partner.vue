@@ -35,14 +35,10 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState, mapGetters } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 
 export default {
   name: "CreatorPartner",
-  async fetch() {
-    this.setSelectedPartner(this.userData.organisation)
-    this.setUserOrganisation(this.userData.organisation)
-  },
   computed: {
     ...mapState("user", ["userData"]),
     ...mapState("creator-general", ["selectedPartner", "availablePartners"]),
@@ -52,10 +48,11 @@ export default {
       set(value) { this.setSelectedPartner(value) }
     }
   },
-  methods: {
-    ...mapMutations("creator-general", ["setSelectedPartner", "setUserOrganisation"]),
-    ...mapActions("user", ["getMyself"]),
+  mounted() {
+    this.setSelectedPartner(this.userData.organisation)
+    this.setUserOrganisation(this.userData.organisation)
   },
+  methods: { ...mapMutations("creator-general", ["setSelectedPartner", "setUserOrganisation"]) },
 }
 </script>
 
@@ -71,5 +68,12 @@ export default {
   font-size: 25px;
   font-weight: bold;
   line-height: 1.2rem;
+}
+#selectPartner .v-select__selections {
+  max-width: 100% !important;
+}
+#selectPartner .v-label--active,
+#selectPartner .v-input__append-inner{
+  display: none;
 }
 </style>

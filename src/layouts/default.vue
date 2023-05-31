@@ -1,36 +1,38 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      v-if="isLoggedIn"
       v-model="drawer"
       fixed
-      clipped
       :width="drawerWidth"
       :height="drawerHeight"
       class="fixed elevation-0"
-      bottom
+      :bottom="$vuetify.breakpoint.mdAndDown"
       centered
       color="primary darken-3"
-      style="z-index: 9"
+      style="z-index: 11"
+      clipped
+      temporary
     >
       <NavDrawer />
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
+      clipped-left
       app
       class="elevation-0 primary"
       height="64"
       style="z-index: 10"
     >
-      <a
-        href="/"
+      <nuxt-link
+        to="/home"
         class="white--text"
       >
         <v-toolbar-title
-          id="righteous"
           class="text-body-1 righteous"
-        > {{ title }} </v-toolbar-title>
-      </a>
+        >
+          {{ title }}
+        </v-toolbar-title>
+      </nuxt-link>
       <v-spacer />
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
@@ -38,7 +40,7 @@
         @click.stop="drawer = !drawer"
       />
     </v-app-bar>
-    <v-main>
+    <v-main class="primary">
       <Nuxt />
     </v-main>
   </v-app>
@@ -46,21 +48,20 @@
 
 <script>
 import { mapState } from "vuex";
-import NavDrawer from "../components/nav-drawer";
+import NavDrawer from "../components/nav-drawer"
 
 export default {
   name: 'DefaultLayout',
   components: { NavDrawer },
   data () {
     return {
-      clipped: true,
       drawer: false,
       fixed: false,
       title: 'Metadata Manager'
     }
   },
   computed: {
-    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '100%' },
+    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '33%' : '100%' },
     drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
     ...mapState('user', ['isLoggedIn'])
   },
@@ -70,7 +71,7 @@ export default {
 <style>
   html {
     font-size: 20px;
-    scrollbar-color: #1976d2 #E0E0E0;
+    scrollbar-color: #14418A #E0E0E0;
   }
   a {
     text-decoration: none !important;
@@ -78,8 +79,12 @@ export default {
   main {
     padding-bottom: 0 !important;
   }
-  .v-application .text-body-1.righteous#righteous {
+  .v-application .righteous {
     font-family: 'Righteous', cursive !important;
     text-transform: uppercase;
+  }
+  .v-application--wrap {
+    display: flex;
+    flex-direction: column;
   }
 </style>

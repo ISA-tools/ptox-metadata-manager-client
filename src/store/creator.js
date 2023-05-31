@@ -3,13 +3,11 @@ import general from './creator-general'
 import steps from './creator-steps'
 import user from './user'
 
-import { submitForm } from "@/lib/creator/creator-submit"
+import { submitCreatorForm } from "@/lib/creator/creator-submit"
 
 
 export const actions = {
-    submitForm: async ({ rootState, commit }) => {
-        submitForm({ rootState, commit })
-    }
+    submitForm: async ({ rootState, commit }) => await submitCreatorForm({ rootState, commit })
 }
 export const mutations = {
     setLoading(state, loading) { state.loading = loading },

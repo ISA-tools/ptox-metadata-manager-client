@@ -2,6 +2,7 @@
   <v-container
     fluid
     class="pa-0"
+    style="height: 100%"
   >
     <v-row no-gutters>
       <v-col
@@ -15,6 +16,7 @@
     </v-row>
     <v-row
       no-gutters
+      style="min-height: calc(100vh - 110px);"
     >
       <v-col
         cols="12"
@@ -23,57 +25,23 @@
         <v-stepper
           v-model="currentStep"
           alt-labels
-          class="pa-0"
+          class="pa-0 primary"
           flat
           tile
+          style="height:100%"
         >
-          <v-container
-            fluid
-            class="pa-0 primary"
-          >
-            <v-container class="pa-0">
-              <v-stepper-header
-                class="primary"
-                style="box-shadow: none !important;"
-              >
-                <v-stepper-step
-                  :complete="currentStep > 1"
-                  step="1"
-                  color="white"
-                  class="primary"
-                  complete-icon="fas fa-circle-check"
-                >
-                  General Information
-                </v-stepper-step>
-                <v-divider />
-                <v-stepper-step
-                  :complete="currentStep > 2"
-                  step="2"
-                  color="white"
-                  class="primary"
-                >
-                  Chemical groups
-                </v-stepper-step>
-                <v-divider />
-                <v-stepper-step
-                  :complete="currentStep === 3"
-                  step="3"
-                  color="white"
-                  class="primary"
-                >
-                  Results
-                </v-stepper-step>
-              </v-stepper-header>
-            </v-container>
-          </v-container>
-          <v-stepper-items>
+          <StepsHeader />
+          <v-stepper-items style="height:100%">
             <v-stepper-content step="1">
-              <CreatorGeneralStep />
+              <CreatorLayout />
             </v-stepper-content>
             <v-stepper-content step="2">
-              <ExposureConditions />
+              <CreatorLayout />
             </v-stepper-content>
             <v-stepper-content step="3">
+              <CreatorLayout />
+            </v-stepper-content>
+            <v-stepper-content step="4">
               <CreatorResults />
             </v-stepper-content>
           </v-stepper-items>
@@ -84,17 +52,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import CreatorGeneralStep from "@/components/creator/general/"
-import ExposureConditions from "@/components/creator/exposure-conditions/"
-import CreatorResults from "@/components/creator/creator-results.vue"
+import { mapState, mapGetters } from "vuex";
+import CreatorLayout from "@/components/creator/layout"
+import StepsHeader from "@/components/creator/layout/steps-header";
 
 export default {
   name: "CreatorIndex",
-  components: { CreatorGeneralStep, ExposureConditions, CreatorResults },
+  components: { CreatorLayout, StepsHeader },
   computed: {
-    ...mapState('creator-steps', ['currentStep']),
-    ...mapState('creator', ['created'])
+    ...mapState('creator-steps', ['currentStep', 'stepsSize']),
+    ...mapState('creator', ['created']),
+    ...mapGetters('creator-steps', ['getSectionName'])
   },
   watch: {
     created() { if (this.created) window.open(this.created, '_blank') }
@@ -132,5 +100,10 @@ export default {
 #createSpreadsheet .v-stepper .v-stepper__items,
 #createSpreadsheet .v-stepper .v-stepper__wrapper {
   overflow: clip  !important;
+}
+
+#createSpreadsheet .v-stepper__content,
+#createSpreadsheet .v-stepper__wrapper {
+  height: 100% !important;
 }
 </style>

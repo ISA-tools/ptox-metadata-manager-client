@@ -6,3 +6,33 @@
 .v-stepper__content {
     padding: 0 !important;
 }
+
+#login-form input,
+#createUser input{
+    font-size: 30px;
+    padding: 30px 0;
+}
+#login-form label,
+#createUser label{
+    font-size: 1.5rem;
+    overflow: initial !important;
+}
+#login-form .v-input__append-inner,
+#createUser .v-input__append-inner{
+    margin-top: 20px;
+}
+#login-form .v-label:not(.v-label--active) ,
+#createUser .v-label:not(.v-label--active){
+    margin-top: 10px;
+}
+#login-form .v-snack__content,
+#createUser .v-snack__content{
+    text-align: center;
+}
+
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

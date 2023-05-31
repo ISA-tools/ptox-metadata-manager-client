@@ -1,4 +1,9 @@
-timepoints: The number of timepoints to be used in the experiment. This will be used to generate the final identifiers.
+timepoints_number: |
+  The number of timepoints to be used in the experiment. This will be used to generate the final identifiers.
+timepoints_unit: |
+    The unit to use for the timepoints. This will not be used to generate the final identifiers.
+timepoints_values: |
+  The values of the timepoints. This will not be used to generate the final identifiers.
 replicates: The number of empty tubes, exposed replicates and controls to be generated
 organism: The organism to be used in the experiment. This will be used to generate the final identifiers.
 

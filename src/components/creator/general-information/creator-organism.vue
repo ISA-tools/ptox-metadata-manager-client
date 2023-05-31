@@ -2,7 +2,7 @@
   <v-col
     id="organismSelector"
     cols="12"
-    class="white pb-5 px-5 pt-0"
+    class="white pb-5 pt-0 mt-0"
   >
     <v-select
       v-model="organism"
@@ -11,7 +11,7 @@
       item-text="ptox_biosystem_name"
       item-value="organism_id"
       hide-details
-      class="hideBorder"
+      class="hideBorder mt-0 pt-6"
       :close-on-select="true"
       :menu-props="{ offsetY: true, closeOnClick: true, closeOnContentClick: true }"
       style="min-height: 50px"
@@ -59,13 +59,15 @@ export default {
   #organismSelector .v-input__append-inner .v-icon {
     display:none
   }
-  #organismSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:before {
+  #organismSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:before,
+  #organismSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:after{
     border-style: none;
   }
-  #organismSelector .hideBorder.v-text-field>.v-input__control>.v-input__slot:after {
-    border-style: none;
+  #organismSelector .v-select__selections {
+    max-width: 100% !important;
   }
-  #organismSelector .v-label--active {
+  #organismSelector .v-label--active,
+  #organismSelector .v-input__append-inner{
     display: none;
   }
   .organismName {
@@ -94,8 +96,5 @@ export default {
   }
   .v-select__selections {
     width: 100%
-  }
-  .v-input__append-inner {
-    display: none !important;
   }
 </style>

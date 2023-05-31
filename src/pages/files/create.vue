@@ -1,7 +1,7 @@
 <template>
   <div
     id="createSpreadsheet"
-    style="height:100%"
+    style="height: 100%"
   >
     <CreatorIndex />
     <v-snackbar v-model="showSnackbar">
@@ -22,6 +22,22 @@
         </div>
       </template>
     </v-snackbar>
+
+    <v-overlay :value="loading">
+      <v-card
+        color="transparent"
+        elevation="0"
+        class="d-flex flex-column align-center justify-center"
+      >
+        <v-progress-circular
+          indeterminate
+          size="64"
+          color="primary"
+          class="mb-4"
+        />
+        <span class="white--text righteous"> Loading form data ... </span>
+      </v-card>
+    </v-overlay>
   </div>
 </template>
 
@@ -33,17 +49,21 @@ import CreatorIndex from "@/components/creator/"
 export default {
   name: 'IndexPage',
   components: { CreatorIndex },
-  data() { return { showSnackbar: false }  },
+  data() { return { showSnackbar: false, loading: false }  },
+  async fetch() {
+    await this.getMyself()
+    await this.getFormData(this.token)
+  },
   computed: {
     ...mapState('user', ['token']),
     ...mapState('creator', ['created', 'error'])
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
-  async mounted() { await this.getFormData(this.token) },
   beforeDestroy() { this.setStep(1) },
   methods: {
     ...mapActions('creator-general', ['getFormData']),
-    ...mapMutations('creator-steps', ['setStep'])
+    ...mapMutations('creator-steps', ['setStep']),
+    ...mapActions('user', ['getMyself'])
   }
 }
 </script>

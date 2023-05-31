@@ -1,7 +1,10 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title class="text-center primary white--text">
+    <v-card class="elevation-5">
+      <v-card-title
+        class="text-center primary white--text"
+        style="border-radius: 0 !important;"
+      >
         Your URL is ready
       </v-card-title>
       <v-card-text class="pt-2">

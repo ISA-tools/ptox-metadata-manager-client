@@ -58,7 +58,7 @@ export default {
   height: 0;
   margin-top: 30px;
   z-index:4;
-  left: 25px;
+  left: 15px;
 }
 .tooltip {
   display: inline-block;

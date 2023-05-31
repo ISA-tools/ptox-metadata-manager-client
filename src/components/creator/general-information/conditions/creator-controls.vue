@@ -19,17 +19,15 @@
             icon
             elevation="3"
             class="primary"
+            @click="decrement()"
           >
-            <v-icon
-              class="white--text"
-              @click="decrement()"
-            >
+            <v-icon class="white--text">
               fas fa-minus
             </v-icon>
           </v-btn>
         </v-col>
         <v-col cols="8 conditionValue primary--text text-center">
-          {{ controls }} {{ timepoints }} {{ replicates }} {{ blanks }}
+          {{ controls }} {{ replicates }} {{ blanks }}
         </v-col>
         <v-col cols="2 d-flex justify-center align-center">
           <v-btn
@@ -37,11 +35,9 @@
             icon
             elevation="3"
             class="primary"
+            @click="increment()"
           >
-            <v-icon
-              class="white--text"
-              @click="increment()"
-            >
+            <v-icon class="white--text">
               fas fa-plus
             </v-icon>
           </v-btn>
@@ -65,7 +61,6 @@ export default {
   },
   computed: {
     controls() { return this[this.target] },
-    timepoints() { return this[this.target] },
     replicates() { return this[this.target] },
     blanks() { return this[this.target] }
   },
@@ -76,7 +71,6 @@ export default {
     getLabel() {
       return {
         'controls': 'Controls',
-        'timepoints': 'Timepoints',
         'replicates': 'Exposed',
         'blanks': 'Empty tubes'
       }[this.target]

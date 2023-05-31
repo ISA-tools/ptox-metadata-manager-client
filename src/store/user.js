@@ -1,16 +1,18 @@
-import { login_redirect, logout, autoLogin, getMyself, createUser } from "@/lib/login"
+import { login_redirect, logout, autoLogin, getMyself, createUser, validateToken } from "@/lib/login"
 
 const NEW_USER = {
     organisation: null,
     username: null,
     password: null,
     confirmPassword: null,
+    email: null
 }
 
 export const state = () => ({
     isLoggedIn: false,
     token: null,
     username: null,
+    email: null,
     password: null,
     error: null,
     userData: {
@@ -20,7 +22,10 @@ export const state = () => ({
         files: []
     },
     createUserData: { ...NEW_USER },
-    creationSuccess: null
+    creationSuccess: null,
+    pageStep: 1,
+    tokenValidation: null,
+    tokenError: null
 })
 
 export const mutations = {
@@ -40,25 +45,30 @@ export const mutations = {
     setNewUserPassword(state, password) { state.createUserData.password = password },
     setNewUserConfirmPassword(state, confirmPassword) { state.createUserData.confirmPassword = confirmPassword },
     setNewUserOrganisation(state, organisation) { state.createUserData.organisation = organisation },
+    setNewUserEmail(state, email) { state.createUserData.email = email },
     resetNewUser(state) { state.createUserData = { ...NEW_USER } },
     setCreationSuccess(state, success) { state.creationSuccess = success },
+    setTokenValidation(state, message) { state.tokenValidation = message },
+    setTokenError(state, error) { state.tokenError = error },
+    setStep(state, step) { state.pageStep = step },
     error(state, error) { state.error = error }
 }
 
 export const actions = {
     async login({ state, commit }, {router, form}) {
         await login_redirect(router, commit, {username: state.username, password: state.password}, form)
-        await getMyself(state.token, commit)
+        if (!state.error) await getMyself(state.token, commit)
     },
-    async autologin({ commit }) { await autoLogin(commit) },
-    logout({ commit }) {
-        logout()
+    autologin({ commit }) { autoLogin(commit) },
+    async logout({ state, commit }) {
+        await logout(state.token)
         commit("logout")
     },
     async getMyself({ commit, state }) { await getMyself(state.token, commit) },
     async createUser({ state, commit }) {
         await createUser(state.token, state.createUserData, commit)
-    }
+    },
+    async activateToken({ commit }, token) { await validateToken(token, commit) }
 }
 
 export default { namespaced: true, state, mutations, actions }
