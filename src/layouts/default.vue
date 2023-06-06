@@ -39,6 +39,15 @@
         class="white--text"
         @click.stop="drawer = !drawer"
       />
+      <v-btn
+        v-else
+        nuxt
+        to="/login"
+        color="white"
+        outlined
+      >
+        Login
+      </v-btn>
     </v-app-bar>
     <v-main class="primary">
       <Particles

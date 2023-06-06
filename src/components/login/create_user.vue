@@ -6,18 +6,18 @@
     style="height:100%"
     class="white--text pa-4 d-flex flex-column justify-center align-center"
   >
-    <v-snackbar
-      v-model="error"
-      color="error"
+    <v-alert
+      v-if="error"
+      type="error"
     >
       {{ error }}
-    </v-snackbar>
-    <v-snackbar
-      v-model="creationSuccess"
-      color="success"
+    </v-alert>
+    <v-alert
+      v-if="creationSuccess"
+      type="success"
     >
       User created successfully! Check your email.
-    </v-snackbar>
+    </v-alert>
     <v-card
       class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-4"
       outlined

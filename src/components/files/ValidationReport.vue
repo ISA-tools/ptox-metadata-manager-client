@@ -108,7 +108,7 @@ export default {
         let current_line = [ ...this.report[line] ]
         const lineSplit = line.split(' (')
         const lineLabel = lineSplit[0].replace('Record at line', '')
-        const lineIdentifier = lineSplit[1].replace(')', '')
+        const lineIdentifier = lineSplit.length > 1 ? lineSplit[1].replace(')', '') : 'General'
         return acc.concat(current_line.map(error => {
           error['line'] = lineLabel
           error['identifier'] = lineIdentifier

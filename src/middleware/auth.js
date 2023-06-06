@@ -22,8 +22,10 @@ export default async function ({ store, redirect, route }) {
                 && user_role !== 'admin') { return redirect('/unauthorized') }
 
             // Protect create routes from non activated users
-            if ((route.path === '/files/create' || route.path === '/files/create')
-                && (user_role !== 'admin' || user_role !== 'user')) { return redirect('/unauthorized') }
+            if ((route.path === '/files/create' || route.path === '/files/create/')
+                && (user_role !== 'admin' && user_role !== 'user')) {
+                return redirect('/unauthorized')
+            }
 
             // Protect register routes from disabled users
             if ((route.path === '/files/register' || route.path === '/files/register')

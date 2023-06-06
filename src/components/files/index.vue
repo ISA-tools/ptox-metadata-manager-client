@@ -36,7 +36,7 @@
                 tile
                 :x-large="$vuetify.breakpoint.mdAndUp"
                 nuxt
-                :to="'/files.js/' + file.file_id + '/validate'"
+                :to="'/files/' + file.file_id + '/validate'"
               >
                 <v-icon class="mr-3">
                   fas fa-circle-check
