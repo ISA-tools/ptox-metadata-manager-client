@@ -1,6 +1,11 @@
 @font-face {
     font-family: 'Righteous';
-    src: url('../fonts/Righteous.ttf')  format('truetype');
+    src: url('@/assets/fonts/Righteous.ttf') format('truetype');
+}
+
+.v-application .righteous, .v-application .text-body-1.righteous {
+    font-family: 'Righteous', 'Roboto', cursive !important;
+    text-transform: uppercase;
 }
 
 .v-stepper__content {

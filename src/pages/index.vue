@@ -1,7 +1,6 @@
 <template>
   <v-container
     fluid
-    class="animated fadeIn slow"
     style="height: 100%"
   >
     <v-row
@@ -10,9 +9,12 @@
     >
       <v-col
         cols="12"
-        class="righteous d-flex flex-column justify-center align-center white--text"
+        class="righteous d-flex flex-column justify-center align-center white--text animated fadeIn slow"
       >
-        <div :style="$vuetify.breakpoint.lgAndUp ? 'max-width: 1200px' : 'max-width: 500px'">
+        <div
+          :style="$vuetify.breakpoint.lgAndUp ? 'max-width: 1200px' : 'max-width: 500px'"
+          class="primary pa-10"
+        >
           <h1 :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'">
             Metadata Manager for Life science experiments
           </h1>
@@ -61,11 +63,13 @@
 </template>
 
 <script>
+
+
+
 export default {
-  name: "HomePage"
+  name: "HomePage",
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>

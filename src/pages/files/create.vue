@@ -23,21 +23,10 @@
       </template>
     </v-snackbar>
 
-    <v-overlay :value="loading">
-      <v-card
-        color="transparent"
-        elevation="0"
-        class="d-flex flex-column align-center justify-center"
-      >
-        <v-progress-circular
-          indeterminate
-          size="64"
-          color="primary"
-          class="mb-4"
-        />
-        <span class="white--text righteous"> Loading form data ... </span>
-      </v-card>
-    </v-overlay>
+    <GeneralLoader
+      :loading="loading"
+      text="Loading form data ..."
+    />
   </div>
 </template>
 
@@ -51,8 +40,10 @@ export default {
   components: { CreatorIndex },
   data() { return { showSnackbar: false, loading: false }  },
   async fetch() {
+    this.loading = true
     await this.getMyself()
     await this.getFormData(this.token)
+    this.loading = false
   },
   computed: {
     ...mapState('user', ['token']),

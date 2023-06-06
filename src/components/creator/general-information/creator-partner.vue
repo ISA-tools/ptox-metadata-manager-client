@@ -49,8 +49,9 @@ export default {
     }
   },
   mounted() {
-    this.setSelectedPartner(this.userData.organisation)
-    this.setUserOrganisation(this.userData.organisation)
+    const organisation = this.userData.organisation || 'UOX'
+    this.setSelectedPartner(organisation)
+    this.setUserOrganisation(organisation)
   },
   methods: { ...mapMutations("creator-general", ["setSelectedPartner", "setUserOrganisation"]) },
 }

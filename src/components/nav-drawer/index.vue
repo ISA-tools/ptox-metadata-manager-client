@@ -27,23 +27,45 @@
     </v-row>
 
     <NavLink
+      v-if="role !== 'banned' && role !== 'disabled'"
       to="/users/files"
       icon="fas fa-circle-user"
       text="Browse files"
     />
 
     <NavLink
+      v-if="role === 'admin' || role === 'user'"
       to="/files/create"
       icon="fas fa-file-excel"
       text="Create a file"
     />
 
     <NavLink
-      to="/files/create"
+      v-if="role !== 'disabled' && role !== 'banned'"
+      to="/files/register"
       icon="fas fa-file-excel"
       text="Register a file"
     />
 
+    <NavLink
+      v-if="role === 'admin'"
+      to="/users"
+      icon="fas fa-person-booth"
+      text="List of users"
+    />
+
+    <div
+      v-if="role === 'disabled'"
+      class="pa-4 white--text text-center"
+    >
+      <v-icon
+        large
+        class="white--text my-2"
+      >
+        fas fa-warning
+      </v-icon> <br>
+      Your account has not been activated. Please check your email.
+    </div>
     <div
       v-if="$vuetify.breakpoint.lgAndUp"
       class="flex-grow-1"
@@ -67,7 +89,7 @@ import NavLink from "@/components/nav-drawer/link.vue"
 export default {
   name: "NavDrawer",
   components: { NavLink },
-  computed: { ...mapState("user", ["isLoggedIn", "username"]) },
+  computed: { ...mapState("user", ["isLoggedIn", "username", "role"]) },
 }
 </script>
 

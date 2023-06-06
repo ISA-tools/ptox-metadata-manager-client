@@ -25,3 +25,10 @@ export function isEmail(){
         return pattern.test(value) || 'Invalid e-mail.'
     }
 }
+
+export function isURL(){
+    return value => {
+        const pattern = /^(http|https):\/\/[^ "]+$/
+        return pattern.test(value) || 'Invalid URL.'
+    }
+}

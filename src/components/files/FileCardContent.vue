@@ -1,6 +1,6 @@
 <template>
   <v-card-text class="d-flex flex-column flex-grow-1 pa-0 white">
-    <div class="flex-grow-0">
+    <div class="flex-grow-0 grey lighten-2">
       <CreatorSubtitle
         icon="fas fa-info"
         text="General Information"
@@ -85,10 +85,7 @@
           text="Compounds"
         />
       </div>
-      <ul
-        class="py-4 white"
-        style="border-radius: 0 0 24px 0"
-      >
+      <ul class="py-4 grey lighten-2">
         <li
           v-for="(chemical, chemicalIndex) in file.chemicals"
           :key="'file_' + file.file_id + '_chemical_' + chemicalIndex"

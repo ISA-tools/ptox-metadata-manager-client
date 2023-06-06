@@ -3,7 +3,7 @@
     <template #default="{ hover }">
       <v-card
         :id="'file'+file.file_id"
-        class="animated fadeIn slow d-flex flex-column fileCard px-0 primary darken-2"
+        class="animated fadeIn slow d-flex flex-column fileCard px-0 white px-1 py-1"
         height="100%"
         elevation="5"
         tile
@@ -36,7 +36,7 @@
                 tile
                 :x-large="$vuetify.breakpoint.mdAndUp"
                 nuxt
-                :to="'/files/' + file.file_id + '/validate'"
+                :to="'/files.js/' + file.file_id + '/validate'"
               >
                 <v-icon class="mr-3">
                   fas fa-circle-check
@@ -50,11 +50,12 @@
                 tile
                 :x-large="$vuetify.breakpoint.mdAndUp"
                 outlined
+                @click="showDeleteOverlay({ name: file.name, file_id: file.file_id })"
               >
                 <v-icon class="mr-3">
                   fas fa-trash
                 </v-icon>
-                Delete
+                Delete file
               </v-btn>
             </div>
           </v-overlay>
@@ -66,6 +67,8 @@
 
 <script>
 import FileCardContent from "@/components/files/FileCardContent";
+import {mapMutations} from "vuex";
+
 export default {
   name: "FileOverlay",
   components: { FileCardContent },
@@ -74,7 +77,8 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
+  methods: { ...mapMutations("files", ['showDeleteOverlay']) }
 }
 </script>
 

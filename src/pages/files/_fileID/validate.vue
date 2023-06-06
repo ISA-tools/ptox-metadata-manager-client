@@ -1,7 +1,7 @@
 <template>
   <v-container
     fluid
-    class="pa-0 animated fadeIn"
+    class="pa-0 "
   >
     <v-row
       v-if="report && !success"
@@ -20,6 +20,7 @@
           tile
           elevation="5"
           :color="errorCode === 404 ? 'error' : 'white'"
+          class="animated fadeIn"
         >
           <v-card-title
             v-if="errorCode === 404"
@@ -62,21 +63,10 @@
       </v-col>
     </v-row>
 
-    <v-overlay :value="loading">
-      <v-card
-        color="transparent"
-        elevation="0"
-        class="d-flex flex-column align-center justify-center"
-      >
-        <v-progress-circular
-          indeterminate
-          size="64"
-          color="primary"
-          class="mb-4"
-        />
-        <span class="white--text righteous"> Loading your report ... </span>
-      </v-card>
-    </v-overlay>
+    <GeneralLoader
+      text="Loading your report ..."
+      :loading="loading"
+    />
   </v-container>
 </template>
 
@@ -84,10 +74,11 @@
 import { mapState } from "vuex"
 import { validate_file } from "@/lib/RESTClient"
 import ValidationReport from "@/components/files/ValidationReport.vue";
+import GeneralLoader from "@/components/GeneralLoader.vue";
 
 export default {
   name: "FilePage",
-  components: {ValidationReport},
+  components: { ValidationReport, GeneralLoader },
   data() {
     return {
       loading: false,

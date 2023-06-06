@@ -9,7 +9,7 @@
       class="fixed elevation-0"
       :bottom="$vuetify.breakpoint.mdAndDown"
       centered
-      color="primary darken-3"
+      color="grey darken-4"
       style="z-index: 11"
       clipped
       temporary
@@ -41,6 +41,12 @@
       />
     </v-app-bar>
     <v-main class="primary">
+      <Particles
+        id="particles"
+        :particles-init="particlesInit"
+        :options="options"
+        style="width:50%"
+      />
       <Nuxt />
     </v-main>
   </v-app>
@@ -48,7 +54,10 @@
 
 <script>
 import { mapState } from "vuex";
+import { loadFull } from "tsparticles"
 import NavDrawer from "../components/nav-drawer"
+
+const particlesInit = async engine => { await loadFull(engine); };
 
 export default {
   name: 'DefaultLayout',
@@ -57,13 +66,67 @@ export default {
     return {
       drawer: false,
       fixed: false,
-      title: 'Metadata Manager'
+      title: 'Metadata Manager',
+      particlesInit
     }
   },
   computed: {
     drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '33%' : '100%' },
     drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
-    ...mapState('user', ['isLoggedIn'])
+    ...mapState('user', ['isLoggedIn']),
+    options: {
+      get() {
+        return {
+          pauseOnOutsideViewport: true,
+          background: {
+            color: {
+              value: 'transparent'
+            }
+          },
+          fpsLimit: 120,
+          particles: {
+            color: {
+              value: this.$vuetify.theme.themes.light.info
+            },
+            links: {
+              color: this.$vuetify.theme.themes.light.info,
+              distance: 130,
+              enable: true,
+              opacity: 0.8
+            },
+            collisions: {
+              enable: true
+            },
+            move: {
+              direction: 'none',
+              enable: true,
+              outModes: 'bounce',
+              random: false,
+              speed: 1,
+              straight: false
+            },
+            number: {
+              density: {
+                enable: true,
+                value_area: 800
+              },
+              value: 80
+            },
+            opacity: {
+              value: 1
+            },
+            shape: {
+              type: null
+            },
+            size: {
+              random: true,
+              value: 5
+            }
+          },
+          detectRetina: true
+        }
+      }
+    }
   },
 }
 </script>
@@ -79,10 +142,7 @@ export default {
   main {
     padding-bottom: 0 !important;
   }
-  .v-application .righteous {
-    font-family: 'Righteous', cursive !important;
-    text-transform: uppercase;
-  }
+
   .v-application--wrap {
     display: flex;
     flex-direction: column;

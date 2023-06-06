@@ -1,9 +1,9 @@
 <template>
   <div
-    class="creatorContent d-flex flex-column animated fadeIn slow"
+    class="creatorContent d-flex flex-column"
     :style="getHeight()"
   >
-    <div class="flex-grow-1">
+    <div class="flex-grow-1 animated fadeIn slow">
       <CreatorGeneralInformation v-if="currentStep === 1" />
       <CreatorTimepoints v-if="currentStep === 2" />
       <CreatorExposureInformation v-if="currentStep === 3" />

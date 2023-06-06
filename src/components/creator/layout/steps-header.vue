@@ -1,12 +1,12 @@
 <template>
   <v-container
     fluid
-    class="pa-0 primary"
+    class="pa-0 transparent"
   >
     <v-container class="pa-0">
       <v-stepper-header
         v-if="$vuetify.breakpoint.lgAndUp"
-        class="primary"
+        class="transparent"
         style="box-shadow: none !important;"
       >
         <v-stepper-step

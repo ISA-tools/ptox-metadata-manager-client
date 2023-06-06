@@ -1,23 +1,18 @@
 <template>
-  <div class="pt-5">
-    <v-snackbar
-      v-model="error"
-      color="error"
-      top
-      style="top: 70px;"
-      :timeout="-1"
+  <div class="pt-5 d-flex flex-column justify-center align-center">
+    <v-alert
+      v-if="tokenError"
+      type="error"
+      width="450px"
     >
-      {{ error }}
-    </v-snackbar>
-    <v-snackbar
-      v-model="success"
-      color="success"
-      top
-      style="top: 70px;"
-      :timeout="-1"
+      {{ tokenError }}
+    </v-alert>
+    <v-alert
+      v-if="tokenValidation"
+      type="success"
     >
-      {{ success }}. Please login below.
-    </v-snackbar>
+      {{ tokenValidation }} Please login below.
+    </v-alert>
     <LoginUser
       v-if="tokenValidation"
       classes="mt-12 pt-10"
@@ -33,19 +28,14 @@ import LoginUser from "@/components/login/login.vue";
 export default {
   name: "ValidateAccount",
   components: { LoginUser },
+  async fetch() {
+    try { await this.activateToken(this.token) }
+    catch (error) { this.setTokenError(error) }
+  },
   computed: {
     token() { return this.$route.params.token },
-    ...mapState('user', ['tokenValidation', 'tokenError']),
-    error: {
-      get() { return this.tokenError },
-      set() { }
-    },
-    success: {
-      get() { return this.tokenValidation },
-      set() { }
-    }
+    ...mapState('user', ['tokenValidation', 'tokenError'])
   },
-  async mounted() { await this.activateToken(this.token) },
   methods: {
     ...mapActions('user', ['activateToken']),
     ...mapMutations('user', ['setTokenError', 'setTokenValidation'])

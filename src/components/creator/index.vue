@@ -25,7 +25,7 @@
         <v-stepper
           v-model="currentStep"
           alt-labels
-          class="pa-0 primary"
+          class="pa-0 transparent"
           flat
           tile
           style="height:100%"
@@ -52,20 +52,25 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import {mapState, mapGetters, mapActions} from "vuex";
 import CreatorLayout from "@/components/creator/layout"
 import StepsHeader from "@/components/creator/layout/steps-header";
 
 export default {
   name: "CreatorIndex",
   components: { CreatorLayout, StepsHeader },
+  async fetch() { await this.getFormData(this.token) },
   computed: {
     ...mapState('creator-steps', ['currentStep', 'stepsSize']),
     ...mapState('creator', ['created']),
+    ...mapState('user', ['token']),
     ...mapGetters('creator-steps', ['getSectionName'])
   },
   watch: {
     created() { if (this.created) window.open(this.created, '_blank') }
+  },
+  methods: {
+    ...mapActions("creator-chemicals", ["getFormData"])
   }
 }
 </script>

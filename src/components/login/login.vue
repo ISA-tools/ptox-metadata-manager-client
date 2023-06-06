@@ -4,7 +4,7 @@
     ref="LoginForm"
     v-model="isValid"
     style="height:100%"
-    class="primary white--text pa-4 d-flex flex-column justify-center align-center"
+    class="white--text pa-4 d-flex flex-column justify-center align-center"
     :class="classes"
   >
     <v-snackbar
@@ -14,7 +14,7 @@
       {{ error }}
     </v-snackbar>
     <v-card
-      class="primary white--text d-flex flex-column elevation-0 animated fadeIn"
+      class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-8"
       outlined
     >
       <v-card-title
@@ -71,7 +71,7 @@
         <v-btn
           class="success"
           :disabled="!isValid"
-          @click="login({router: $router, form: $refs.LoginForm})"
+          @click="login({router: $router, form: $refs.LoginForm, next: redirect_url})"
         >
           Login
         </v-btn>
@@ -106,7 +106,10 @@ export default {
         showPwd: false,
       }
     },
-    computed: { ...mapState('user', ['error', 'username', 'password']) },
+    computed: {
+      ...mapState('user', ['error', 'username', 'password']),
+      redirect_url() { return this.$route.query.next || '/' }
+    },
     methods: {
       ...mapActions('user', ['login']),
       ...mapMutations('user', ['setUsername', 'setPassword', 'setStep']),

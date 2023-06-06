@@ -11,10 +11,15 @@ export async function login(username = null, password = null) {
     let user = localStorage.getItem("user")
     if (!user) {
         const response = await login_request(username, password)
-        user = JSON.stringify({ isLoggedIn: true, token: response['access_token'], username: username })
+        const jwt = response['access_token']
+        const user_data = await get_myself(jwt)
+        user = JSON.stringify({
+            isLoggedIn: true, token: jwt, username: username, role: user_data.role
+        })
         localStorage.setItem("user", user)
+        return user
     }
-    return user
+    return JSON.parse(user)
 }
 
 
@@ -28,20 +33,21 @@ export async function logout(token) {
 
 
 /**
- * Redirect the user to home page after login
+ * Redirect the user to given page after login
  * @param router
  * @param commit
  * @param username
  * @param password
+ * @param next the next page
  * @param form
  */
-export async function login_redirect(router, commit, { username, password }, form) {
+export async function login_redirect(router, commit, { username, password }, form, next) {
     form.validate()
     commit("error", null)
     try {
         const user = JSON.parse(await login(username, password))
         commit("login", user.token)
-        router.push('/users/files')
+        router.push(next)
     }
     catch (error) {
         await logout()
@@ -60,6 +66,7 @@ export function autoLogin(commit) {
     if (user) {
         commit("login", user.token)
         commit("setUsername", user.username)
+        commit("setRole", user.role)
     }
 }
 
@@ -74,7 +81,8 @@ export async function getMyself(token, commit) {
     commit("setUserData", {
         organisation: user.organisation,
         userID: user.id,
-        files: user.files
+        files: user.files,
+        username: user.username
     })
 }
 
@@ -110,4 +118,9 @@ export async function validateToken(token, commit) {
         commit("setTokenError", error.response.data.msg)
         commit("setTokenValidation", null)
     }
+}
+
+
+export async function LOGIN_USER({ username, password }) {
+    console.log(username, password)
 }

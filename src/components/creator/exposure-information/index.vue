@@ -85,9 +85,7 @@ export default {
     ...mapState("user", ["token"]),
     ...mapState("creator", ["loading"])
   },
-  async mounted() { await this.getFormData(this.token) },
   methods: {
-    ...mapActions("creator-chemicals", ["getFormData"]),
     ...mapActions("creator-steps", ["decreaseStep"]),
     ...mapMutations("creator-chemicals", ["resetSelected"]),
     ...mapGetters('creator-chemicals', ['getDose']),

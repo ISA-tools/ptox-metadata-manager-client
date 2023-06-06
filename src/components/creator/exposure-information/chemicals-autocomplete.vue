@@ -18,7 +18,7 @@
             class="white--text break mr-4"
             :class="doseColor(1)"
           >
-            {{ getChemical()(chemicalName).ptx_code.toString().padStart(3, '0') }}
+            {{ getChemical()(chemicalName).ptx_code.replace('PTX', '').toString().padStart(3, '0') }}
           </v-btn>
         </div>
         <div style="max-width: 80%">

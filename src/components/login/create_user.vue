@@ -4,7 +4,7 @@
     ref="createUser"
     v-model="isValid"
     style="height:100%"
-    class="primary white--text pa-4 d-flex flex-column justify-center align-center"
+    class="white--text pa-4 d-flex flex-column justify-center align-center"
   >
     <v-snackbar
       v-model="error"
@@ -19,7 +19,7 @@
       User created successfully! Check your email.
     </v-snackbar>
     <v-card
-      class="primary white--text d-flex flex-column elevation-0 animated fadeIn"
+      class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-4"
       outlined
     >
       <v-card-title

@@ -50,8 +50,10 @@ export async function submitCreatorForm ({ rootState, commit })  {
         commit('setCreated', URL)
         commit('creator-steps/setStep', 3, { root: true })
     }
-    catch(error) {
-        if (error.response) commit('setError', error.response.data.message)
+    catch(e) {
+        const error = e.response.data.msg ? e.response.data.msg : e.response.data.message
+        console.log(error)
+        if (error.response) commit('setError', error)
         else commit('setError', error)
     }
     finally { commit('setLoading', false) }

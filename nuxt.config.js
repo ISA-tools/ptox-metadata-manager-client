@@ -11,8 +11,8 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ]
   },
-  css: ["@/assets/styles/colors.css", "@/assets/styles/layout.css", "animate.css/animate.min.css"],
-  plugins: [],
+  css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
+  plugins: ["@/plugins/particles"],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
