@@ -1,4 +1,4 @@
-import { login_request, get_myself, create_user } from "@/lib/RESTClient"
+import { login_request, get_myself, create_user, logout_request, enable_user } from "@/lib/RESTClient"
 
 
 /**
@@ -11,37 +11,46 @@ export async function login(username = null, password = null) {
     let user = localStorage.getItem("user")
     if (!user) {
         const response = await login_request(username, password)
-        user = JSON.stringify({ isLoggedIn: true, token: response['access_token'], username: username })
+        const jwt = response['access_token']
+        const user_data = await get_myself(jwt)
+        user = JSON.stringify({
+            isLoggedIn: true, token: jwt, username: username, role: user_data.role
+        })
         localStorage.setItem("user", user)
+        return user
     }
-    return user
+    return JSON.parse(user)
 }
 
 
 /**
  * Logout the user and remove the token from the local storage
  */
-export function logout() { localStorage.removeItem("user") }
+export async function logout(token) {
+    if (token) await logout_request(token)
+    localStorage.removeItem("user")
+}
 
 
 /**
- * Redirect the user to home page after login
+ * Redirect the user to given page after login
  * @param router
  * @param commit
  * @param username
  * @param password
+ * @param next the next page
  * @param form
  */
-export async function login_redirect(router, commit, { username, password }, form) {
+export async function login_redirect(router, commit, { username, password }, form, next) {
     form.validate()
     commit("error", null)
     try {
         const user = JSON.parse(await login(username, password))
         commit("login", user.token)
-        router.push('/me')
+        router.push(next)
     }
     catch (error) {
-        logout()
+        await logout()
         commit("logout")
         commit("error", error.response.data.msg)
     }
@@ -52,13 +61,13 @@ export async function login_redirect(router, commit, { username, password }, for
  * Auto login the user if the token is in the local storage
  * @param commit
  */
-export async function autoLogin(commit) {
+export function autoLogin(commit) {
     const user = JSON.parse(localStorage.getItem("user"))
     if (user) {
         commit("login", user.token)
         commit("setUsername", user.username)
+        commit("setRole", user.role)
     }
-    if (user) await getMyself(user.token, commit)
 }
 
 
@@ -70,10 +79,10 @@ export async function autoLogin(commit) {
 export async function getMyself(token, commit) {
     const user = await get_myself(token)
     commit("setUserData", {
-        organisation: user.organisation.name,
-        googleDriveID: user.organisation.gdrive_id || 'None',
+        organisation: user.organisation,
         userID: user.id,
-        files: user.organisation.files
+        files: user.files,
+        username: user.username
     })
 }
 
@@ -83,6 +92,7 @@ export async function createUser(token, data, commit) {
     try {
         await create_user(token, {
             organisation: data.organisation,
+            email: data.email,
             username: data.username,
             password: data.password,
             confirm_password: data.confirmPassword
@@ -94,5 +104,23 @@ export async function createUser(token, data, commit) {
         commit('setCreationSuccess', false)
         commit("error", error.response.data.msg)
     }
+}
 
+
+export async function validateToken(token, commit) {
+    commit("setTokenError", null)
+    try {
+        const response = await enable_user(token)
+        commit("setTokenValidation", response.data.msg)
+        commit("setTokenError", null)
+    }
+    catch (error) {
+        commit("setTokenError", error.response.data.msg)
+        commit("setTokenValidation", null)
+    }
+}
+
+
+export async function LOGIN_USER({ username, password }) {
+    console.log(username, password)
 }

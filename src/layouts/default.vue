@@ -1,43 +1,61 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      v-if="isLoggedIn"
       v-model="drawer"
       fixed
-      clipped
       :width="drawerWidth"
       :height="drawerHeight"
       class="fixed elevation-0"
-      bottom
+      :bottom="$vuetify.breakpoint.mdAndDown"
       centered
-      color="primary darken-3"
-      style="z-index: 9"
+      color="grey darken-4"
+      style="z-index: 11"
+      clipped
+      temporary
     >
       <NavDrawer />
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
+      clipped-left
       app
       class="elevation-0 primary"
+      height="64"
       style="z-index: 10"
     >
-      <a
-        href="/"
+      <nuxt-link
+        to="/"
         class="white--text"
       >
         <v-toolbar-title
-          id="righteous"
           class="text-body-1 righteous"
-        > {{ title }} </v-toolbar-title>
-      </a>
+        >
+          {{ title }}
+        </v-toolbar-title>
+      </nuxt-link>
       <v-spacer />
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
         class="white--text"
         @click.stop="drawer = !drawer"
       />
+      <v-btn
+        v-else
+        nuxt
+        to="/login"
+        color="white"
+        outlined
+      >
+        Login
+      </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main class="primary">
+      <Particles
+        id="particles"
+        :particles-init="particlesInit"
+        :options="options"
+        style="width:50%"
+      />
       <Nuxt />
     </v-main>
   </v-app>
@@ -45,23 +63,79 @@
 
 <script>
 import { mapState } from "vuex";
-import NavDrawer from "../components/nav-drawer";
+import { loadFull } from "tsparticles"
+import NavDrawer from "../components/nav-drawer"
+
+const particlesInit = async engine => { await loadFull(engine); };
 
 export default {
   name: 'DefaultLayout',
   components: { NavDrawer },
   data () {
     return {
-      clipped: true,
       drawer: false,
       fixed: false,
-      title: 'Metadata Manager'
+      title: 'Metadata Manager',
+      particlesInit
     }
   },
   computed: {
-    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '100%' },
+    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '33%' : '100%' },
     drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
-    ...mapState('user', ['isLoggedIn'])
+    ...mapState('user', ['isLoggedIn']),
+    options: {
+      get() {
+        return {
+          pauseOnOutsideViewport: true,
+          background: {
+            color: {
+              value: 'transparent'
+            }
+          },
+          fpsLimit: 120,
+          particles: {
+            color: {
+              value: this.$vuetify.theme.themes.light.info
+            },
+            links: {
+              color: this.$vuetify.theme.themes.light.info,
+              distance: 130,
+              enable: true,
+              opacity: 0.8
+            },
+            collisions: {
+              enable: true
+            },
+            move: {
+              direction: 'none',
+              enable: true,
+              outModes: 'bounce',
+              random: false,
+              speed: 1,
+              straight: false
+            },
+            number: {
+              density: {
+                enable: true,
+                value_area: 800
+              },
+              value: 80
+            },
+            opacity: {
+              value: 1
+            },
+            shape: {
+              type: null
+            },
+            size: {
+              random: true,
+              value: 5
+            }
+          },
+          detectRetina: true
+        }
+      }
+    }
   },
 }
 </script>
@@ -69,7 +143,7 @@ export default {
 <style>
   html {
     font-size: 20px;
-    scrollbar-color: #1976d2 #E0E0E0;
+    scrollbar-color: #14418A #E0E0E0;
   }
   a {
     text-decoration: none !important;
@@ -77,8 +151,9 @@ export default {
   main {
     padding-bottom: 0 !important;
   }
-  .v-application .text-body-1.righteous#righteous {
-    font-family: 'Righteous', cursive !important;
-    text-transform: uppercase;
+
+  .v-application--wrap {
+    display: flex;
+    flex-direction: column;
   }
 </style>

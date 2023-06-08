@@ -38,7 +38,7 @@ build/Release
 node_modules/
 jspm_packages/
 
-# TypeScript v1 declaration files
+# TypeScript v1 declaration files.js
 typings/
 
 # Optional npm cache directory
@@ -86,7 +86,7 @@ sw.*
 # macOS
 .DS_Store
 
-# Vim swap files
+# Vim swap files.js
 *.swp
 
 .netlify/

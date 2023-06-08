@@ -1,0 +1,23 @@
+timepoints_number: |
+  The number of timepoints to be used in the experiment. This will be used to generate the final identifiers.
+timepoints_unit: |
+    The unit to use for the timepoints. This will not be used to generate the final identifiers.
+timepoints_values: |
+  The values of the timepoints. This will not be used to generate the final identifiers.
+replicates: The number of empty tubes, exposed replicates and controls to be generated
+organism: The organism to be used in the experiment. This will be used to generate the final identifiers.
+
+partner: |
+  The partner is the entity that will be responsible for the data collection. By default, it is the organisation bound 
+  to your user account.
+
+batch: | 
+  A string containing any two capital letters. This will be used to identify the batch in the spreadsheet name and to 
+  generate the final identifiers.
+
+timeframe: |
+  The experiment start and end dates. This is just an indicator and will not be used to generate the final identifiers 
+
+solvent: | 
+  The solvent to be used in the experiment (water or DMSO). Only one solvent can be selected, so make sure all chemicals 
+  are soluble in the selected solvent for this batch. This will be used to generate the final identifiers.
