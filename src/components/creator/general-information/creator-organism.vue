@@ -30,7 +30,7 @@
           </v-btn>
           <div class="d-flex flex-column justify-center align-center">
             <span class="primary--text mr-2 organismName text-center"> {{ item.scientific_name }}</span>
-            <span class="">({{ item.ptox_biosystem_name }})</span>
+            <span v-if="getSubName(item)">({{ getSubName(item) }})</span>
           </div>
         </div>
       </template>
@@ -49,7 +49,14 @@ export default {
       set(value) { this.setSelectedOrganism(value) }
     }
   },
-  methods: { ...mapMutations("creator-general", ['setSelectedOrganism']) }
+  methods: {
+    ...mapMutations("creator-general", ['setSelectedOrganism']),
+    getSubName(item) {
+      const titles = item.ptox_biosystem_name.split('_')
+      if (titles.length < 3) return null
+      return titles.slice(2).join(' ')
+    },
+  }
 
 
 }
