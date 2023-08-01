@@ -3,13 +3,13 @@ export default async function ({ store, redirect, route }) {
         await store.dispatch('user/logout')
         return redirect('/')
     }
-    else if (!route.path.includes('/users/enable/') && !route.path.includes('unauthorized')) {
+    else if (!route.path.includes('/users/enable') && !route.path.includes('unauthorized')) {
         store.dispatch('user/autologin')
 
         const user_role = store.state.user.role
         if (user_role === 'banned') return redirect('/unauthorized')
 
-        if (route.path !== "/") {
+        if (route.path !== "/" && !route.path.includes('/users/reset_pwd')) {
 
             // Protect all routes from unauthenticated users
             if (route.path !== "/login" && !store.state.user.isLoggedIn) return redirect('/login?next=' + route.path)
@@ -18,7 +18,8 @@ export default async function ({ store, redirect, route }) {
             if (user_role === 'disabled' && route.path !== '/users/disabled') return redirect('/users/disabled')
 
             // Protect admin routes from non-admin users
-            if ((route.path === '/users' || route.path === '/users/')
+            if ((route.path === '/users' || route.path === '/users/'
+                || route.path === '/files/' || route.path === '/files/')
                 && user_role !== 'admin') { return redirect('/unauthorized') }
 
             // Protect create routes from non activated users

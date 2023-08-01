@@ -4,7 +4,7 @@
     ref="LoginForm"
     v-model="isValid"
     style="height:100%"
-    class="white--text pa-4 d-flex flex-column justify-center align-center"
+    class="white--text pa-4 d-flex flex-column justify-center align-center bigForm"
     :class="classes"
   >
     <v-snackbar
@@ -13,6 +13,12 @@
     >
       {{ error }}
     </v-snackbar>
+    <v-alert
+      v-if="resetPasswordMessage"
+      type="success"
+    >
+      {{ resetPasswordMessage }}
+    </v-alert>
     <v-card
       class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-8"
       outlined
@@ -64,6 +70,13 @@
         >
           Need a new account ? Create one here.
         </div>
+        <div
+          v-if="showNext"
+          class="text-center mt-4 white--text cursor-pointer text-decoration-underline"
+          @click="setStep(3)"
+        >
+          Forgot your password ?
+        </div>
       </v-card-text>
       <v-card-actions
         class="pr-3 d-flex justify-center"
@@ -107,12 +120,13 @@ export default {
       }
     },
     computed: {
-      ...mapState('user', ['error', 'username', 'password']),
+      ...mapState('user', ['error', 'username', 'password', 'resetPasswordMessage']),
       redirect_url() { return this.$route.query.next || '/' }
     },
-    methods: {
+  destroyed() { this.setResetPasswordMessage(null) },
+  methods: {
       ...mapActions('user', ['login']),
-      ...mapMutations('user', ['setUsername', 'setPassword', 'setStep']),
+      ...mapMutations('user', ['setUsername', 'setPassword', 'setStep', 'setResetPasswordMessage']),
       updateUsername (e) { this.setUsername(e) },
       updatePassword (e) { this.setPassword(e) },
     }

@@ -36,7 +36,9 @@ export const state = () => ({
         validationStatus: null
     },
     availableStatuses: ["No", "failed", "success"],
-    availableVehicles: ["DMSO", "Water"]
+    availableVehicles: ["DMSO", "Water"],
+
+    resetPasswordMessage: null,
 })
 
 export const mutations = {
@@ -69,6 +71,10 @@ export const mutations = {
     setSelectedVehicle(state, vehicle) { Vue.set(state.filesFilters, "selectedVehicle", vehicle) },
     setSelectedChemical(state, compound) { Vue.set(state.filesFilters, "selectedCompound", compound) },
     setValidationStatus(state, status) { Vue.set(state.filesFilters, "validationStatus", status) },
+
+    setResetPasswordMessage(state, message) {
+        state.resetPasswordMessage = message
+    },
     clearFilters(state) {
         state.filesFilters = {
             selectedOrganism: null,

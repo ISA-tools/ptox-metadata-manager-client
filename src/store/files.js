@@ -1,7 +1,21 @@
-import { delete_file } from "@/lib/RESTClient";
+import { delete_file, publishSamples, shipSamples } from "@/lib/RESTClient";
 
 export const state = () => ({
     deleteOverlay: {
+        show: false,
+        file: null,
+        loading: false,
+        error: null,
+        success: false
+    },
+    publishOverlay: {
+        show: false,
+        file: null,
+        loading: false,
+        error: null,
+        success: false
+    },
+    shipOverlay: {
         show: false,
         file: null,
         loading: false,
@@ -31,7 +45,51 @@ export const mutations = {
     },
     setDeleteOverlayLoading(state, loading) { state.deleteOverlay.loading = loading },
     setDeleteOverlayError(state, error) { state.deleteOverlay.error = error },
-    setDeleteOverlaySuccess(state, success) { state.deleteOverlay.success = success }
+    setDeleteOverlaySuccess(state, success) { state.deleteOverlay.success = success },
+
+    showPublishOverlay(state, file) {
+        state.publishOverlay = {
+            show: true,
+            file: file,
+            loading: false,
+            error: null,
+            success: false
+        }
+    },
+    hidePublishOverlay(state) {
+        state.publishOverlay = {
+            show: false,
+            file: null,
+            loading: false,
+            error: null,
+            success: false
+        }
+    },
+    setPublishOverlayLoading(state, loading) { state.publishOverlay.loading = loading },
+    setPublishOverlayError(state, error) { state.publishOverlay.error = error },
+    setPublishOverlaySuccess(state, success) { state.publishOverlay.success = success },
+
+    showShipOverlay(state, file) {
+        state.shipOverlay = {
+            show: true,
+            file: file,
+            loading: false,
+            error: null,
+            success: false
+        }
+    },
+    hideShipOverlay(state) {
+        state.shipOverlay = {
+            show: false,
+            file: null,
+            loading: false,
+            error: null,
+            success: false
+        }
+    },
+    setShipOverlayLoading(state, loading) { state.shipOverlay.loading = loading },
+    setShipOverlayError(state, error) { state.shipOverlay.error = error },
+    setShipOverlaySuccess(state, success) { state.shipOverlay.success = success }
 }
 
 export const actions = {
@@ -44,9 +102,30 @@ export const actions = {
         }
         catch (e) { commit('setDeleteOverlayError', e.response.data.message) }
         finally { commit('setDeleteOverlayLoading', false) }
+    },
+    async publishFile({ commit, state }, token) {
+        commit('setPublishOverlayLoading', true)
+        commit('setPublishOverlaySuccess', false)
+        try {
+            const response = await publishSamples(token, state.publishOverlay.file.file_id)
+            commit('hidePublishOverlay')
+            commit('setPublishOverlaySuccess', response.data)
+        }
+        catch (e) { commit('setPublishOverlayError', e.response.data.message) }
+        finally { commit('setPublishOverlayLoading', false) }
+    },
+    async shipFile({ commit, state }, token) {
+        commit('setShipOverlayLoading', true)
+        commit('setShipOverlaySuccess', false)
+        try {
+            const response = await shipSamples(token, state.shipOverlay.file.file_id)
+            commit('hideShipOverlay')
+            commit('setShipOverlaySuccess', response.data)
+        }
+        catch (e) { console.log(e); commit('setShipOverlayError', e.response.data.message) }
+        finally { commit('setShipOverlayLoading', false) }
     }
 }
 
-export const getters = {}
 
-export default { namespaced: true, state, mutations, actions, getters }
+export default { namespaced: true, state, mutations, actions }
