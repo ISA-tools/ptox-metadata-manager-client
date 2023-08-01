@@ -179,6 +179,7 @@ export default {
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { if (this.availablePartners.length === 0) await this.getFormData() },
+  destroyed() { this.setStep(1) },
   methods: {
     ...mapActions('creator-general', ['getFormData']),
     ...mapActions('user', ['createUser']),

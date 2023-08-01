@@ -1,4 +1,7 @@
 export default async function ({ store, redirect, route }) {
+    await store.dispatch('app/bootApp')
+
+
     if (route.path === '/logout') {
         await store.dispatch('user/logout')
         return redirect('/')

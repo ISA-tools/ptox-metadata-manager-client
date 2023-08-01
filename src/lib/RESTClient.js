@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = "https://pretox.isa-tools.org/api"
-// const BASE_URL = "http://localhost:5000/api"
+// const BASE_URL = "https://pretox.isa-tools.org/api"
+const BASE_URL = "http://localhost:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -29,6 +29,15 @@ export const logout_request = async (token) => {
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
     }
     return axios(request)
+}
+
+
+export const test_token = async (token) => {
+    return axios({
+        method: "GET",
+        url: `${BASE_URL}/session`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
 }
 
 
@@ -124,6 +133,7 @@ export const send_reset_link = async (email) => {
     })
 }
 
+
 export const reset_password = async (token, password) => {
     return axios({
         method: "POST",
@@ -133,10 +143,29 @@ export const reset_password = async (token, password) => {
     })
 }
 
+
 export const make_admin = async (token, user_id) => {
     return axios({
         method: "GET",
         url: `${BASE_URL}/users/${user_id}/make_admin`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
+export const ban_user = async (token, user_id) => {
+    return axios({
+        method: "GET",
+        url: `${BASE_URL}/users/${user_id}/ban`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
+export const delete_user = async (token, user_id) => {
+    return axios({
+        method: "DELETE",
+        url: `${BASE_URL}/users/${user_id}`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
     })
 }
@@ -161,6 +190,7 @@ export const searchFiles = async (token, query) => {
     const response = await axios(request)
     return response.data
 }
+
 
 export const convertFileToISA = async (token, file_id) => {
     const request = {
