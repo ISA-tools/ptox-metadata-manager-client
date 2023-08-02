@@ -36,6 +36,22 @@
             <template #[`item.author`]="{ item }">
               {{ item.author }} ({{ item.organisation }})
             </template>
+            <template #[`item.shipped`]="{ item }">
+              <div v-if="item.shipment_date">
+                {{ item.shipment_date }}
+              </div>
+              <div v-else>
+                No
+              </div>
+            </template>
+            <template #[`item.received`]="{ item }">
+              <div v-if="item.receive_date">
+                {{ item.receive_date }}
+              </div>
+              <div v-else>
+                No
+              </div>
+            </template>
             <template #[`item.validated`]="{ item }">
               <div
                 style="width:100%"

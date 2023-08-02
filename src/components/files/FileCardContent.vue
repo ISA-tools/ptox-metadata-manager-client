@@ -1,5 +1,5 @@
 <template>
-  <v-card-text class="d-flex flex-column flex-grow-1 pa-0 white">
+  <v-card-text class="d-flex flex-column flex-grow-1 pa-0 white fileCardContent">
     <div class="flex-grow-0 grey lighten-2">
       <CreatorSubtitle
         icon="fas fa-info"
@@ -18,18 +18,29 @@
         <li>
           <strong> Organism: </strong> {{ file.organism.replace(/_/g, ' ') }}
         </li>
+        <li>
+          <strong> Organisation: </strong> {{ file.organisation }}
+        </li>
+        <li>
+          <strong> Author: </strong> {{ file.author }}
+        </li>
+
         <li
           class="ellipsis"
           style="max-width:70%"
         >
-          <strong> Shipped: </strong> {{ file.shipped ? 'Yes' : 'No' }}
+          <strong> Shipped: </strong>
+          <span v-if="file.shipped"> {{ formatDate(file.shipment_date) }} </span>
+          <span v-else> No </span>
         </li>
         <li
           v-if="file.shipped"
           class="ellipsis"
           style="max-width:70%"
         >
-          <strong> Received: </strong> {{ file.received ? 'Yes' : 'No' }}
+          <strong> Received: </strong>
+          <span v-if="file.received"> {{ formatDate(file.receive_date) }} </span>
+          <span v-else> No </span>
         </li>
       </ul>
       <div class="px-4 mb-4">
@@ -41,6 +52,18 @@
           color="primary"
           dense
           class="elevation-5"
+        />
+      </div>
+      <div class="px-12 grey lighten-2 primary--text d-flex justify-center">
+        <DateShow
+          label="Starts on"
+          :date="file.start_date"
+          left
+        />
+        <DateShow
+          label="Ends on"
+          :date="file.end_date"
+          right
         />
       </div>
     </div>
@@ -98,11 +121,13 @@
 </template>
 
 <script>
+import { formatDate } from "@/utils/dates"
 import StatusBadge from "@/components/files/StatusBadge";
+import DateShow from "@/components/creator/general-information/dates/date-show.vue";
 
 export default {
   name: "FileCard",
-  components: { StatusBadge },
+  components: {DateShow, StatusBadge },
   props: {
     file: {
       type: Object,
@@ -163,6 +188,15 @@ export default {
         return { label: tp.label, unit: tp.unit, value: tp.value }
       })
     }
+  },
+  methods: {
+    formatDate(date) { return formatDate(date).join(', ') }
   }
 }
 </script>
+
+<style>
+.fileCardContent .mainDate {
+  line-height: 50px;
+}
+</style>

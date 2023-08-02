@@ -203,11 +203,12 @@ export const convertFileToISA = async (token, file_id) => {
 }
 
 
-export const publishSamples = async(token, file_id) => {
+export const publishSamples = async(token, file_id, at) => {
     const request = {
-        method: "GET",
+        method: "POST",
         url: `${BASE_URL}/files/${file_id}/receive`,
-        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
+        data: { at }
     }
     return axios(request)
 }
@@ -224,11 +225,12 @@ export const getSamples = async(token, page = 1, per_page = 10) => {
 }
 
 
-export const shipSamples = async(token, fileID) => {
+export const shipSamples = async(token, fileID, at) => {
     const request = {
-        method: "GET",
+        method: "POST",
         url: `${BASE_URL}/files/${fileID}/ship`,
-        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
+        data: { at: at }
     }
     const response = await axios(request)
     return response.data

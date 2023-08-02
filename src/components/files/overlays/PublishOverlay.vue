@@ -27,6 +27,14 @@
         Marking a file as received will prevent any further editing and will publish the samples in a stable and
         accessible database. Are you sure you want to proceed?
       </v-card-text>
+      <v-card-text>
+        <v-date-picker
+          v-model="receiveDate"
+          flat
+          reactive
+          width="95%"
+        />
+      </v-card-text>
       <v-card-actions>
         <v-btn
           class="primary lighten-2"
@@ -53,6 +61,7 @@ import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "PublishOverlay",
+  data() { return { receiveDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
   computed: {
     ...mapState("files", ["publishOverlay"]),
     ...mapState("user", ["token"]),
@@ -65,7 +74,7 @@ export default {
     ...mapMutations("files", ["hidePublishOverlay"]),
     ...mapActions("files", ["publishFile"]),
     async submit() {
-      await this.publishFile(this.token, this.publishOverlay.file.file_id)
+      await this.publishFile({token: this.token, at: this.receiveDate })
     }
   }
 }

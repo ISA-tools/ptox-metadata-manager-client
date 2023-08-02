@@ -27,6 +27,14 @@
         Are you sure you want to ship this file? This action cannot be undone and will lock the file from further
         editing.
       </v-card-text>
+      <v-card-text>
+        <v-date-picker
+          v-model="shipDate"
+          flat
+          reactive
+          width="95%"
+        />
+      </v-card-text>
       <v-card-actions>
         <v-btn @click="hideShipOverlay()">
           Cancel
@@ -49,6 +57,7 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "ShipOverlay",
+  data() { return { shipDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
   computed: {
     ...mapState("files", ["shipOverlay"]),
     ...mapState("user", ["token"]),
@@ -61,7 +70,7 @@ export default {
     ...mapMutations("files", ["hideShipOverlay"]),
     ...mapActions("files", ["shipFile"]),
     ...mapActions("user", ["getMyself"]),
-    async submit() { await this.shipFile(this.token) }
+    async submit() { await this.shipFile({token: this.token, at: this.shipDate}) }
   }
 }
 </script>

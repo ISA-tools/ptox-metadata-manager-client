@@ -103,22 +103,22 @@ export const actions = {
         catch (e) { commit('setDeleteOverlayError', e.response.data.message) }
         finally { commit('setDeleteOverlayLoading', false) }
     },
-    async publishFile({ commit, state }, token) {
+    async publishFile({ commit, state }, { token, at }) {
         commit('setPublishOverlayLoading', true)
         commit('setPublishOverlaySuccess', false)
         try {
-            const response = await publishSamples(token, state.publishOverlay.file.file_id)
+            const response = await publishSamples(token, state.publishOverlay.file.file_id, at)
             commit('hidePublishOverlay')
             commit('setPublishOverlaySuccess', response.data)
         }
         catch (e) { commit('setPublishOverlayError', e.response.data.message) }
         finally { commit('setPublishOverlayLoading', false) }
     },
-    async shipFile({ commit, state }, token) {
+    async shipFile({ commit, state }, {token, at}) {
         commit('setShipOverlayLoading', true)
         commit('setShipOverlaySuccess', false)
         try {
-            const response = await shipSamples(token, state.shipOverlay.file.file_id)
+            const response = await shipSamples(token, state.shipOverlay.file.file_id, at)
             commit('hideShipOverlay')
             commit('setShipOverlaySuccess', response.data)
         }
