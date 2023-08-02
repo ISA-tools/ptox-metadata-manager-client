@@ -121,10 +121,11 @@ export const getters = {
         const endDateBreakpoint = state.filesFilters.selectedDates[1]
 
         return state.userData.files.filter(file => {
-            if (!startDateBreakpoint && !endDateBreakpoint) return true
-            const afterStartDate = startDateBreakpoint ? new Date(file.start_date) >= new Date(startDateBreakpoint) : true
-            const beforeEndDate = endDateBreakpoint ? new Date(file.end_date) <= new Date(endDateBreakpoint) : true
-            if (!afterStartDate || !beforeEndDate) return false
+            if (startDateBreakpoint && endDateBreakpoint) {
+                const afterStartDate = startDateBreakpoint ? new Date(file.start_date) >= new Date(startDateBreakpoint) : true
+                const beforeEndDate = endDateBreakpoint ? new Date(file.end_date) <= new Date(endDateBreakpoint) : true
+                if (!afterStartDate || !beforeEndDate) return false
+            }
 
             if (state.filesFilters.selectedOrganism && state.filesFilters.selectedOrganism !== file.organism) return false
             if (state.filesFilters.selectedVehicle && state.filesFilters.selectedVehicle !== file.vehicle) return false
