@@ -12,27 +12,27 @@
     padding: 0 !important;
 }
 
-#login-form input,
-#createUser input{
-    font-size: 30px;
-    padding: 30px 0;
+.bigForm fieldset {
+    padding-left: 0 !important;
 }
-#login-form label,
-#createUser label{
-    font-size: 1.5rem;
+
+.bigForm input {
+    font-size: 30px !important;
+    padding: 30px 0 !important;
+}
+
+.bigForm label{
+    font-size: 1.5rem !important;
     overflow: initial !important;
 }
-#login-form .v-input__append-inner,
-#createUser .v-input__append-inner{
-    margin-top: 20px;
+.bigForm .v-input__append-inner{
+    margin-top: 20px !important;
 }
-#login-form .v-label:not(.v-label--active) ,
-#createUser .v-label:not(.v-label--active){
-    margin-top: 10px;
+.bigForm .v-label:not(.v-label--active){
+    margin-top: 10px !important;
 }
-#login-form .v-snack__content,
-#createUser .v-snack__content{
-    text-align: center;
+.bigForm .v-snack__content{
+    text-align: center !important;
 }
 
 

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const BASE_URL = "https://pretox.isa-tools.org/api"
+// const BASE_URL = "http://localhost:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -31,6 +32,15 @@ export const logout_request = async (token) => {
 }
 
 
+export const test_token = async (token) => {
+    return axios({
+        method: "GET",
+        url: `${BASE_URL}/session`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
 export const create_file = async (token, data) => {
     const request = {
         method: "POST",
@@ -53,7 +63,6 @@ export const register_file = async (token, file_id) => {
     }
     return axios(request)
 }
-
 
 
 export const validate_file = async (token, file_id) => {
@@ -115,6 +124,53 @@ export const activate_user = async (token, user_id) => {
 }
 
 
+export const send_reset_link = async (email) => {
+    return axios({
+        method: "POST",
+        url: `${BASE_URL}/users/request_reset`,
+        headers: { ...HEADERS },
+        data: {"email": email}
+    })
+}
+
+
+export const reset_password = async (token, password) => {
+    return axios({
+        method: "POST",
+        url: `${BASE_URL}/users/reset/${token}`,
+        headers: { ...HEADERS },
+        data: { "password": password }
+    })
+}
+
+
+export const make_admin = async (token, user_id) => {
+    return axios({
+        method: "GET",
+        url: `${BASE_URL}/users/${user_id}/make_admin`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
+export const ban_user = async (token, user_id) => {
+    return axios({
+        method: "GET",
+        url: `${BASE_URL}/users/${user_id}/ban`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
+export const delete_user = async (token, user_id) => {
+    return axios({
+        method: "DELETE",
+        url: `${BASE_URL}/users/${user_id}`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    })
+}
+
+
 export const delete_file = async (token, file_id) => {
     const request = {
         method: "DELETE",
@@ -122,4 +178,60 @@ export const delete_file = async (token, file_id) => {
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
     }
     return axios(request)
+}
+
+
+export const searchFiles = async (token, query) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/files/search?query=${query}`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    const response = await axios(request)
+    return response.data
+}
+
+
+export const convertFileToISA = async (token, file_id) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/files/${file_id}/isa`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    const response = await axios(request)
+    return response.data
+}
+
+
+export const publishSamples = async(token, file_id, at) => {
+    const request = {
+        method: "POST",
+        url: `${BASE_URL}/files/${file_id}/receive`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
+        data: { at }
+    }
+    return axios(request)
+}
+
+
+export const getSamples = async(token, page = 1, per_page = 10) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/samples?page=${page}&per_page=${per_page}`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    const response = await axios(request)
+    return response.data
+}
+
+
+export const shipSamples = async(token, fileID, at) => {
+    const request = {
+        method: "POST",
+        url: `${BASE_URL}/files/${fileID}/ship`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
+        data: { at: at }
+    }
+    const response = await axios(request)
+    return response.data
 }

@@ -47,13 +47,6 @@
       text="Register a file"
     />
 
-    <NavLink
-      v-if="role === 'admin'"
-      to="/users"
-      icon="fas fa-person-booth"
-      text="List of users"
-    />
-
     <div
       v-if="role === 'disabled'"
       class="pa-4 white--text text-center"
@@ -72,11 +65,33 @@
     />
 
     <NavLink
+      v-if="role === 'admin'"
+      to="/users"
+      icon="fas fa-person-booth"
+      text="List of users"
+      breaker
+    />
+
+    <NavLink
+      v-if="role === 'admin'"
+      to="/files"
+      icon="fas fa-file"
+      text="Admin browser"
+    />
+
+    <NavLink
+      v-if="role === 'admin'"
+      to="/samples"
+      icon="fas fa-vial"
+      text="Browse samples"
+    />
+
+    <NavLink
       v-if="isLoggedIn"
       to="/logout"
       icon="fas fa-sign-out"
       text="Logout"
-      breaker
+      :breaker="role !== 'admin'"
     />
   </v-container>
 </template>

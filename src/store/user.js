@@ -33,10 +33,14 @@ export const state = () => ({
         selectedOrganism: null,
         selectedVehicle: null,
         selectedCompound: null,
-        validationStatus: null
+        validationStatus: null,
+        selectedBatch: null,
+        selectedDates: [null, null]
     },
     availableStatuses: ["No", "failed", "success"],
-    availableVehicles: ["DMSO", "Water"]
+    availableVehicles: ["DMSO", "Water"],
+
+    resetPasswordMessage: null,
 })
 
 export const mutations = {
@@ -69,12 +73,22 @@ export const mutations = {
     setSelectedVehicle(state, vehicle) { Vue.set(state.filesFilters, "selectedVehicle", vehicle) },
     setSelectedChemical(state, compound) { Vue.set(state.filesFilters, "selectedCompound", compound) },
     setValidationStatus(state, status) { Vue.set(state.filesFilters, "validationStatus", status) },
+    setSelectedBatch(state, batch) { Vue.set(state.filesFilters, "selectedBatch", batch) },
+    setSelectedDates(state, dates) {
+        Vue.set(state.filesFilters, "selectedDates", dates).sort((a, b) => new Date(a) - new Date(b))
+    },
+
+    setResetPasswordMessage(state, message) {
+        state.resetPasswordMessage = message
+    },
     clearFilters(state) {
         state.filesFilters = {
             selectedOrganism: null,
             selectedVehicle: null,
             selectedCompound: null,
-            validationStatus: null
+            validationStatus: null,
+            selectedBatch: null,
+            selectedDates: [null, null]
         }
     }
 }
@@ -103,10 +117,19 @@ export const actions = {
 
 export const getters = {
     getFiles: state => {
+        const startDateBreakpoint = state.filesFilters.selectedDates[0]
+        const endDateBreakpoint = state.filesFilters.selectedDates[1]
+
         return state.userData.files.filter(file => {
+            if (!startDateBreakpoint && !endDateBreakpoint) return true
+            const afterStartDate = startDateBreakpoint ? new Date(file.start_date) >= new Date(startDateBreakpoint) : true
+            const beforeEndDate = endDateBreakpoint ? new Date(file.end_date) <= new Date(endDateBreakpoint) : true
+            if (!afterStartDate || !beforeEndDate) return false
+
             if (state.filesFilters.selectedOrganism && state.filesFilters.selectedOrganism !== file.organism) return false
             if (state.filesFilters.selectedVehicle && state.filesFilters.selectedVehicle !== file.vehicle) return false
             if (state.filesFilters.validationStatus && state.filesFilters.validationStatus !== file.validated) return false
+            if (state.filesFilters.selectedBatch && !file.batch.includes(state.filesFilters.selectedBatch)) return false
             return !(state.filesFilters.selectedCompound && !file.chemicals.includes(state.filesFilters.selectedCompound));
         })
     }

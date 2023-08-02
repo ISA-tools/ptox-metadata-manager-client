@@ -16,47 +16,70 @@
             color="grey darken-1"
             opacity="0.7"
           >
-            <div class="d-flex flex-column align-center justify-center">
-              <v-btn
-                class="my-2"
-                color="success"
-                tile
-                :href="'https://docs.google.com/spreadsheets/d/' + file.gdrive_id"
-                target="_blank"
-                :x-large="$vuetify.breakpoint.mdAndUp"
+            <div
+              class="d-flex flex-column align-center py-5"
+              style="height: 100%"
+            >
+              <div
+                class="flex-grow-1 d-flex justify-center flex-column align-center"
+                style="width: 100%"
               >
-                <v-icon class="mr-3">
-                  fab fa-google-drive
-                </v-icon>
-                View on Google Drive
-              </v-btn>
-              <v-btn
-                class="my-2"
-                color="primary"
-                tile
-                :x-large="$vuetify.breakpoint.mdAndUp"
-                nuxt
-                :to="'/files/' + file.file_id + '/validate'"
+                <v-btn
+                  class="my-2"
+                  color="success"
+                  tile
+                  :href="'https://docs.google.com/spreadsheets/d/' + file.gdrive_id"
+                  target="_blank"
+                  :x-large="$vuetify.breakpoint.mdAndUp"
+                >
+                  <v-icon class="mr-3">
+                    fab fa-google-drive
+                  </v-icon>
+                  View on Google Drive
+                </v-btn>
+                <v-btn
+                  class="my-2"
+                  color="primary"
+                  tile
+                  :x-large="$vuetify.breakpoint.mdAndUp"
+                  nuxt
+                  :to="'/files/' + file.file_id + '/validate'"
+                >
+                  <v-icon class="mr-3">
+                    fas fa-circle-check
+                  </v-icon>
+                  Validate
+                </v-btn>
+                <v-btn
+                  v-if="!file.shipped && file.validated === 'success'"
+                  class="my-2"
+                  color="primary"
+                  tile
+                  :x-large="$vuetify.breakpoint.mdAndUp"
+                  @click="showShipOverlay({ name: file.name, file_id: file.file_id })"
+                >
+                  <v-icon class="mr-3">
+                    fab fa-usps
+                  </v-icon>
+                  Ship samples
+                </v-btn>
+              </div>
+              <div
+                class="flex-grow-0 d-flex justify-center align-center"
+                style="width: 100%"
               >
-                <v-icon class="mr-3">
-                  fas fa-circle-check
-                </v-icon>
-                Validate
-              </v-btn>
-              <v-divider class="mt-4 mb-10 pb-10" />
-              <v-btn
-                class="mt-10"
-                color="error"
-                tile
-                :x-large="$vuetify.breakpoint.mdAndUp"
-                outlined
-                @click="showDeleteOverlay({ name: file.name, file_id: file.file_id })"
-              >
-                <v-icon class="mr-3">
-                  fas fa-trash
-                </v-icon>
-                Delete file
-              </v-btn>
+                <v-btn
+                  color="error"
+                  tile
+                  :x-large="$vuetify.breakpoint.mdAndUp"
+                  @click="showDeleteOverlay({ name: file.name, file_id: file.file_id })"
+                >
+                  <v-icon class="mr-3">
+                    fas fa-trash
+                  </v-icon>
+                  Delete file
+                </v-btn>
+              </div>
             </div>
           </v-overlay>
         </v-fade-transition>
@@ -67,7 +90,7 @@
 
 <script>
 import FileCardContent from "@/components/files/FileCardContent";
-import {mapMutations} from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "FileOverlay",
@@ -78,7 +101,7 @@ export default {
       required: true
     }
   },
-  methods: { ...mapMutations("files", ['showDeleteOverlay']) }
+  methods: { ...mapMutations("files", ['showDeleteOverlay', 'showShipOverlay']) }
 }
 </script>
 
@@ -95,5 +118,12 @@ export default {
   }
   .fileCard ul {
     list-style-type: none;
+  }
+  .fileCard .v-overlay__content {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .fileCard .v-btn {
+    width: 95% !important;
   }
 </style>

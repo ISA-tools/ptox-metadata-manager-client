@@ -1,28 +1,14 @@
 <template>
-  <v-card-text class="d-flex flex-column flex-grow-1 pa-0 white">
+  <v-card-text class="d-flex flex-column flex-grow-1 pa-0 white fileCardContent">
     <div class="flex-grow-0 grey lighten-2">
       <CreatorSubtitle
         icon="fas fa-info"
         text="General Information"
       />
       <ul class="flex-grow-1 mt-4 pb-4">
-        <v-tooltip
-          v-if="file['validated']"
-          bottom
-        >
-          <template #activator="{ on, attrs }">
-            <v-chip
-              pill
-              :style="style"
-              class="led white--text mr-4 float-end"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <strong class="mr-2"> Validated: </strong> {{ file['validated'] }}
-            </v-chip>
-          </template>
-          <span> {{ statusTooltip }} </span>
-        </v-tooltip>
+        <div class="mr-4">
+          <StatusBadge :validated="file['validated']" />
+        </div>
         <li
           class="ellipsis"
           style="max-width:70%"
@@ -31,6 +17,30 @@
         </li>
         <li>
           <strong> Organism: </strong> {{ file.organism.replace(/_/g, ' ') }}
+        </li>
+        <li>
+          <strong> Organisation: </strong> {{ file.organisation }}
+        </li>
+        <li>
+          <strong> Author: </strong> {{ file.author }}
+        </li>
+
+        <li
+          class="ellipsis"
+          style="max-width:70%"
+        >
+          <strong> Shipped: </strong>
+          <span v-if="file.shipped"> {{ formatDate(file.shipment_date) }} </span>
+          <span v-else> No </span>
+        </li>
+        <li
+          v-if="file.shipped"
+          class="ellipsis"
+          style="max-width:70%"
+        >
+          <strong> Received: </strong>
+          <span v-if="file.received"> {{ formatDate(file.receive_date) }} </span>
+          <span v-else> No </span>
         </li>
       </ul>
       <div class="px-4 mb-4">
@@ -42,6 +52,18 @@
           color="primary"
           dense
           class="elevation-5"
+        />
+      </div>
+      <div class="px-12 grey lighten-2 primary--text d-flex justify-center">
+        <DateShow
+          label="Starts on"
+          :date="file.start_date"
+          left
+        />
+        <DateShow
+          label="Ends on"
+          :date="file.end_date"
+          right
         />
       </div>
     </div>
@@ -99,8 +121,13 @@
 </template>
 
 <script>
+import { formatDate } from "@/utils/dates"
+import StatusBadge from "@/components/files/StatusBadge";
+import DateShow from "@/components/creator/general-information/dates/date-show.vue";
+
 export default {
   name: "FileCard",
+  components: {DateShow, StatusBadge },
   props: {
     file: {
       type: Object,
@@ -160,23 +187,16 @@ export default {
       return this.file.timepoints.map(tp => {
         return { label: tp.label, unit: tp.unit, value: tp.value }
       })
-    },
-    style() {
-      if (this.file['validated'] === 'No') return `background: ${this.$vuetify.theme.themes.light.warning} !important;`
-      else if (this.file['validated'] === 'success') return `background: ${this.$vuetify.theme.themes.light.success} !important;`
-      else if (this.file['validated'] === 'failed') return `background: ${this.$vuetify.theme.themes.light.error} !important;`
-      return ''
-    },
-    statusTooltip() {
-      if (this.file['validated'] === 'No') return 'This file has not been validated yet'
-      else if (this.file['validated'] === 'success') return 'This file has passed validation'
-      else if (this.file['validated'] === 'failed') return 'This file has failed validation'
-      return ''
     }
+  },
+  methods: {
+    formatDate(date) { return formatDate(date).join(', ') }
   }
 }
 </script>
 
-<style scoped>
-
+<style>
+.fileCardContent .mainDate {
+  line-height: 50px;
+}
 </style>

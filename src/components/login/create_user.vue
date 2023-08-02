@@ -4,7 +4,7 @@
     ref="createUser"
     v-model="isValid"
     style="height:100%"
-    class="white--text pa-4 d-flex flex-column justify-center align-center"
+    class="white--text pa-4 d-flex flex-column justify-center align-center bigForm"
   >
     <v-alert
       v-if="error"
@@ -12,13 +12,8 @@
     >
       {{ error }}
     </v-alert>
-    <v-alert
-      v-if="creationSuccess"
-      type="success"
-    >
-      User created successfully! Check your email.
-    </v-alert>
     <v-card
+      v-if="!creationSuccess"
       class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-4"
       outlined
     >
@@ -119,6 +114,24 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card
+      v-if="creationSuccess"
+      type="success"
+      class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-4"
+      outlined
+    >
+      <v-card-title
+        style="border-bottom: 1px solid #ccc"
+        class="mb-3 pl-0 pb-1"
+      >
+        <h4 class="righteous">
+          User account created successfully
+        </h4>
+      </v-card-title>
+      <v-card-text class="pt-2 white--text text-body-1">
+        Check your email address to confirm your account.
+      </v-card-text>
+    </v-card>
   </v-form>
 </template>
 
@@ -166,6 +179,7 @@ export default {
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
   async mounted() { if (this.availablePartners.length === 0) await this.getFormData() },
+  destroyed() { this.setStep(1) },
   methods: {
     ...mapActions('creator-general', ['getFormData']),
     ...mapActions('user', ['createUser']),

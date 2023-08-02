@@ -43,6 +43,32 @@
                 >
                   Activate
                 </v-btn>
+                <v-btn
+                  dense
+                  tile
+                  color="primary"
+                  :disabled="item.role === 'admin'"
+                  @click="make_admin(item.id)"
+                >
+                  Make admin
+                </v-btn>
+                <v-btn
+                  dense
+                  tile
+                  color="primary"
+                  :disabled="item.role === 'admin'"
+                  @click="ban_user(item.id)"
+                >
+                  Ban user
+                </v-btn>
+                <v-btn
+                  dense
+                  tile
+                  color="primary"
+                  @click="delete_user(item.id)"
+                >
+                  delete user
+                </v-btn>
               </template>
             </v-data-table>
           </v-card-text>
@@ -54,7 +80,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get_users, activate_user } from "@/lib/RESTClient";
+import { get_users, activate_user, make_admin, ban_user, delete_user } from "@/lib/RESTClient";
 
 export default {
   name: "UsersListPage",
@@ -98,9 +124,7 @@ export default {
     }
   },
   async fetch() { await this.getUser() },
-  computed: {
-    ...mapState('user', ['token']),
-  },
+  computed: { ...mapState('user', ['token']) },
   methods: {
     async activateUser(user_id) {
       await activate_user(this.token, user_id)
@@ -116,6 +140,24 @@ export default {
       }
       catch (e) { this.error = e }
       finally { this.loading = false }
+    },
+    async make_admin(user_id) {
+      await make_admin(this.token, user_id)
+      await this.getUser()
+    },
+    async ban_user(user_id) {
+      await ban_user(this.token, user_id)
+      await this.getUser()
+    },
+    async delete_user(user_id) {
+      this.error = false
+      try {
+        await delete_user(this.token, user_id)
+        await this.getUser()
+      }
+      catch (e) {
+        this.error = e.response.data
+      }
     },
     getColor(user) {
       const colors = {

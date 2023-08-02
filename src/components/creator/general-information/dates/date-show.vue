@@ -1,7 +1,9 @@
 <template>
   <div
     class="d-flex justify-center flex-column flex-grow-1"
-    :class="{'align-left': left || $vuetify.breakpoint.smAndUp, 'align-end': !left && $vuetify.breakpoint.xsOnly}"
+    :class="{
+      'align-left': (left || $vuetify.breakpoint.smAndUp) && !right,
+      'align-end': (!left && $vuetify.breakpoint.xsOnly) || right }"
   >
     <div class="label">
       {{ label }}
@@ -23,7 +25,8 @@ export default {
   props: {
     date: { type: String, required: true },
     label: { type: String, required: true },
-    left: { type: Boolean, default: false }
+    left: { type: Boolean, default: false },
+    right: { type: Boolean, default: false }
   },
   computed: { formattedDate() { return formatDate(this.date) } }
 }

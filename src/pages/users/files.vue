@@ -5,7 +5,15 @@
     class="me white--text primary"
     style="height:100%"
   >
+    <ShipOverlay />
+    <DeleteOverlay />
+    <GeneralLoader
+      v-if="loading"
+      text="Loading your files ..."
+      :loading="loading"
+    />
     <v-row
+      v-else
       no-gutters
       justify="center"
       style="height:100%"
@@ -104,11 +112,6 @@
         </div>
       </v-col>
     </v-row>
-    <DeleteOverlay />
-    <GeneralLoader
-      text="Loading your files ..."
-      :loading="loading"
-    />
   </v-container>
 </template>
 
@@ -116,11 +119,12 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import FileOverlay from "@/components/files";
 import FilterFiles from "@/components/files/FilterFiles.vue";
-import DeleteOverlay from "@/components/files/DeleteOverlay.vue";
+import DeleteOverlay from "@/components/files/overlays/DeleteOverlay.vue";
+import ShipOverlay from "@/components/files/overlays/ShipOverlay.vue";
 
 export default {
   name: 'MePage',
-  components: {DeleteOverlay, FilterFiles, FileOverlay },
+  components: { ShipOverlay, DeleteOverlay, FilterFiles, FileOverlay },
   data(){ return { loading: false } },
   async fetch() {
     this.loading = true;
@@ -133,7 +137,18 @@ export default {
   },
   computed: {
     ...mapState('user', ['username', 'userData', 'token', 'role']),
-    files() { return this.getFiles() }
+    ...mapState('files', ['shipOverlay']),
+    files() { return this.getFiles() },
+    reload() { return this.shipOverlay.show }
+  },
+  watch: {
+    async reload(val) {
+      if (val === false) {
+        this.loading = true;
+        await this.getMyself();
+        this.loading = false;
+      }
+    }
   },
   methods: {
     ...mapActions('user', ['getMyself']),
