@@ -12,10 +12,7 @@
           target="replicates"
           class="borderRight"
         />
-        <CreatorControls
-          target="blanks"
-          class="borderRight"
-        />
+
         <CreatorControls
           target="controls"
         />

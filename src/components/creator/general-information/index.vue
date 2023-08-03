@@ -53,7 +53,26 @@
 
         <v-col cols="12">
           <CreatorSubtitle
-            text="Replicates"
+            text="Empty tubes"
+            icon="fa-solid fa-vials"
+            definition="Number of empty tubes in this batch."
+          />
+          <v-container
+            fluid
+            class="pa-0 px-3 grey lighten-2"
+          >
+            <v-row no-gutters>
+              <CreatorControls
+                target="blanks"
+                class="borderRight"
+              />
+            </v-row>
+          </v-container>
+        </v-col>
+
+        <v-col cols="12">
+          <CreatorSubtitle
+            text="Replicates per time point"
             icon="fas fa-copy"
             :definition="definitions['replicates']"
           />
@@ -73,6 +92,7 @@ import CreatorBatch from "./creator-batch.vue";
 import CreatorReplicates from "./conditions/creator-replicates.vue";
 import CreatorOrganism from "./creator-organism.vue";
 import CreatorSolvent from "./creator-solvent.vue";
+import CreatorControls from "./conditions/creator-controls.vue";
 
 import definitions from "@/assets/data/definitions.yml"
 
@@ -85,7 +105,8 @@ export default {
     CreatorPartner,
     CreatorSolvent,
     CreateDates,
-    CreatorSubtitle
+    CreatorSubtitle,
+    CreatorControls
   },
   data() {
     return {

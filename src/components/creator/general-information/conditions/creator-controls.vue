@@ -72,7 +72,7 @@ export default {
       return {
         'controls': 'Controls',
         'replicates': 'Exposed',
-        'blanks': 'Empty tubes'
+        'blanks': 'Blanks'
       }[this.target]
     }
   }
