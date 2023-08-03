@@ -46,7 +46,7 @@
           >
             <ValidationReport
               :report="report"
-              :record-id="$route.params.fileID"
+              :record-id="gdrive"
             />
           </v-card-text>
         </v-card>
@@ -84,7 +84,8 @@ export default {
       loading: false,
       report: null,
       errorCode: null,
-      success: false
+      success: false,
+      gdrive: null
     }
   },
   computed: { ...mapState("user", ['token']) },
@@ -96,6 +97,7 @@ export default {
       this.success = true
     }
     catch(e) {
+      this.gdrive = e.response.data.gdrive
       this.errorCode = e.response.status
       if (this.errorCode === 404) {
         this.report = { "File not found": "The file you are trying to validate does not exist."}

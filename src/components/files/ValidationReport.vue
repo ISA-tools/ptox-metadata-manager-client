@@ -11,8 +11,12 @@
       <div class="pa-4">
         <ul>
           <li>
-            <strong> File ID: </strong>
-            {{ recordId }}
+            <a
+              :href="'https://docs.google.com/spreadsheets/d/' + recordId"
+              target="_blank"
+            >
+              <strong> View file on google drive </strong>
+            </a>
           </li><li>
             <strong> Total number of errors: </strong>
             {{ totalErrors }}

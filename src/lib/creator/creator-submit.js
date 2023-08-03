@@ -46,14 +46,13 @@ export async function submitCreatorForm ({ rootState, commit })  {
         body['timepoints'] = rootState['creator-timepoints'].timepoints.map(tp => parseInt(tp.value))
         commit('setLoading', true)
         const response = await create_file(token, body)
-        console.log(response)
         const URL = response.data['file_url']
         commit('setCreated', URL)
         commit('creator-steps/setStep', 3, { root: true })
     }
     catch(e) {
-        const error = e.response.data.msg ? e.response.data.msg : e.response.data.message
-        console.log(error)
+        let error = e
+        if (e.response) error = e.response.data.msg ? e.response.data.msg : e.response.data.message
         if (error.response) commit('setError', error)
         else commit('setError', error)
     }
