@@ -8,7 +8,12 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'og:title', content: 'Pretox Metadata Manager' },
+      { name: 'og:type', content: 'website' },
+      { name: 'og:url', content: 'https://ptmm.netlify.app/' },
+      { name: 'og:image', content: '/thumbnail.png' },
+      { name: 'twitter:card', content: 'summary_large_image' }
     ]
   },
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],

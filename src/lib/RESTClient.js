@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = "https://pretox.isa-tools.org/api"
-// const BASE_URL = "http://localhost:5000/api"
+// const BASE_URL = "https://pretox.isa-tools.org/api"
+const BASE_URL = "http://localhost:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -221,6 +221,7 @@ export const getSamples = async(token, page = 1, per_page = 10) => {
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
     }
     const response = await axios(request)
+    console.log(response.data)
     return response.data
 }
 
