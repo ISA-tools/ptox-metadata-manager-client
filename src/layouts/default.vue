@@ -50,6 +50,17 @@
       </v-btn>
     </v-app-bar>
     <v-main class="primary">
+      <script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Precision Toxicology Metadata Manager",
+        "description": "Metadata Management for Life science experiments made easy",
+        "applicationCategory": "SaaS",
+        "author": { "@type": "Person", "name": "Dominique Batista" },
+        "funder": { "@type": "Organization", "name": "European Commission" }
+        }
+      </script>
       <Particles
         id="particles"
         :particles-init="particlesInit"
@@ -136,7 +147,7 @@ export default {
         }
       }
     }
-  },
+  }
 }
 </script>
 

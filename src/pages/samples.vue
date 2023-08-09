@@ -88,9 +88,7 @@ export default {
     ...mapState('user', ['token']),
     page() { return this.pagination.current_page }
   },
-  watch: {
-    async page() { await this.getData() }
-  },
+  watch: { async page() { await this.getData() } },
   async mounted() { await this.getData() },
   methods: {
     async getData(page = 0) {
@@ -107,8 +105,8 @@ export default {
       this.headers = []
       Object.keys(sample).forEach(key => {
         this.headers.push({
-          text: key.replace(/_/g, " "),
-          value: key,
+          text: key.replace(/_/g, " ").toLowerCase(),
+          value: key.toLowerCase(),
           sortable: true,
           align: "start"
         })
