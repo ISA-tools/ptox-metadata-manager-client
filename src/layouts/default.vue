@@ -54,11 +54,14 @@
         {
         "@context": "http://schema.org",
         "@type": "SoftwareApplication",
+        "@id": "https://ptmm.netlify.app/",
         "name": "Precision Toxicology Metadata Manager",
         "description": "Metadata Management for Life science experiments made easy",
         "applicationCategory": "SaaS",
-        "author": { "@type": "Person", "name": "Dominique Batista" },
-        "funder": { "@type": "Organization", "name": "European Commission" }
+        "operatingSystem": "All",
+        "author": {"@type": "Person", "name": "Dominique Batista"},
+        "funder": {"@type": "Organization", "name": "European Commission"},
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
         }
       </script>
       <Particles
