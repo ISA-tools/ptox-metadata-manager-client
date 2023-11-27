@@ -38,19 +38,20 @@
   </v-col>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: "CreatorOrganism",
   computed: {
     ...mapState("creator-general", ['selectedOrganism', 'availableOrganisms']),
+    ...mapState("user", ["token"]),
     organism: {
       get() { return this.selectedOrganism },
-      set(value) { this.setSelectedOrganism(value) }
+      set(value) { console.log(123); this.changeSelectedOrganism({ organism: value, token: this.token }) }
     }
   },
   methods: {
-    ...mapMutations("creator-general", ['setSelectedOrganism']),
+    ...mapActions("creator-general", ['changeSelectedOrganism']),
     getSubName(item) {
       const titles = item.ptox_biosystem_name.split('_')
       if (titles.length < 3) return null

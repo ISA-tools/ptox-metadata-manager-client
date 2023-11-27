@@ -3,7 +3,7 @@
     id="createSpreadsheet"
     style="height: 100%"
   >
-    <CreatorIndex />
+    <CreatorIndex v-if="!loading" />
     <v-snackbar v-model="showSnackbar">
       <template #action="{ attrs }">
         <div class="d-flex flex-column align-center justify-center pa-2 text-center error--text">

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const BASE_URL = "https://pretox.isa-tools.org/api"
-// const BASE_URL = "http://localhost:5000/api"
+// const BASE_URL = "http://127.0.0.1:5000/api"
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
@@ -54,12 +54,14 @@ export const create_file = async (token, data) => {
 }
 
 
-export const register_file = async (token, file_id) => {
+export const register_file = async (token, file_id, new_batch) => {
+    const data = { file_id: file_id }
+    if (new_batch) data.new_batch = new_batch
     const request = {
         method: "POST",
         url: `${BASE_URL}/files/register`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
-        data: {file_id: file_id}
+        data
     }
     return axios(request)
 }
@@ -78,7 +80,7 @@ export const validate_file = async (token, file_id) => {
 export const get_myself = async (token) => await get(token, 'user')
 export const get_organisms = async (token) => await get(token, "organisms")
 export const get_chemicals = async(token) => await get(token, "chemicals")
-export const get_organisations = async() => await get(null, "organisations")
+export const get_organisations = async(token) => await get(token, "organisations")
 export const get_users = async(token) => await get(token, "users")
 
 
@@ -203,10 +205,12 @@ export const convertFileToISA = async (token, file_id) => {
 }
 
 
-export const publishSamples = async(token, file_id, at) => {
+export const publishSamples = async(token, file_id, at, new_batch = null) => {
+    let base_url = `${BASE_URL}/files/${file_id}/receive`
+    if (new_batch) base_url += `?new_batch=${new_batch}`
     const request = {
         method: "POST",
-        url: `${BASE_URL}/files/${file_id}/receive`,
+        url: base_url,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
         data: { at }
     }
@@ -226,13 +230,25 @@ export const getSamples = async(token, page = 1, per_page = 10) => {
 }
 
 
-export const shipSamples = async(token, fileID, at) => {
+export const shipSamples = async(token, fileID, at, new_batch = null) => {
+    let base_url = `${BASE_URL}/files/${fileID}/ship`
+    if (new_batch) base_url += `?new_batch=${new_batch}`
     const request = {
         method: "POST",
-        url: `${BASE_URL}/files/${fileID}/ship`,
+        url: base_url,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` },
         data: { at: at }
     }
     const response = await axios(request)
     return response.data
+}
+
+
+export const testBatch = async(token, species, batch) => {
+    const request = {
+        method: "GET",
+        url: `${BASE_URL}/batch/${batch}/validate?species=${species}`,
+        headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
+    }
+    return axios(request)
 }

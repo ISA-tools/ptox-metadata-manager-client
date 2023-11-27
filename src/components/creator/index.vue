@@ -33,16 +33,16 @@
           <StepsHeader />
           <v-stepper-items style="height:100%">
             <v-stepper-content step="1">
-              <CreatorLayout />
+              <CreatorLayout v-if="currentStep === 1" />
             </v-stepper-content>
             <v-stepper-content step="2">
-              <CreatorLayout />
+              <CreatorLayout v-if="currentStep === 2" />
             </v-stepper-content>
             <v-stepper-content step="3">
-              <CreatorLayout />
+              <CreatorLayout v-if="currentStep === 3" />
             </v-stepper-content>
             <v-stepper-content step="4">
-              <CreatorResults />
+              <CreatorResults v-if="currentStep === 4" />
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>

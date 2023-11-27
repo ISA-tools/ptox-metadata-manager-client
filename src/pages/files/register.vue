@@ -16,7 +16,7 @@
           <v-card
             class="primary white--text d-flex flex-column elevation-0 animated fadeIn pa-8"
             outlined
-            style="min-width: 350px"
+            style="min-width: 350px; max-width: 900px"
           >
             <v-card-title class="px-0 text">
               <h4
@@ -50,6 +50,24 @@
                 rounded
                 placeholder="https://drive.google.com/file/d/1X0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z/"
                 :rules="[rules.isURL()]"
+              />
+            </v-card-text>
+            <v-card-text
+              v-if="resubmit"
+              class="px-0"
+            >
+              <v-alert type="error">
+                This batch is already used with this species. You can resubmit the file with a new batch identifier in
+                the box below. If you do, it will modify the identifiers in your spreadsheet.
+              </v-alert>
+              <v-text-field
+                v-model="newBatch"
+                label="Replace current batch with a new one (this will modify the identifiers in your spreadsheet)"
+                color="white"
+                outlined
+                dark
+                filled
+                rounded
               />
             </v-card-text>
             <v-card-actions>
@@ -113,7 +131,9 @@ export default {
       rules: { isURL: () => isURL() },
       fileURL: null,
       fileID: null,
-      fileData: null
+      fileData: null,
+      resubmit: false,
+      newBatch: null
     }
   },
   computed: { ...mapState("user", ['token']) },
@@ -130,13 +150,17 @@ export default {
       const fileID = url.pathname.split('d/')[1].split('/')[0]
       try {
         this.fileID = fileID
-        const response = await register_file(this.token, fileID)
-        console.log(response.data.file)
+        const response = await register_file(this.token, fileID, this.newBatch)
         this.fileData = response.data.file
       }
       catch (err) {
-        this.error = true
-        this.errorMessage = err.response.data.message
+        if (err.response.status === 412) {
+          this.resubmit = true
+        }
+        else {
+          this.error = true
+          this.errorMessage = err.response.data.message
+        }
       }
       finally {
         this.fileID = null

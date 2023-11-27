@@ -5,14 +5,16 @@
     class="white pt-2 pb-1 d-flex justify-center align-center px-8"
   >
     <v-text-field
-      v-model="selectedBath"
+      ref="batch"
+      v-model="selectedBatch"
       class="batch primary-text hideBorder"
       :rules="[rules.required(), rules.maxSize(), rules.batch()]"
+      :error-messages="batchError"
     />
   </v-col>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import { required, isBatch, maxSize } from "@/utils/rules";
 
 export default {
@@ -26,13 +28,21 @@ export default {
       }
     }},
   computed: {
-    ...mapState("creator-general", ["batch"]),
-    selectedBath: {
+    ...mapState("creator-general", ["batch", "selectedOrganism", "batchError"]),
+    ...mapState("user", ["token"]),
+    selectedBatch: {
       get() { return this.batch },
-      set(value) { this.setBatch(value) }
+      async set(value) {
+        await this.changeSelectedBatch({ batch: value, token: this.token, batchRef: this.$refs['batch'] })
+      }
     }
   },
-  methods: { ...mapMutations("creator-general", ["setBatch"]) }
+  mounted() { this.setBatchRef(this.$refs['batch']) },
+  methods: {
+    ...mapActions("creator-general", ["changeSelectedBatch"]),
+    ...mapGetters("creator-general", ["getOrganism"]),
+    ...mapMutations("creator-general", ["setBatchRef"])
+  }
 }
 </script>
 

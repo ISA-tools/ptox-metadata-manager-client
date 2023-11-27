@@ -1,7 +1,7 @@
 <template>
   <v-form
     id="create-form"
-    ref="createForm"
+    ref="create-form"
     v-model="valid"
     lazy-validation
   >

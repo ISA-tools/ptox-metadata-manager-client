@@ -3,9 +3,11 @@
     v-model="showOverlay"
     transition="dialog-bottom-transition"
     width="500px"
+    persistent
   >
     <v-card
       v-if="shipOverlay.file"
+      id="ship-file"
       color="info"
       outlined
     >
@@ -24,8 +26,25 @@
         {{ shipOverlay.error }}
       </v-card-subtitle>
       <v-card-text class="white--text text-body-1 text-center">
-        Are you sure you want to ship this file? This action cannot be undone and will lock the file from further
-        editing.
+        <span v-if="!shipOverlay.wrongBatch">
+          Are you sure you want to ship this file? This action cannot be undone and will lock the file from further
+          editing.
+        </span>
+        <span v-else>
+          This batch is already used with this species. You can resubmit the file with a new batch
+          identifier in the box below. If you do, it will modify the identifiers in your spreadsheet.
+        </span>
+      </v-card-text>
+      <v-card-text v-if="shipOverlay.wrongBatch">
+        <v-text-field
+          v-model="new_batch"
+          label="Replace current batch with a new one (this will modify the identifiers in your spreadsheet)"
+          color="white"
+          outlined
+          dark
+          filled
+          rounded
+        />
       </v-card-text>
       <v-card-text>
         <v-date-picker
@@ -57,7 +76,12 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "ShipOverlay",
-  data() { return { shipDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
+  data() {
+    return {
+      shipDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      new_batch: null
+    }
+  },
   computed: {
     ...mapState("files", ["shipOverlay"]),
     ...mapState("user", ["token"]),
@@ -70,11 +94,18 @@ export default {
     ...mapMutations("files", ["hideShipOverlay"]),
     ...mapActions("files", ["shipFile"]),
     ...mapActions("user", ["getMyself"]),
-    async submit() { await this.shipFile({token: this.token, at: this.shipDate}) }
+    async submit() {
+      await this.shipFile({ token: this.token, at: this.shipDate, new_batch: this.new_batch })
+      this.new_batch = null
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style>
+  #ship-file input {
+    margin-top: 0 !important;
+    font-size: 30px !important;
+    line-height: 30px !important;
+  }
 </style>

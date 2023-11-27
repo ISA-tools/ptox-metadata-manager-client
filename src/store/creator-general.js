@@ -1,9 +1,9 @@
-import { getFormData, today, incrementField, resetCreator } from "@/lib/creator/creator-controls";
+import { getFormData, today, incrementField, resetCreator, validateBatch } from "@/lib/creator/creator-controls";
 
 export const state = () => ({
     availableOrganisms: [],
     availablePartners: [],
-    selectedOrganism: 1,
+    selectedOrganism: 3,
     selectedPartner: null,
     dates: [today.format(), today.format()],
     solvent: 'WATER',
@@ -11,7 +11,9 @@ export const state = () => ({
     controls: 4,
     replicates: 4,
     blanks: 3,
-    userOrganisation: null
+    userOrganisation: null,
+    batchError: null,
+    batchRef: null,
 })
 
 export const mutations = {
@@ -31,14 +33,30 @@ export const mutations = {
         state.created = false;
         state.error = false;
         state.loading = false
-    }
+    },
+    setBatchError(state, error) { state.batchError = error },
+    setBatchRef(state, batchRef) { state.batchRef = batchRef }
 }
 
 export const actions = {
-    async getFormData({ commit }, token) { await getFormData(commit, token) },
+    async getFormData({ commit, state, getters }, token) { await getFormData(commit, state, getters, token) },
     changeField({ commit, state }, { field, value }) { incrementField(commit, state, field, value) },
     resetForm({ commit, state }) { resetCreator(commit, state) },
-    sortDates({ commit }, dates) { commit('setDates', dates.sort((a, b) => new Date(a) - new Date(b)))}
+    sortDates({ commit }, dates) { commit('setDates', dates.sort((a, b) => new Date(a) - new Date(b)))},
+    async changeSelectedBatch({ commit, state, getters }, { batch, token, batchRef }) {
+        commit('setBatch', batch)
+        commit('setBatchError', null)
+        batchRef.validate()
+        if (batchRef.valid) await validateBatch(commit, state, getters, token)
+    },
+    async changeSelectedOrganism({ commit, state, getters }, { organism, token }) {
+        commit('setSelectedOrganism', organism)
+        commit('setBatchError', null)
+        console.log(state.batchRef)
+        console.log(state.batch)
+        state.batchRef.validate()
+        if (state.batchRef.valid) await validateBatch(commit, state, getters, token)
+    }
 }
 
 export const getters = {
@@ -46,6 +64,11 @@ export const getters = {
         if (!state.selectedPartner) return 'UOB'
         return state.availablePartners.find(partner => partner['name'] === state.selectedPartner)
     },
+    getOrganism: state => {
+        const organism = state.availableOrganisms.find(organism => organism['organism_id'] === state.selectedOrganism)
+        if (organism) return organism["ptox_biosystem_name"]
+        else return null
+    }
 }
 
 export default { namespaced: true, state, mutations, actions, getters }

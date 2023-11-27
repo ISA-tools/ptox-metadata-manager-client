@@ -34,7 +34,7 @@
         text
         tile
         style="border-left: 1px solid white !important"
-        @click="increaseStep()"
+        @click="nextStep()"
       >
         Next
       </v-btn>
@@ -64,11 +64,16 @@ export default {
   components: { CreatorGeneralInformation, CreatorExposureInformation, CreatorTimepoints },
   computed: {
     ...mapState('creator-steps', ['currentStep', 'stepsSize']),
-    ...mapState('creator', ['loading', 'error'])
+    ...mapState('creator', ['loading', 'error']),
+    ...mapState('creator-general', ['batchRef', 'batchError'])
   },
   methods: {
     ...mapActions('creator-steps', ['increaseStep', 'decreaseStep', 'reset']),
     ...mapActions('creator', ['submitForm']),
+    nextStep() {
+      if (this.currentStep === 1 && this.batchError) return
+      this.increaseStep()
+    },
     getHeight() {
       if (this.$vuetify.breakpoint.lgAndUp) return `min-height: calc(100vh - 218px);`
       return `min-height: calc(100vh - 147px);`

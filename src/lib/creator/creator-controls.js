@@ -1,13 +1,19 @@
-import { get_chemicals, get_organisms, get_organisations } from "../RESTClient";
+import { get_chemicals, get_organisms, get_organisations, testBatch } from "../RESTClient";
 
 
-export const getFormData = async (commit, token) => {
-    const organisms = get_organisms(token)
-    const organisations = get_organisations(token)
-    Promise.all([organisms, organisations]).then((values) => {
+export const getFormData = async (commit, state, getter, token) => {
+    await Promise.all(
+        [get_organisms(token), get_organisations(token), validateBatch(commit, state, getter, token)]
+    ).then(async (values) => {
         commit("setAvailableOrganisms", values[0]['data'])
         commit("setAvailablePartners", values[1]['data'])
     })
+}
+
+export const validateBatch = async (commit, state, getters, token) => {
+    commit('setBatchError', null)
+    try { await testBatch(token, getters.getOrganism, state.batch) }
+    catch (error) { commit('setBatchError', error.response.data['message']) }
 }
 
 

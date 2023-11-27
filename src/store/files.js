@@ -20,7 +20,8 @@ export const state = () => ({
         file: null,
         loading: false,
         error: null,
-        success: false
+        success: false,
+        wrongBatch: false
     }
 })
 
@@ -75,7 +76,8 @@ export const mutations = {
             file: file,
             loading: false,
             error: null,
-            success: false
+            success: false,
+            wrongBatch: false
         }
     },
     hideShipOverlay(state) {
@@ -84,11 +86,13 @@ export const mutations = {
             file: null,
             loading: false,
             error: null,
-            success: false
+            success: false,
+            wrongBatch: false
         }
     },
     setShipOverlayLoading(state, loading) { state.shipOverlay.loading = loading },
     setShipOverlayError(state, error) { state.shipOverlay.error = error },
+    setShipOverlayWrongBatch(state, wrongBatch) { state.shipOverlay.wrongBatch = wrongBatch },
     setShipOverlaySuccess(state, success) { state.shipOverlay.success = success }
 }
 
@@ -114,15 +118,19 @@ export const actions = {
         catch (e) { commit('setPublishOverlayError', e.response.data.message) }
         finally { commit('setPublishOverlayLoading', false) }
     },
-    async shipFile({ commit, state }, {token, at}) {
+    async shipFile({ commit, state }, { token, at, new_batch }) {
         commit('setShipOverlayLoading', true)
         commit('setShipOverlaySuccess', false)
+        commit('setShipOverlayWrongBatch', false)
         try {
-            const response = await shipSamples(token, state.shipOverlay.file.file_id, at)
+            const response = await shipSamples(token, state.shipOverlay.file.file_id, at, new_batch)
             commit('hideShipOverlay')
             commit('setShipOverlaySuccess', response.data)
         }
-        catch (e) { console.log(e); commit('setShipOverlayError', e.response.data.message) }
+        catch (e) {
+            if (e.response.status === 412) commit('setShipOverlayWrongBatch', true)
+            else commit('setShipOverlayError', e.response.data.message)
+        }
         finally { commit('setShipOverlayLoading', false) }
     }
 }

@@ -3,6 +3,7 @@
     v-model="showOverlay"
     transition="dialog-bottom-transition"
     width="500px"
+    persistent
   >
     <v-card
       v-if="deleteOverlay.file"
