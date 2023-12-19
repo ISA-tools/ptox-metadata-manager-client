@@ -32,7 +32,7 @@
             :key="'ChemicalGroupSlider_' + selectedChemicalIndex"
             class="elevation-0"
           >
-            <v-expansion-panel-header :class="doseColor(1)">
+            <v-expansion-panel-header :class="doseColor(dose.dose)">
               <div
                 class="d-flex align-center text-h6 white--text"
               >
