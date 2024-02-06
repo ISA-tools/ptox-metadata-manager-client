@@ -6,12 +6,14 @@ export const state = () => ({
     selectedChemicalsGroups: [
         { chemicals: [], dose: 1 },
         { chemicals: [], dose: 2 },
-        { chemicals: [], dose: 3 }
+        { chemicals: [], dose: 3 },
+        { chemicals: [], dose: 4 }
     ],
     availableDoses: [
         { id: 1, dose: 'BMD10', value: 'LOW' },
         { id: 2, dose: 'BMD25', value: 'MEDIUM' },
-        { id: 3, dose: '10mg/L', value: 'HIGH' }
+        { id: 3, dose: '10mg/L', value: 'HIGH' },
+        { id: 4, dose: 'Alternative', value: 'ALTERNATIVE' }
     ]
 })
 
@@ -25,7 +27,8 @@ export const mutations = {
         state.selectedChemicalsGroups = [
             { chemicals: [], dose: 1 },
             { chemicals: [], dose: 2 },
-            { chemicals: [], dose: 3 }
+            { chemicals: [], dose: 3 },
+            { chemicals: [], dose: 4 }
         ]
     },
     removeChemicalFromSelectedGroup(state, { index, chemical }) {
@@ -38,7 +41,8 @@ export const mutations = {
         state.selectedChemicalsGroups = [
             { chemicals: [], dose: 1 },
             { chemicals: [], dose: 2 },
-            { chemicals: [], dose: 3 }
+            { chemicals: [], dose: 3 },
+            { chemicals: [], dose: 4 }
         ]
     }
 }
