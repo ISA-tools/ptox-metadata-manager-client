@@ -31,7 +31,6 @@
             id="searchFilesTable"
             :items="files"
             :headers="headers"
-            hide-default-footer
           >
             <template #[`item.author`]="{ item }">
               {{ item.author }} ({{ item.organisation }})

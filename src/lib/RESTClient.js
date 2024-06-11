@@ -184,7 +184,7 @@ export const delete_file = async (token, file_id) => {
 export const searchFiles = async (token, query) => {
     const request = {
         method: "GET",
-        url: `${BASE_URL}/files/search?query=${query}`,
+        url: `${BASE_URL}/files/search?${query}`,
         headers: { ...HEADERS, "Authorization": `Bearer ${token}` }
     }
     const response = await axios(request)
