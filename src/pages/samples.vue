@@ -103,6 +103,10 @@ export default {
     },
     makeHeaders(sample){
       this.headers = []
+      if (!sample) {
+        return null;
+      }
+
       Object.keys(sample).forEach(key => {
         this.headers.push({
           text: key.replace(/_/g, " ").toLowerCase(),
