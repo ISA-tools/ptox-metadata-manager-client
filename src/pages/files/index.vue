@@ -95,7 +95,9 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item>
+                  <v-list-item
+                    link
+                  >
                     <a
                       :href="'https://docs.google.com/spreadsheets/d/'+ item.gdrive_id "
                       target="_blank"
@@ -103,7 +105,9 @@
                       View on Google Drive
                     </a>
                   </v-list-item>
-                  <v-list-item>
+                  <v-list-item
+                    link
+                  >
                     <div
                       style="width: 100%"
                       class="text-center"
@@ -113,7 +117,9 @@
                       </nuxt-link>
                     </div>
                   </v-list-item>
-                  <v-list-item>
+                  <v-list-item
+                    link
+                  >
                     <div
                       style="width: 100%"
                       class="text-center primary--text cursor-pointer"
@@ -122,7 +128,10 @@
                       Delete File
                     </div>
                   </v-list-item>
-                  <v-list-item v-if="item.shipped && item.received">
+                  <v-list-item
+                    link
+                    v-if="item.shipped && item.received"
+                  >
                     <div
                       style="width: 100%"
                       class="text-center"
@@ -136,7 +145,10 @@
                       </div>
                     </div>
                   </v-list-item>
-                  <v-list-item v-if="item.shipped && !item.received">
+                  <v-list-item
+                    link
+                    v-if="item.shipped && !item.received"
+                  >
                     <div
                       style="width: 100%"
                       class="text-center primary--text cursor-pointer"
