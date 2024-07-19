@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5000/api'
+const BASE_URL = process.env.BASE_URL || 'https://mmapi.precisiontox.org/api'
 const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 
