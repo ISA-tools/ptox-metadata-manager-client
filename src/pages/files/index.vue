@@ -129,8 +129,8 @@
                     </div>
                   </v-list-item>
                   <v-list-item
-                    link
                     v-if="item.shipped && item.received"
+                    link
                   >
                     <div
                       style="width: 100%"
@@ -146,8 +146,8 @@
                     </div>
                   </v-list-item>
                   <v-list-item
-                    link
                     v-if="item.shipped && !item.received"
+                    link
                   >
                     <div
                       style="width: 100%"
