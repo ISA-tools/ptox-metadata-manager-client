@@ -1,8 +1,19 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.BASE_URL || 'https://mmapi.precisiontox.org/api'
-const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
+// This will load the API URL from env.js, if it is present.
+// The default, if loading fails or BASE_URL is not defined, is
+// for the production site.
+let BASE_URL;
+try {
+    const env = require('../../env.js');
+    BASE_URL = env.baseURL() || 'https://mmapi.precisiontox.org/api';
+}
+catch {
+    BASE_URL = 'https://mmapi.precisiontox.org/api';
+}
+Object.freeze(BASE_URL);
 
+const HEADERS = { "Content-Type": "application/json", "Accept": "application/json" }
 
 /** Login the user
  * @param {String} username
@@ -10,6 +21,7 @@ const HEADERS = { "Content-Type": "application/json", "Accept": "application/jso
  * @returns {Object} response.data
  */
 export const login_request = async (username, password) => {
+    console.log("BASE_URL: " + process.env.BASE_URL);
     const request = {
         method: "POST",
         url: `${BASE_URL}/session`,
