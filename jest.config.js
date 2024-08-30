@@ -1,23 +1,30 @@
 module.exports = {
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
     '^~/(.*)$': '<rootDir>/$1',
     '^vue$': 'vue/dist/vue.common.js'
   },
   moduleFileExtensions: [
     'js',
     'vue',
-    'json'
+    'json',
+    'yaml',
+    'yml'
   ],
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest'
+    '.*\\.(vue)$': 'vue-jest',
+    '\\.yaml$': 'jest-transform-yaml',
+    '\\.yml$': 'jest-transform-yaml'
   },
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue'
+    '<rootDir>/src/components/**/*.vue',
+    '<rootDir>/src/pages/**/*.vue'
   ],
   setupFiles: ["./jest-setup.js"],
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  transformIgnorePatterns: [
+    "node_modules/(?!vue-router|@babel|vuetify)",
+  ],
 }
