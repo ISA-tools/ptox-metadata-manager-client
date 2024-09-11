@@ -90,11 +90,11 @@ class RESTClient {
     }
 
 
-    async get_myself(token) { await get(token, 'user') }
-    async get_organisms(token){ await get(token, "organisms") }
-    async get_chemicals(token) { await get(token, "chemicals") }
-    async get_organisations() { await get(null, "organisations") }
-    async get_users(token){ await get(token, "users") }
+    async get_myself(token) { await this.get(token, 'user') }
+    async get_organisms(token){ await this.get(token, "organisms") }
+    async get_chemicals(token) { await this.get(token, "chemicals") }
+    async get_organisations() { await this.get(null, "organisations") }
+    async get_users(token){ await this.get(token, "users") }
 
 
     async get(token, path) {
@@ -103,7 +103,10 @@ class RESTClient {
             url: `${this.BASE_URL}/${path}`,
             headers: token ? { ...this.HEADERS, "Authorization": `Bearer ${token}` } : { ...this.HEADERS}
         }
+        console.log(JSON.stringify(request));
         const response = await axios(request)
+        console.log("RESPONSE: " + JSON.stringify(response));
+        console.log("DATA: " + JSON.stringify(response.data));
         return response.data
     }
 
