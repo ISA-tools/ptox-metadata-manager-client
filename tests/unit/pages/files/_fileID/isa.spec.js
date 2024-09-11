@@ -4,18 +4,21 @@ import Vuex from 'vuex'
 
 import Isa from '@/pages/files/_fileID/isa.vue'
 
+import jest from "sinon";
+jest.mock('@/lib/RESTClient', () => ({
+    convertFileToISA: jest.fn(() => Promise.resolve({ data: {id: 1, name: 'John Doe' }})),
+}));
+
+
 const vuetify = new Vuetify();
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-//import convertFileToISA from "@/lib/RESTClient.js";
-
-describe("index.vue", function(){
+describe("isa.vue", function(){
     let wrapper;
 
-    beforeEach(() => {
-
-        wrapper = shallowMount(Isa, {
+    beforeEach(async () => {
+        wrapper = await shallowMount(Isa, {
             vuetify,
             localVue
         })
