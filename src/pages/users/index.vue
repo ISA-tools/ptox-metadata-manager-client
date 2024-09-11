@@ -80,7 +80,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get_users, activate_user, make_admin, ban_user, delete_user } from "@/lib/RESTClient";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "UsersListPage",
@@ -127,7 +129,7 @@ export default {
   computed: { ...mapState('user', ['token']) },
   methods: {
     async activateUser(user_id) {
-      await activate_user(this.token, user_id)
+      await restClient.activate_user(this.token, user_id)
       await this.getUser()
     },
     async getUser() {
@@ -135,24 +137,24 @@ export default {
       this.success = false
       this.loading = true
       try {
-        this.users = await get_users(this.token)
+        this.users = await restClient.get_users(this.token)
         this.success = true
       }
       catch (e) { this.error = e }
       finally { this.loading = false }
     },
     async make_admin(user_id) {
-      await make_admin(this.token, user_id)
+      await restClient.make_admin(this.token, user_id)
       await this.getUser()
     },
     async ban_user(user_id) {
-      await ban_user(this.token, user_id)
+      await restClient.ban_user(this.token, user_id)
       await this.getUser()
     },
     async delete_user(user_id) {
       this.error = false
       try {
-        await delete_user(this.token, user_id)
+        await restClient.delete_user(this.token, user_id)
         await this.getUser()
       }
       catch (e) {

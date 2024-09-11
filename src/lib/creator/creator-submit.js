@@ -1,4 +1,6 @@
-import { create_file } from "../RESTClient";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export function prepareGeneralData(state) {
     const partner = state.availablePartners.filter(
@@ -45,7 +47,7 @@ export async function submitCreatorForm ({ rootState, commit })  {
         const body = { ...prepareGeneralData(rootState['creator-general']), exposure_conditions }
         body['timepoints'] = rootState['creator-timepoints'].timepoints.map(tp => parseInt(tp.value))
         commit('setLoading', true)
-        const response = await create_file(token, body)
+        const response = await restClient.create_file(token, body)
         const URL = response.data['file_url']
         commit('setCreated', URL)
         commit('creator-steps/setStep', 3, { root: true })

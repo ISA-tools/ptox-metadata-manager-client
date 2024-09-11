@@ -1,9 +1,10 @@
-import { get_chemicals, get_organisms, get_organisations } from "../RESTClient";
+import RESTClient from "@/lib/RESTClient";
+const restClient = new RESTClient();
 
 
 export const getFormData = async (commit, token) => {
-    const organisms = get_organisms(token)
-    const organisations = get_organisations(token)
+    const organisms = restClient.get_organisms(token)
+    const organisations = restClient.get_organisations(token)
     Promise.all([organisms, organisations]).then((values) => {
         commit("setAvailableOrganisms", values[0]['data'])
         commit("setAvailablePartners", values[1]['data'])
@@ -12,7 +13,7 @@ export const getFormData = async (commit, token) => {
 
 
 export const getChemicalsData = async (commit, token) => {
-    const chemicals = await get_chemicals(token)
+    const chemicals = await restClient.get_chemicals(token)
     commit("setAvailableChemicals", chemicals['data'])
 }
 

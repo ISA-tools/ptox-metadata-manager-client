@@ -98,9 +98,11 @@
 
 <script>
 import { mapState } from "vuex"
-import { register_file } from "@/lib/RESTClient"
 import { isURL } from "@/utils/rules"
 import FileCard from "@/components/files/";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "RegisterFile",
@@ -130,7 +132,7 @@ export default {
       const fileID = url.pathname.split('d/')[1].split('/')[0]
       try {
         this.fileID = fileID
-        const response = await register_file(this.token, fileID)
+        const response = await restClient.register_file(this.token, fileID)
         console.log(response.data.file)
         this.fileData = response.data.file
       }

@@ -1,4 +1,6 @@
-import { delete_file, publishSamples, shipSamples } from "@/lib/RESTClient";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export const state = () => ({
     deleteOverlay: {
@@ -96,7 +98,7 @@ export const actions = {
     async deleteFile({ commit, state }, token) {
         commit('setDeleteOverlayLoading', true)
         try {
-            const response = await delete_file(token, state.deleteOverlay.file.file_id)
+            const response = await restClient.delete_file(token, state.deleteOverlay.file.file_id)
             commit('hideDeleteOverlay')
             commit('setDeleteOverlaySuccess', response.data)
         }
@@ -107,7 +109,7 @@ export const actions = {
         commit('setPublishOverlayLoading', true)
         commit('setPublishOverlaySuccess', false)
         try {
-            const response = await publishSamples(token, state.publishOverlay.file.file_id, at)
+            const response = await restClient.publishSamples(token, state.publishOverlay.file.file_id, at)
             commit('hidePublishOverlay')
             commit('setPublishOverlaySuccess', response.data)
         }
@@ -118,7 +120,7 @@ export const actions = {
         commit('setShipOverlayLoading', true)
         commit('setShipOverlaySuccess', false)
         try {
-            const response = await shipSamples(token, state.shipOverlay.file.file_id, at)
+            const response = await restClient.shipSamples(token, state.shipOverlay.file.file_id, at)
             commit('hideShipOverlay')
             commit('setShipOverlaySuccess', response.data)
         }
