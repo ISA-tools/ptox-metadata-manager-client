@@ -33,11 +33,12 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex"
 import CreatorIndex from "@/components/creator/"
+import GeneralLoader from "@/components/GeneralLoader.vue";
 
 
 export default {
   name: 'IndexPage',
-  components: { CreatorIndex },
+  components: { CreatorIndex, GeneralLoader },
   data() { return { showSnackbar: false, loading: false }  },
   async fetch() {
     this.loading = true

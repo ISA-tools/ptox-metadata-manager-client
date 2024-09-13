@@ -48,8 +48,12 @@ export default {
   async mounted() {
     this.error = null
     this.loading = true
-    try { this.isa = await restClient.convertFileToISA(this.token, this.fileID) }
-    catch (error) { this.error = error.response.data.message }
+    try {
+      this.isa = await restClient.convertFileToISA(this.token, this.fileID)
+    }
+    catch (error) {
+      this.error = error.response.data.message
+    }
     finally { this.loading = false }
   },
   methods: {
