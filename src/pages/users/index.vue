@@ -137,7 +137,7 @@ export default {
       this.success = false
       this.loading = true
       try {
-        this.users = await restClient.get_users(this.token)
+        this.users = await restClient.get(this.token, 'users')
         this.success = true
       }
       catch (e) { this.error = e }

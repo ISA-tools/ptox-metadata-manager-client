@@ -9,6 +9,8 @@ class RESTClient {
             return RESTClient._instance;
         }
         RESTClient._instance = this;
+        // They hate this hack on StackOverflow, but no-one could suggest a way to load the
+        // necessary data in a development environment, so here it is...
         try {
             const env = require('../../env.js');
             this.BASE_URL = env.baseURL() || 'https://mmapi.precisiontox.org/api';
@@ -89,24 +91,13 @@ class RESTClient {
         return axios(request)
     }
 
-
-    async get_myself(token) { await this.get(token, 'user') }
-    async get_organisms(token){ await this.get(token, "organisms") }
-    async get_chemicals(token) { await this.get(token, "chemicals") }
-    async get_organisations() { await this.get(null, "organisations") }
-    async get_users(token){ await this.get(token, "users") }
-
-
     async get(token, path) {
         const request = {
             method: "GET",
             url: `${this.BASE_URL}/${path}`,
             headers: token ? { ...this.HEADERS, "Authorization": `Bearer ${token}` } : { ...this.HEADERS}
         }
-        console.log(JSON.stringify(request));
         const response = await axios(request)
-        console.log("RESPONSE: " + JSON.stringify(response));
-        console.log("DATA: " + JSON.stringify(response.data));
         return response.data
     }
 

@@ -10,17 +10,11 @@ const restClient = new RESTClient();
  * @returns {Object} the user object
  */
 export async function login(username = null, password = null) {
-    console.log("LOGIN 0")
     let user = localStorage.getItem("user")
-    console.log("LOGIN 1")
     if (!user) {
-        console.log("LOGIN 2")
         const response = await restClient.login_request(username, password)
-        console.log("LOGIN 3: " + JSON.stringify(response))
         const jwt = response['access_token']
-        console.log("JWT: " + jwt);
-        const user_data = await restClient.get_myself(jwt)
-        console.log("USER_DATA: " + JSON.stringify(user_data));
+        const user_data = await restClient.get(jwt, 'user');
         user = JSON.stringify({
             isLoggedIn: true, token: jwt, username: username, role: user_data.role
         })
@@ -50,24 +44,15 @@ export async function logout(token) {
  * @param form
  */
 export async function login_redirect(router, commit, { username, password }, form, next) {
-    console.log("LOGIN_REDIRECT 0")
     form.validate()
-    console.log("LOGIN_REDIRECT 1")
     commit("error", null)
-    console.log("LOGIN_REDIRECT 2")
     try {
-        console.log("LOGIN_REDIRECT 3")
         let data = await login(username, password);
-        console.log("LOGIN_REDIRECT 3.5: " + JSON.stringify(data));
         const user = JSON.parse(data)
-        console.log("LOGIN_REDIRECT 4")
-        console.log("USER: " + JSON.stringify(user))
         commit("login", user.token)
-        console.log("LOGIN_REDIRECT 5")
         router.push(next)
     }
     catch (error) {
-        console.log("LOGIN_REDIRECT ERROR: " + JSON.stringify(error));
         await logout()
         commit("logout")
         commit("error", error.response.data.msg)
@@ -95,7 +80,7 @@ export function autoLogin(commit) {
  * @param commit
  */
 export async function getMyself(token, commit) {
-    const user = await restClient.get_myself(token)
+    const user = await restClient.get(token, 'user')
     commit("setUserData", {
         organisation: user.organisation,
         userID: user.id,

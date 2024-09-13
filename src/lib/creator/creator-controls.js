@@ -3,8 +3,8 @@ const restClient = new RESTClient();
 
 
 export const getFormData = async (commit, token) => {
-    const organisms = restClient.get_organisms(token)
-    const organisations = restClient.get_organisations(token)
+    const organisms = restClient.get(token, 'organisms')
+    const organisations = restClient.get(token, 'organisations')
     Promise.all([organisms, organisations]).then((values) => {
         commit("setAvailableOrganisms", values[0]['data'])
         commit("setAvailablePartners", values[1]['data'])
@@ -13,7 +13,7 @@ export const getFormData = async (commit, token) => {
 
 
 export const getChemicalsData = async (commit, token) => {
-    const chemicals = await restClient.get_chemicals(token)
+    const chemicals = await restClient.get(token, 'chemicals')
     commit("setAvailableChemicals", chemicals['data'])
 }
 
