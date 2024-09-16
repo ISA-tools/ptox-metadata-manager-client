@@ -49,10 +49,14 @@ export default {
     this.error = null
     this.loading = true
     try {
-      this.isa = await restClient.convertFileToISA(this.token, this.fileID)
+      console.log("ONE");
+      this.isa = await restClient.convertFileToISA(this.token, this.fileID);
+      console.log("ISA: " + JSON.stringify(this.isa));
     }
     catch (error) {
+      console.log("TWO: " + JSON.stringify(error));
       this.error = error.response.data.message
+      console.log("THREE");
     }
     finally { this.loading = false }
   },
