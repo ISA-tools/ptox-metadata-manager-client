@@ -15,6 +15,16 @@ class RESTClient {
         this.HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
     }
 
+    async validate_file(token, file_id) {
+        return {
+            data: {
+                message: 'success',
+                token: token,
+                file_id: file_id
+            }
+        }
+    }
+
     async convertFileToISA(token, file_id) {
         return {
             data: {
