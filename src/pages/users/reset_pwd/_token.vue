@@ -72,8 +72,10 @@
 
 <script>
 import { required, minSize } from "@/utils/rules"
-import { reset_password } from "@/lib/RESTClient"
 import { mapMutations, mapState, mapActions } from "vuex";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "ChangePwdWithToken",
@@ -107,7 +109,7 @@ export default {
       }
       else if (this.$refs.changePwdWithTokenForm.validate()) {
         try {
-          await reset_password(this.token, this.password)
+          await restClient.reset_password(this.token, this.password)
           this.setPassword(this.password)
           this.setResetPasswordMessage("Password changed successfully. Please login.")
           await this.$router.push({ path: "/login" })

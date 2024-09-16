@@ -34,7 +34,9 @@
 
 <script>
 import { mapState } from "vuex"
-import { convertFileToISA } from "@/lib/RESTClient"
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "ISAConverter",
@@ -47,7 +49,7 @@ export default {
     this.error = null
     this.loading = true
     try {
-      this.isa = await convertFileToISA(this.token, this.fileID)
+      this.isa = await restClient.convertFileToISA(this.token, this.fileID)
     }
     catch (error) {
       this.error = error.response.data.message
