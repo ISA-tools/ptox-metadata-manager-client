@@ -15,16 +15,6 @@ class RESTClient {
         this.HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
     }
 
-    async validate_file(token, file_id) {
-        return {
-            data: {
-                message: 'success',
-                token: token,
-                file_id: file_id
-            }
-        }
-    }
-
     async convertFileToISA(token, file_id) {
         return {
             data: {
@@ -35,6 +25,47 @@ class RESTClient {
             }
         }
     }
+
+
+    async enable_user(token) {
+        return {
+            data: {
+                message: 'success',
+                token: token
+            }
+        }
+    }
+
+    async get(token, field) {
+        return {
+            data: {
+                message: 'success',
+                token: token,
+                field: field
+            }
+        }
+    }
+
+    async reset_password(token, password) {
+        return {
+            data: {
+                message: 'success',
+                token: token,
+                password: password
+            }
+        }
+    }
+
+    async validate_file(token, file_id) {
+        return {
+            data: {
+                message: 'success',
+                token: token,
+                file_id: file_id
+            }
+        }
+    }
+
 
 }
 
