@@ -11,7 +11,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest'
+    '.*\\.(vue)$': '@vue/vue3-jest'
   },
   collectCoverage: true,
   collectCoverageFrom: [
