@@ -24,7 +24,6 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
   modules: [
-    '@nuxtjs/pwa',
     '@nuxtjs/i18n',
     ['nuxt-highcharts', {}]
   ],
