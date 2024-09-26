@@ -19,12 +19,12 @@ export default {
   },
 
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
-  plugins: ["@/plugins/particles"],
+  plugins: [],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
   modules: [
-    '@nuxtjs/i18n',
+    'nuxt-particles',
     ['nuxt-highcharts', {}]
   ],
 
