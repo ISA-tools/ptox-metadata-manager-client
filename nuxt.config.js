@@ -1,4 +1,5 @@
-export default {
+// eslint-disable-next-line no-undef
+export default defineNuxtConfig({
   target: 'static',
   ssr: false,
 
@@ -19,7 +20,7 @@ export default {
   },
 
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
-  plugins: [],
+  plugins: ['yaml-loader'],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
@@ -46,4 +47,4 @@ export default {
   },
 
   compatibilityDate: '2024-09-25'
-};
+});
