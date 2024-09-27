@@ -1,6 +1,11 @@
+/*
+ * TODO:
+ *  Possible clues at:
+ *  https://nuxt.com/docs/guide/directory-structure/middleware (basic guide)
+ *  https://stackoverflow.com/questions/75373246/nuxt3-accessing-vuex-store-from-middleware (access store, inc. async)
+ */
 export default async function ({ store, redirect, route }) {
     await store.dispatch('app/bootApp')
-
 
     if (route.path === '/logout') {
         await store.dispatch('user/logout')
