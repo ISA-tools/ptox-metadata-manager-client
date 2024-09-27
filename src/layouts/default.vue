@@ -64,7 +64,7 @@
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
         }
       </script>
-      <Particles
+      <NuxtParticles
         id="particles"
         :particles-init="particlesInit"
         :options="options"

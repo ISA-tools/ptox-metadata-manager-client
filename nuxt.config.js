@@ -1,6 +1,8 @@
-export default {
+// eslint-disable-next-line no-undef
+export default defineNuxtConfig({
   target: 'static',
   ssr: false,
+
   head: {
     titleTemplate: 'PrecisionTox Metadata Manager',
     title: 'PrecisionTox Metadata Manager',
@@ -16,17 +18,24 @@ export default {
       { name: 'twitter:card', content: 'summary_large_image' }
     ]
   },
+
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
-  plugins: ["@/plugins/particles"],
+  plugins: ['yaml-loader'],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
+
+  modules: [
+    'nuxt-particles',
+    ['nuxt-highcharts', {}]
+  ],
+
   axios: { baseURL: '/', headers: { common: { Accept: 'application/json' }}},
   pwa: { manifest: { lang: 'en' }},
   vuetify: { defaultAssets: { icons: 'fa' }},
   static: { prefix: false },
   srcDir: 'src/',
   router: { middleware: 'auth' },
+
   build: {
     extend(config) {
       config.module.rules.push({
@@ -35,5 +44,7 @@ export default {
         use: 'yaml-loader'
       })
     }
-  }
-}
+  },
+
+  compatibilityDate: '2024-09-25'
+});
