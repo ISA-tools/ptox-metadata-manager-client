@@ -3,29 +3,24 @@
     <v-navigation-drawer
       v-if="isLoggedIn"
       v-model="drawer"
-      fixed
       :width="drawerWidth"
-      :height="drawerHeight"
       class="fixed elevation-0"
-      :bottom="$vuetify.breakpoint.mdAndDown"
+      :location="$vuetify.breakpoint.mdAndDown ? 'bottom' : undefined"
       centered
-      color="grey darken-4"
+      color="grey-darken-4"
       style="z-index: 11"
-      clipped
       temporary
     >
       <NavDrawer />
     </v-navigation-drawer>
     <v-app-bar
-      clipped-left
-      app
-      class="elevation-0 primary"
+      class="elevation-0 bg-primary"
       height="64"
       style="z-index: 10"
     >
       <nuxt-link
         to="/"
-        class="white--text"
+        class="text-white"
       >
         <v-toolbar-title
           class="text-body-1 righteous"
@@ -36,21 +31,20 @@
       <v-spacer />
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
-        class="white--text"
+        class="text-white"
         @click.stop="drawer = !drawer"
       />
       <v-btn
         v-else
-        nuxt
         to="/login"
         color="white"
-        outlined
+        variant="outlined"
       >
         Login
       </v-btn>
     </v-app-bar>
-    <v-main class="primary">
-      <script type="application/ld+json">
+    <v-main class="bg-primary">
+      <component :is="'script'" type="application/ld+json">
         {
         "@context": "http://schema.org",
         "@type": "SoftwareApplication",
@@ -63,7 +57,7 @@
         "funder": {"@type": "Organization", "name": "European Commission"},
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
         }
-      </script>
+      </component>
       <NuxtParticles
         id="particles"
         :particles-init="particlesInit"
@@ -94,7 +88,6 @@ export default {
     }
   },
   computed: {
-    drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '33%' : '100%' },
     drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
     ...mapState('user', ['isLoggedIn']),
     options: {

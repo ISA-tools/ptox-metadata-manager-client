@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },
 
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
-  plugins: ['yaml-loader'],
+  plugins: [],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
