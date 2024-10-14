@@ -16,6 +16,12 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
+**IMPORTANT**
+1. Use node 20.10.8 LTS as relying on higher version will trigger an error (`[DEP0040] The punycode module is deprecated"`)
+2. If, during startup, you are getting the following error message `"error:0308010C:digital envelope routines::unsupported"`,   
+Tell node to use the legacy OpenSSL provider issueing the following command: 
+
+`export NODE_OPTIONS=--openssl-legacy-provider`
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
