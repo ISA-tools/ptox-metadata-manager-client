@@ -13,6 +13,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@nuxt/eslint": "^0.6.0",
     "@nuxt/vue-app": "^2.18.1",
     "@vue/compiler-sfc": "3.5.8",
     "animate.css": "^3.7.0",

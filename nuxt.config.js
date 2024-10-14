@@ -19,10 +19,15 @@ export default defineNuxtConfig({
     ]
   },
 
-  css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
+  css: [
+    "@/assets/styles/layout.css",
+    "animate.css/animate.min.css",
+    "@/assets/styles/colors.css",
+    "@mdi/font/css/materialdesignicons.min.css"
+  ],
   plugins: [],
   components: true,
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
+  buildModules: ['@nuxt/eslint'],
 
   modules: [
     'nuxt-particles',
@@ -43,7 +48,8 @@ export default defineNuxtConfig({
         type: 'json',
         use: 'yaml-loader'
       })
-    }
+    },
+    transpile: ['vuetify']
   },
 
   compatibilityDate: '2024-09-25'
