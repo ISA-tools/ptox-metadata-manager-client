@@ -170,12 +170,14 @@
 
 <script>
 import { mapState, mapMutations } from "vuex"
-import { searchFiles, convertFileToISA } from '@/lib/RESTClient'
 import GeneralLoader from "@/components/GeneralLoader"
 import StatusBadge from "@/components/files/StatusBadge";
 import DeleteOverlay from "@/components/files/overlays/DeleteOverlay.vue";
 import PublishOverlay from "@/components/files/overlays/PublishOverlay.vue";
 import publishOverlay from "@/components/files/overlays/PublishOverlay.vue";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "SearchFilesForAdmin",
@@ -294,14 +296,14 @@ export default {
       this.loading = true
       let query = `per_page=${this.perPage}`
       if (this.search) query += `&search=${this.search}`
-      const response = await searchFiles(this.token, query)
+      const response = await restClient.searchFiles(this.token, query)
       this.files = response.data
       this.loading = false
     },
     async downloadISA(fileID) {
       this.isa = { error: null, loading: true }
       try {
-        const isa = await convertFileToISA(this.token, fileID)
+        const isa = await restClient.convertFileToISA(this.token, fileID)
         const data = JSON.stringify(isa)
         const blob = new Blob([data], { type: 'application/json' })
         const url = window.URL.createObjectURL(blob)

@@ -67,8 +67,11 @@
 </template>
 
 <script>
+import CreatorSubtitle from "@/components/creator/general-information/creator-subtitle.vue";
+
 export default {
   name: "ValidationReport",
+  components: { CreatorSubtitle },
   props: {
     report: {
       type: Object,

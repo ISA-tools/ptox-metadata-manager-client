@@ -72,9 +72,11 @@
 
 <script>
 import { mapState } from "vuex"
-import { validate_file } from "@/lib/RESTClient"
 import ValidationReport from "@/components/files/ValidationReport.vue";
 import GeneralLoader from "@/components/GeneralLoader.vue";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "FilePage",
@@ -92,7 +94,7 @@ export default {
   async mounted() {
     this.loading = true
     try {
-      await validate_file(this.token, this.$route.params.fileID)
+      await restClient.validate_file(this.token, this.$route.params.fileID)
       this.report = null
       this.success = true
     }

@@ -1,4 +1,6 @@
-import { login_request, get_myself, create_user, logout_request, enable_user } from "@/lib/RESTClient"
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 
 /**
@@ -10,9 +12,9 @@ import { login_request, get_myself, create_user, logout_request, enable_user } f
 export async function login(username = null, password = null) {
     let user = localStorage.getItem("user")
     if (!user) {
-        const response = await login_request(username, password)
+        const response = await restClient.login_request(username, password)
         const jwt = response['access_token']
-        const user_data = await get_myself(jwt)
+        const user_data = await restClient.get(jwt, 'user');
         user = JSON.stringify({
             isLoggedIn: true, token: jwt, username: username, role: user_data.role
         })
@@ -27,7 +29,7 @@ export async function login(username = null, password = null) {
  * Logout the user and remove the token from the local storage
  */
 export async function logout(token) {
-    if (token) await logout_request(token)
+    if (token) await restClient.logout_request(token)
     localStorage.removeItem("user")
 }
 
@@ -45,7 +47,8 @@ export async function login_redirect(router, commit, { username, password }, for
     form.validate()
     commit("error", null)
     try {
-        const user = JSON.parse(await login(username, password))
+        let data = await login(username, password);
+        const user = JSON.parse(data)
         commit("login", user.token)
         router.push(next)
     }
@@ -77,7 +80,7 @@ export function autoLogin(commit) {
  * @param commit
  */
 export async function getMyself(token, commit) {
-    const user = await get_myself(token)
+    const user = await restClient.get(token, 'user')
     commit("setUserData", {
         organisation: user.organisation,
         userID: user.id,
@@ -90,7 +93,7 @@ export async function getMyself(token, commit) {
 export async function createUser(token, data, commit) {
     commit("error", null)
     try {
-        await create_user(token, {
+        await restClient.create_user(token, {
             organisation: data.organisation,
             email: data.email,
             username: data.username,
@@ -110,7 +113,7 @@ export async function createUser(token, data, commit) {
 export async function validateToken(token, commit) {
     commit("setTokenError", null)
     try {
-        const response = await enable_user(token)
+        const response = await restClient.enable_user(token)
         commit("setTokenValidation", response.data.msg)
         commit("setTokenError", null)
     }
