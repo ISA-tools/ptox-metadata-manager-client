@@ -92,3 +92,4 @@ sw.*
 
 .netlify/
 .dist/
+.coverage

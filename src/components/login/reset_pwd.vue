@@ -72,7 +72,9 @@
 <script>
 import { mapMutations } from 'vuex'
 import { required, isEmail } from "@/utils/rules"
-import { send_reset_link } from "@/lib/RESTClient";
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 export default {
   name: "ResetPwd",
@@ -93,7 +95,7 @@ export default {
     async submit() {
       this.response = { message: null, error: false, loading: false, success: false };
       try {
-        await send_reset_link(this.email);
+        await restClient.send_reset_link(this.email);
         this.response.message = "Email sent successfully. Please check your inbox and click the provided link."
         this.response.success = true;
       }

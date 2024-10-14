@@ -1,5 +1,7 @@
 import user from './user'
-import { test_token } from "@/lib/RESTClient"
+import RESTClient from "@/lib/RESTClient";
+
+const restClient = new RESTClient();
 
 
 
@@ -7,7 +9,7 @@ export const actions = {
     async bootApp({ commit, state }) {
         const token = getToken()
         if (!state.booted && token) {
-            try { await test_token(token) }
+            try { await restClient.test_token(token) }
             catch (error) {
                 console.log('ERROR')
                 this.commit('user/logout')

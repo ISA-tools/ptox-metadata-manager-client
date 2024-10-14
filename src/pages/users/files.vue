@@ -139,7 +139,9 @@ export default {
     ...mapState('user', ['username', 'userData', 'token', 'role']),
     ...mapState('files', ['shipOverlay']),
     files() { return this.getFiles() },
-    reload() { return this.shipOverlay.show }
+    reload() {
+      return this.shipOverlay.show
+    }
   },
   watch: {
     async reload(val) {

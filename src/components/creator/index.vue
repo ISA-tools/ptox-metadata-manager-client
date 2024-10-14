@@ -54,11 +54,12 @@
 <script>
 import {mapState, mapGetters, mapActions} from "vuex";
 import CreatorLayout from "@/components/creator/layout"
+import CreatorResults from "@/components/creator/creator-results.vue";
 import StepsHeader from "@/components/creator/layout/steps-header";
 
 export default {
   name: "CreatorIndex",
-  components: { CreatorLayout, StepsHeader },
+  components: { CreatorLayout, StepsHeader, CreatorResults },
   async fetch() { await this.getFormData(this.token) },
   computed: {
     ...mapState('creator-steps', ['currentStep', 'stepsSize']),
