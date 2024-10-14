@@ -75,6 +75,7 @@ export default {
     ...mapActions("files", ["publishFile"]),
     async submit() {
       await this.publishFile({token: this.token, at: this.receiveDate })
+      this.hidePublishOverlay();
     }
   }
 }

@@ -118,6 +118,7 @@
                     </div>
                   </v-list-item>
                   <v-list-item
+                    v-if="!item.received"
                     link
                   >
                     <div
