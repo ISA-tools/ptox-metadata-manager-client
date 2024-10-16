@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef
+ 
 export default defineNuxtConfig({
   target: 'static',
   ssr: false,
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     "@/assets/styles/colors.css",
     "@mdi/font/css/materialdesignicons.min.css"
   ],
-  plugins: [],
+  plugins: ['vuex', 'vuetify'],
   components: true,
   buildModules: ['@nuxt/eslint'],
 
@@ -47,7 +47,7 @@ export default defineNuxtConfig({
         test: /\.ya?ml$/,
         type: 'json',
         use: 'yaml-loader'
-      })
+      });
     },
     transpile: ['vuetify']
   },
