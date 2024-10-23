@@ -19,7 +19,11 @@ export default {
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
   plugins: ["@/plugins/particles"],
   components: true,
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
+  buildModules: [
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify',
+    ['@pinia/nuxt', { disableVuex: false}]
+  ],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
   axios: { baseURL: '/', headers: { common: { Accept: 'application/json' }}},
   pwa: { manifest: { lang: 'en' }},
@@ -29,11 +33,19 @@ export default {
   router: { middleware: 'auth' },
   build: {
     extend(config) {
-      config.module.rules.push({
-        test: /\.ya?ml$/,
-        type: 'json',
-        use: 'yaml-loader'
-      })
+      const rules = [
+        {
+          test: /\.mjs$/,
+          include: [/node_modules/, /.nuxt/],
+          type: "javascript/auto"
+        },
+        {
+          test: /\.ya?ml$/,
+          type: 'json',
+          use: 'yaml-loader'
+        }
+      ]
+      config.module.rules.push(...rules)
     }
   }
 }
