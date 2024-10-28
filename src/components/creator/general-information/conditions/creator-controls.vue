@@ -48,7 +48,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+
+import {useCreatorGeneralStore} from "@/stores/creator-general";
+const creatorGeneral = useCreatorGeneralStore();
 
 export default {
   name: "CreatorControls",
@@ -56,7 +58,7 @@ export default {
     target: {type: String, required: true}
   },
   data() {
-    this.$options.computed = { ...mapState("creator-general", [this.target]) }
+    this.$options.computed = creatorGeneral.state[this.target]
     return {}
   },
   computed: {
@@ -65,9 +67,8 @@ export default {
     blanks() { return this[this.target] }
   },
   methods: {
-    ...mapActions("creator-general", ["changeField"]),
-    increment() { this.changeField({ field: this.target, value: 1 }) },
-    decrement() { this.changeField({ field: this.target, value: -1 }) },
+    increment() { creatorGeneral.changeField({ field: this.target, value: 1 }) },
+    decrement() { creatorGeneral.changeField({ field: this.target, value: -1 }) },
     getLabel() {
       return {
         'controls': 'Controls',

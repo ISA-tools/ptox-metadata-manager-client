@@ -119,55 +119,57 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { useUserStore } from "@/stores/user";
+import { useCreatorGeneralStore} from "@/stores/creator-general";
+import { useCreatorChemicalsStore} from "@/stores/creator-chemicals";
+const user = useUserStore();
+const creatorGeneral = useCreatorGeneralStore();
+const creatorChemicals = useCreatorChemicalsStore();
+
 
 export default {
   name: "FilterFiles",
   computed: {
-    ...mapState('user', ['token', 'filesFilters', 'availableStatuses', 'availableVehicles']),
-    ...mapState('creator-general', ['availableOrganisms']),
-    ...mapState('creator-chemicals', ['availableChemicals']),
+    availableOrganisms() {
+      return creatorGeneral.availableOrganisms;
+    },
+    availableChemicals() {
+      return creatorChemicals.availableChemicals;
+    },
     organism: {
-      get() { return this.filesFilters.selectedOrganism },
-      set(value) { this.setSelectedOrganism(value) }
+      get() { return user.filesFilters.selectedOrganism },
+      set(value) { user.setSelectedOrganism(value) }
     },
     chemical: {
-      get() { return this.filesFilters.selectedCompound },
-      set(value) { this.setSelectedChemical(value) }
+      get() { return user.filesFilters.selectedCompound },
+      set(value) { user.setSelectedChemical(value) }
     },
     status: {
-      get() { return this.filesFilters.validationStatus },
-      set(value) { this.setValidationStatus(value) }
+      get() { return user.filesFilters.validationStatus },
+      set(value) { user.setValidationStatus(value) }
     },
     batch: {
-      get() { return this.filesFilters.selectedBatch },
-      set(value) { this.setSelectedBatch(value) }
+      get() { return user.filesFilters.selectedBatch },
+      set(value) { user.setSelectedBatch(value) }
     },
     dates: {
-      get() { return this.filesFilters.selectedDates },
-      set(value) { this.setSelectedDates(value) }
+      get() { return user.filesFilters.selectedDates },
+      set(value) { user.setSelectedDates(value) }
     },
     getDates() {
       let data = ""
-      const dates = this.filesFilters.selectedDates
+      const dates = user.filesFilters.selectedDates
       if (!dates) return  ''
       if (dates[0]) data += 'From: ' + dates[0]
       if (dates[1]) data += '; To: ' + dates[1]
       return data
     },
   },
-  destroyed() { this.clearFilters() },
+  destroyed() { user.clearFilters() },
   methods: {
-    ...mapMutations('user', [
-        'setSelectedOrganism',
-        'setSelectedChemical',
-        'clearFilters',
-        'setValidationStatus',
-        'setSelectedVehicle',
-        'setSelectedBatch',
-        'setSelectedDates'
-    ]),
-  }
+    availableStatuses() { user.availableStatuses() },
+    clearFilters() { user.clearFilters() }
+  },
 }
 </script>
 

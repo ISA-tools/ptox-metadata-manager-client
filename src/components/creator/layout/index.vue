@@ -54,21 +54,33 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex"
 import CreatorGeneralInformation from "@/components/creator/general-information"
 import CreatorExposureInformation from "@/components/creator/exposure-information"
 import CreatorTimepoints from "@/components/creator/timepoints"
+
+import { useCreatorStepsStore } from "@/stores/creator-steps";
+import { useCreatorStore } from '@/stores/creator';
+const creator = useCreatorStore();
+const creatorSteps = useCreatorStepsStore();
 
 export default {
   name: "CreatorLayout",
   components: { CreatorGeneralInformation, CreatorExposureInformation, CreatorTimepoints },
   computed: {
-    ...mapState('creator-steps', ['currentStep', 'stepsSize']),
-    ...mapState('creator', ['loading', 'error'])
+    currentStep() {
+      return creatorSteps.currentStep;
+    }
   },
   methods: {
-    ...mapActions('creator-steps', ['increaseStep', 'decreaseStep', 'reset']),
-    ...mapActions('creator', ['submitForm']),
+    increaseStep() {
+      return creatorSteps.increaseStep;
+    },
+    decreaseStep() {
+      return creatorSteps.decreaseStep;
+    },
+    reset() {
+      return creatorSteps.reset;
+    },
     getHeight() {
       if (this.$vuetify.breakpoint.lgAndUp) return `min-height: calc(100vh - 218px);`
       return `min-height: calc(100vh - 147px);`
@@ -76,6 +88,15 @@ export default {
     async submit() {
       await this.submitForm()
       if (!this.error) this.increaseStep()
+    },
+    loading() {
+      return creator.loading;
+    },
+    error() {
+      return creator.error;
+    },
+    submitForm() {
+      return creator.submitForm;
     }
   }
 }

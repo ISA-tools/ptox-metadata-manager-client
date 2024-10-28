@@ -65,13 +65,22 @@
 </template>
 
 <script>
-import { mapGetters, mapState} from "vuex";
+import { useCreatorStepsStore } from "@/stores/creator-steps";
+
+const creatorSteps = useCreatorStepsStore();
 
 export default {
   name: "StepsHeader",
   computed: {
-    ...mapState('creator-steps', ['currentStep', 'stepsSize', 'steps']),
-    ...mapGetters('creator-steps', ['getSectionName'])
+    currentStep() {
+      return creatorSteps.currentStep;
+    },
+    stepsSize() {
+      return creatorSteps.stepsSize;
+    },
+    getSectionName() {
+      return creatorSteps.getSectionName;
+    }
   }
 }
 </script>

@@ -59,12 +59,14 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 
+import { useUserStore } from "@/stores/user";
+const user = useUserStore();
+
 export default {
   name: "PublishOverlay",
   data() { return { receiveDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
   computed: {
     ...mapState("files", ["publishOverlay"]),
-    ...mapState("user", ["token"]),
     showOverlay: {
       get() { return this.publishOverlay.show },
       set() { this.hidePublishOverlay() }
@@ -74,7 +76,7 @@ export default {
     ...mapMutations("files", ["hidePublishOverlay"]),
     ...mapActions("files", ["publishFile"]),
     async submit() {
-      await this.publishFile({token: this.token, at: this.receiveDate })
+      await this.publishFile({token: user.token, at: this.receiveDate })
       this.hidePublishOverlay();
     }
   }

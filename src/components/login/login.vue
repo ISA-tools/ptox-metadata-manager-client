@@ -94,8 +94,10 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
 import { required } from "@/utils/rules.js"
+import { useUserStore } from "@/stores/user";
+
+const user = useUserStore();
 
 export default {
     name: "LoginUser",
@@ -120,15 +122,18 @@ export default {
       }
     },
     computed: {
-      ...mapState('user', ['error', 'username', 'password', 'resetPasswordMessage']),
+      error() { return user.error },
+      username() { return user.username },
+      password() { return user.password },
+      resetPasswordMessage() { return user.resetPasswordMessage },
       redirect_url() { return this.$route.query.next || '/' }
     },
-  destroyed() { this.setResetPasswordMessage(null) },
+  destroyed() { user.setResetPasswordMessage(null) },
   methods: {
-      ...mapActions('user', ['login']),
-      ...mapMutations('user', ['setUsername', 'setPassword', 'setStep', 'setResetPasswordMessage']),
-      updateUsername (e) { this.setUsername(e) },
-      updatePassword (e) { this.setPassword(e) },
+      updateUsername (e) { user.setUsername(e) },
+      updatePassword (e) { user.setPassword(e) },
+      login() { user.login() },
+      setStep(num) { user.setStep(num) }
     }
 }
 </script>

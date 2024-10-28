@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import RESTClient from "../lib/RESTClient";
+import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore();
 const restClient = new RESTClient();
 
 export const useAppStore = defineStore('app', {
@@ -19,7 +21,7 @@ export const useAppStore = defineStore('app', {
             if (!state.booted && token) {
                 try { await restClient.test_token(token) }
                 catch (error) {
-                    this.commit('user/logout')
+                    await userStore.logout;
                     localStorage.removeItem("user")
                 }
                 finally {

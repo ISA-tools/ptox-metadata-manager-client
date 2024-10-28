@@ -38,19 +38,18 @@
   </v-col>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import {useCreatorGeneralStore} from "@/stores/creator-general";
+const creatorGeneral = useCreatorGeneralStore();
 
 export default {
   name: "CreatorOrganism",
   computed: {
-    ...mapState("creator-general", ['selectedOrganism', 'availableOrganisms']),
     organism: {
-      get() { return this.selectedOrganism },
-      set(value) { this.setSelectedOrganism(value) }
+      get() { return creatorGeneral.selectedOrganism },
+      set(value) { creatorGeneral.setSelectedOrganism(value) }
     }
   },
   methods: {
-    ...mapMutations("creator-general", ['setSelectedOrganism']),
     getSubName(item) {
       const titles = item.ptox_biosystem_name.split('_')
       if (titles.length < 3) return null

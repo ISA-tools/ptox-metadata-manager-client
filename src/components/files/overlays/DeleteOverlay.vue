@@ -50,11 +50,13 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 
+import {useUserStore} from "@/stores/user";
+const user = useUserStore();
+
 export default {
   name: "DeleteOverlay",
   computed: {
     ...mapState("files", ["deleteOverlay"]),
-    ...mapState("user", ["token"]),
     showOverlay: {
       get() { return this.deleteOverlay.show },
       set() { this.hideDeleteOverlay() }
@@ -63,11 +65,10 @@ export default {
   methods: {
     ...mapMutations("files", ["hideDeleteOverlay"]),
     ...mapActions("files", ["deleteFile"]),
-    ...mapActions("user", ["getMyself"]),
     async submit() {
-      await this.deleteFile(this.token);
+      await this.deleteFile(user.token);
       if (this.deleteOverlay.success) {
-        await this.getMyself(this.token);
+        await user.getMyself(user.token);
         this.hideDeleteOverlay();
       }
     }

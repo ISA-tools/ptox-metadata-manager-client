@@ -12,8 +12,10 @@
   </v-col>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
 import { required, isBatch, maxSize } from "@/utils/rules";
+import { useCreatorGeneralStore } from "@/stores/creator-general";
+const creatorGeneral = useCreatorGeneralStore();
+
 
 export default {
   name: "CreatorBatch",
@@ -26,13 +28,11 @@ export default {
       }
     }},
   computed: {
-    ...mapState("creator-general", ["batch"]),
     selectedBath: {
-      get() { return this.batch },
-      set(value) { this.setBatch(value) }
+      get() { return creatorGeneral.batch },
+      set(value) { creatorGeneral.setBatch(value) }
     }
-  },
-  methods: { ...mapMutations("creator-general", ["setBatch"]) }
+  }
 }
 </script>
 

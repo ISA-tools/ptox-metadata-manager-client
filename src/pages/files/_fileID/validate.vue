@@ -71,10 +71,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "pinia"
 import ValidationReport from "@/components/files/ValidationReport.vue";
 import GeneralLoader from "@/components/GeneralLoader.vue";
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from '@/stores/user'
 
 const restClient = new RESTClient();
 
@@ -90,7 +91,7 @@ export default {
       gdrive: null
     }
   },
-  computed: { ...mapState("user", ['token']) },
+  computed: { ...mapState(useUserStore, ['token']) },
   async mounted() {
     this.loading = true
     try {

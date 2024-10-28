@@ -64,10 +64,13 @@
 
 <script>
 
-import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 import ChemicalAutocomplete from "./chemicals-autocomplete.vue";
 import CreatorSubtitle from "../general-information/creator-subtitle.vue";
 import doseMixin from "@/mixins/doseCSSMixin"
+
+import { useCreatorChemicalsStore } from "@/stores/creator-chemicals";
+
+const creatorChemicals = useCreatorChemicalsStore();
 
 export default {
   name: "ChemicalsPage",
@@ -80,16 +83,8 @@ export default {
       panel: [0, 1, 2]
     }
   },
-  computed: {
-    ...mapState("creator-chemicals", ["selectedChemicalsGroups", "availableDoses"]),
-    ...mapState("user", ["token"]),
-    ...mapState("creator", ["loading"])
-  },
   methods: {
-    ...mapActions("creator-steps", ["decreaseStep"]),
-    ...mapMutations("creator-chemicals", ["resetSelected"]),
-    ...mapGetters('creator-chemicals', ['getDose']),
-    ...mapActions('creator', ['submitForm'])
+    availableDoses: creatorChemicals.availableDoses
   },
 }
 </script>

@@ -55,12 +55,14 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import { useUserStore } from "@/stores/user";
+const user = useUserStore();
+
 export default {
   name: "ShipOverlay",
   data() { return { shipDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
   computed: {
     ...mapState("files", ["shipOverlay"]),
-    ...mapState("user", ["token"]),
     showOverlay: {
       get() { return this.shipOverlay.show },
       set() { this.hideShipOverlay() }
@@ -69,8 +71,7 @@ export default {
   methods: {
     ...mapMutations("files", ["hideShipOverlay"]),
     ...mapActions("files", ["shipFile"]),
-    ...mapActions("user", ["getMyself"]),
-    async submit() { await this.shipFile({token: this.token, at: this.shipDate}) }
+    async submit() { await this.shipFile({token: user.token, at: this.shipDate}) }
   }
 }
 </script>

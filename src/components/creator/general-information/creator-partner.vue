@@ -35,25 +35,27 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from "vuex";
+import { useCreatorGeneralStore } from "@/stores/creator-general";
+import { useUserStore } from "@/stores/user";
+const creatorGeneral = useCreatorGeneralStore();
+const user = useUserStore()
 
 export default {
   name: "CreatorPartner",
   computed: {
-    ...mapState("user", ["userData"]),
-    ...mapState("creator-general", ["selectedPartner", "availablePartners"]),
-    ...mapGetters("creator-general", ["getPartner"]),
+    availablePartners() {
+      return creatorGeneral.availablePartners;
+    },
     partner: {
-      get() { return this.getPartner },
-      set(value) { this.setSelectedPartner(value) }
+      get() { return creatorGeneral.getPartner },
+      set(value) { creatorGeneral.setSelectedPartner(value) }
     }
   },
   mounted() {
-    const organisation = this.userData.organisation || 'UOX'
-    this.setSelectedPartner(organisation)
-    this.setUserOrganisation(organisation)
-  },
-  methods: { ...mapMutations("creator-general", ["setSelectedPartner", "setUserOrganisation"]) },
+    const organisation = user.userData.organisation || 'UOX'
+    creatorGeneral.setSelectedPartner(organisation)
+    creatorGeneral.setUserOrganisation(organisation)
+  }
 }
 </script>
 

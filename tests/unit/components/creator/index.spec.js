@@ -10,14 +10,15 @@ localVue.use(Vuex);
 
 import CreatorSteps from '@/store/creator-steps'
 import Creator from '@/store/creator'
-import User from '@/store/user'
+import { useUserStore } from "@/stores/user";
+const user = useUserStore();
 
 const $store = new Vuex.Store(
     {
         modules: {
             'creator-steps': CreatorSteps,
             creator: Creator,
-            user: User,
+            user: user,
         }
     }
 )

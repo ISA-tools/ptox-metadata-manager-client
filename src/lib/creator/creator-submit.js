@@ -1,6 +1,8 @@
 import RESTClient from "@/lib/RESTClient";
+import { useCreatorStepsStore } from "@/stores/creator-steps";
 
 const restClient = new RESTClient();
+const creatorSteps = useCreatorStepsStore();
 
 export function prepareGeneralData(state) {
     const partner = state.availablePartners.filter(
@@ -50,7 +52,7 @@ export async function submitCreatorForm ({ rootState, commit })  {
         const response = await restClient.create_file(token, body)
         const URL = response.data['file_url']
         commit('setCreated', URL)
-        commit('creator-steps/setStep', 3, { root: true })
+        creatorSteps.setStep(3, { root: true })
     }
     catch(e) {
         let error = e

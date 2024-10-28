@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import CreatorSubtitle from "./creator-subtitle.vue";
 import CreateDates from "./dates/create-dates.vue";
 import CreatorPartner from "./creator-partner.vue";
@@ -113,10 +112,6 @@ export default {
       valid: true,
       definitions: { ...definitions }
     }
-  },
-  methods: {
-    ...mapActions('creator-steps', ['increaseStep']),
-    ...mapActions("creator-general", ["resetForm"]),
   }
 }
 </script>

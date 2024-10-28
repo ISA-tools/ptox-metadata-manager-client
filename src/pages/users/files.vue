@@ -116,11 +116,17 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import FileOverlay from "@/components/files";
 import FilterFiles from "@/components/files/FilterFiles.vue";
 import DeleteOverlay from "@/components/files/overlays/DeleteOverlay.vue";
 import ShipOverlay from "@/components/files/overlays/ShipOverlay.vue";
+
+import { useUserStore } from "@/stores/user";
+import { useCreatorGeneralStore } from "@/stores/creator-general";
+
+const user = useUserStore();
+const creatorGeneral = useCreatorGeneralStore();
 
 export default {
   name: 'MePage',
@@ -130,33 +136,35 @@ export default {
     this.loading = true;
     await Promise.all([
       this.getMyself(),
-      this.getOrganisms(this.token),
-      this.getChemicals(this.token),
+      this.getOrganisms(user.token),
+      this.getChemicals(user.token),
     ])
     this.loading = false;
   },
   computed: {
-    ...mapState('user', ['username', 'userData', 'token', 'role']),
     ...mapState('files', ['shipOverlay']),
-    files() { return this.getFiles() },
+    files() { return user.getFiles() },
     reload() {
       return this.shipOverlay.show
-    }
+    },
+    role() { return user.role }
   },
   watch: {
     async reload(val) {
       if (val === false) {
         this.loading = true;
-        await this.getMyself();
+        await user.getMyself();
         this.loading = false;
       }
     }
   },
   methods: {
-    ...mapActions('user', ['getMyself']),
-    ...mapGetters('user', ['getFiles']),
-    ...mapActions('creator-general', { getOrganisms: 'getFormData' }),
-    ...mapActions('creator-chemicals', { getChemicals: 'getFormData' })
+    getOrganisms() {
+      return creatorGeneral.availableOrganisms
+    },
+    getChemicals() {
+      return creatorGeneral.availableChemicals
+    }
   },
 }
 </script>
