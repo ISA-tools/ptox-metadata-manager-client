@@ -58,6 +58,7 @@ export default {
           '@babel/plugin-transform-optional-chaining',
           '@babel/plugin-transform-nullish-coalescing-operator'
       ]
-    }
+    },
+    transpile: ["tsparticles", "tsparticles-engine"]
   }
 }
