@@ -12,7 +12,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { useCreatorTimepointsStore } from "@/stores/creator-timepoints";
+const creatorTimepoints = useCreatorTimepointsStore();
+
 export default {
   name: "TimepointSelector",
   props: {
@@ -22,14 +24,11 @@ export default {
     },
   },
   computed: {
-    ...mapState('creator-timepoints', ['units']),
-    ...mapGetters('creator-timepoints', ['getTimepointValue']),
     timePoint: {
-      get() { return this.getTimepointValue(this.timepointIndex) },
-      set(value) { this.setTimepointValue({ index: this.timepointIndex, value }) }
+      get() { return creatorTimepoints.getTimepointValue(this.timepointIndex) },
+      set(value) { creatorTimepoints.setTimepointValue({ index: this.timepointIndex, value }) }
     },
-  },
-  methods: { ...mapActions('creator-timepoints', ['setTimepointValue']) },
+  }
 }
 </script>
 

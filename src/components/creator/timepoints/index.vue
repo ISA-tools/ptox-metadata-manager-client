@@ -85,21 +85,27 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
 import CreatorSubtitle from "@/components/creator/general-information/creator-subtitle";
 import CreatorTimepoints from "@/components/creator/timepoints/content";
 import UnitSelector from "@/components/creator/timepoints/unit-selector";
 import definitions from "@/assets/data/definitions.yml"
+import {useCreatorTimepointsStore} from "@/stores/creator-timepoints";
+
+const creatorTimepoints = useCreatorTimepointsStore();
 
 export default {
   name: "CreatorConditions",
   components: { UnitSelector, CreatorSubtitle, CreatorTimepoints },
   data() { return { definitions: { ...definitions } } },
   computed: {
-    ...mapState("creator-timepoints", ["timepoints_size"])
+    timepoints_size() {
+      return creatorTimepoints.timepoints_size;
+    }
   },
   methods: {
-    ...mapActions("creator-timepoints", ["changeTimepointsSize"])
+    changeTimepointsSize(num) {
+      creatorTimepoints.changeTimepointsSize(num);
+    }
   }
 }
 </script>

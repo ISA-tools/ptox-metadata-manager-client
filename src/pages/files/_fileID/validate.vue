@@ -71,13 +71,13 @@
 </template>
 
 <script>
-import { mapState } from "pinia"
 import ValidationReport from "@/components/files/ValidationReport.vue";
 import GeneralLoader from "@/components/GeneralLoader.vue";
 import RESTClient from "@/lib/RESTClient";
 import { useUserStore } from '@/stores/user'
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "FilePage",
@@ -91,11 +91,10 @@ export default {
       gdrive: null
     }
   },
-  computed: { ...mapState(useUserStore, ['token']) },
   async mounted() {
     this.loading = true
     try {
-      await restClient.validate_file(this.token, this.$route.params.fileID)
+      await restClient.validate_file(user.token, this.$route.params.fileID)
       this.report = null
       this.success = true
     }

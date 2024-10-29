@@ -23,7 +23,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     //'@nuxtjs/composition-api/module', //TODO: Chokes on babel.config.js if uncommented.
-    ['@pinia/nuxt', { disableVuex: true}]
+    ['@pinia/nuxt', { disableVuex: true }]
   ],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
   axios: { baseURL: '/', headers: { common: { Accept: 'application/json' }}},
@@ -51,6 +51,13 @@ export default {
         }
       ]
       config.module.rules.push(...rules)
+    },
+    babel: {
+      plugins: [
+          ['@babel/plugin-proposal-private-methods', { loose: true }],
+          '@babel/plugin-transform-optional-chaining',
+          '@babel/plugin-transform-nullish-coalescing-operator'
+      ]
     }
   }
 }

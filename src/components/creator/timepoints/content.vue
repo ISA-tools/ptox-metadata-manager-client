@@ -22,19 +22,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import TimepointSelector from "@/components/creator/timepoints/timepoint-selector.vue";
+import { useCreatorTimepointsStore } from "@/stores/creator-timepoints";
+
+const creatorTimepoints = useCreatorTimepointsStore();
 
 export default {
   name: "CreatorTimepoints",
   components: { TimepointSelector },
   computed: {
-    ...mapState('creator-timepoints', ['timepoints_size', 'timepoints', 'units'])
+    timepoints_size() {
+      return creatorTimepoints.timepoints_size;
+    }
   },
   methods: {
     getCssClasses(index) {
-      let classes = this.timepoints[index].class
-      if (index === this.timepoints_size - 1) classes += ' custom-elevation'
+      let classes = creatorTimepoints.timepoints[index].class
+      if (index === creatorTimepoints.timepoints_size - 1) classes += ' custom-elevation'
       return classes
     }
   }

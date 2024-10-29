@@ -90,7 +90,9 @@
 
 <script>
 import FileCardContent from "@/components/files/FileCardContent";
-import { mapMutations } from "vuex";
+import { useFilesStore } from "@/stores/files";
+
+const files = useFilesStore();
 
 export default {
   name: "FileOverlay",
@@ -101,7 +103,14 @@ export default {
       required: true
     }
   },
-  methods: { ...mapMutations("files", ['showDeleteOverlay', 'showShipOverlay']) }
+  methods: {
+    showDeleteOverlay() {
+      files.showDeleteOverlay();
+    },
+    showShipOverlay() {
+      files.showShipOverlay();
+    }
+  }
 }
 </script>
 
