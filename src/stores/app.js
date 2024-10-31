@@ -13,6 +13,9 @@ export const useAppStore = defineStore('app', {
         getToken: () => {
             const user = JSON.parse(localStorage.getItem("user"));
             return user ? user.token : null
+        },
+        user: () => {
+            return userStore;
         }
     },
     actions: {

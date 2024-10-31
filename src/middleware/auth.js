@@ -1,21 +1,25 @@
-export default async function ({ store, redirect, route }) {
-    await store.dispatch('app/bootApp')
+import { useAppStore } from "@/stores/app";
+
+const store = useAppStore();
+
+export default async function ({ redirect, route }) {
+    await store.bootApp;
 
 
     if (route.path === '/logout') {
-        await store.dispatch('user/logout')
+        await store.user.logout;
         return redirect('/')
     }
     else if (!route.path.includes('/users/enable') && !route.path.includes('unauthorized')) {
-        store.dispatch('user/autologin')
+        store.user.autologin;
 
-        const user_role = store.state.user.role
+        const user_role = store.user.role;
         if (user_role === 'banned') return redirect('/unauthorized')
 
         if (route.path !== "/" && !route.path.includes('/users/reset_pwd')) {
 
             // Protect all routes from unauthenticated users
-            if (route.path !== "/login" && !store.state.user.isLoggedIn) return redirect('/login?next=' + route.path)
+            if (route.path !== "/login" && !store.user.isLoggedIn) return redirect('/login?next=' + route.path)
 
             // Redirect not activated users to the home page if they try to access any other page
             if (user_role === 'disabled' && route.path !== '/users/disabled') return redirect('/users/disabled')
@@ -36,7 +40,7 @@ export default async function ({ store, redirect, route }) {
                 && (user_role === 'disabled')) { return redirect('/unauthorized') }
 
             // Redirect authenticated users to the home page
-            else if (route.path === "/login" && store.state.user.isLoggedIn) return redirect('/')
+            else if (route.path === "/login" && store.user.isLoggedIn) return redirect('/')
         }
     }
 }

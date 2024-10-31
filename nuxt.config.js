@@ -23,7 +23,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     //'@nuxtjs/composition-api/module', //TODO: Chokes on babel.config.js if uncommented.
-    ['@pinia/nuxt', { disableVuex: true }]
+    ['@pinia/nuxt', { disable_vuex: true }]
   ],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
   axios: { baseURL: '/', headers: { common: { Accept: 'application/json' }}},
@@ -31,7 +31,7 @@ export default {
   vuetify: { defaultAssets: { icons: 'fa' }},
   // Added for nuxt 4 compliance
   pinia: {
-    storesDirs: ['./stores/**', './src/stores/**']
+    storesDirs: ['./src/stores/**']
   },
   static: { prefix: false },
   srcDir: 'src/',
