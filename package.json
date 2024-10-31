@@ -60,5 +60,8 @@
     "> 0.25%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "overrides": {
+    "vuex": "../_EXCLUDED_"
+  }
 }

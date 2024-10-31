@@ -57,26 +57,28 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
 
 import { useUserStore } from "@/stores/user";
+import { useFilesStore } from "~/stores/files";
+
 const user = useUserStore();
+const files = useFilesStore();
 
 export default {
   name: "PublishOverlay",
   data() { return { receiveDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) }},
   computed: {
-    ...mapState("files", ["publishOverlay"]),
     showOverlay: {
       get() { return this.publishOverlay.show },
       set() { this.hidePublishOverlay() }
+    },
+    hidePublishOverlay() {
+      return files.hidePublishOverlay;
     }
   },
   methods: {
-    ...mapMutations("files", ["hidePublishOverlay"]),
-    ...mapActions("files", ["publishFile"]),
     async submit() {
-      await this.publishFile({token: user.token, at: this.receiveDate })
+      await files.publishFile({token: user.token, at: this.receiveDate })
       this.hidePublishOverlay();
     }
   }

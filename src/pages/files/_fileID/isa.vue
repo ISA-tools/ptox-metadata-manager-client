@@ -33,25 +33,25 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import GeneralLoader from "@/components/GeneralLoader.vue";
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "ISAConverter",
   components: { GeneralLoader },
   data() { return { isa: null, error: null, loading: false } },
   computed: {
-    ...mapState("user", ["token"]),
     fileID() { return this.$route.params.fileID }
   },
   async mounted() {
     this.error = null
     this.loading = true
     try {
-      this.isa = await restClient.convertFileToISA(this.token, this.fileID);
+      this.isa = await restClient.convertFileToISA(user.token, this.fileID);
     }
     catch (error) {
       this.error = error.response.data.message

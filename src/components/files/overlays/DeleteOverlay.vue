@@ -48,29 +48,34 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
 
 import {useUserStore} from "@/stores/user";
 const user = useUserStore();
+import {useFilesStore} from "~/stores/files";
+
+const filesStore = useFilesStore();
 
 export default {
   name: "DeleteOverlay",
   computed: {
-    ...mapState("files", ["deleteOverlay"]),
     showOverlay: {
       get() { return this.deleteOverlay.show },
       set() { this.hideDeleteOverlay() }
+    },
+    deleteOverlay() {
+      return filesStore.deleteOverlay;
     }
   },
   methods: {
-    ...mapMutations("files", ["hideDeleteOverlay"]),
-    ...mapActions("files", ["deleteFile"]),
     async submit() {
-      await this.deleteFile(user.token);
+      await filesStore.deleteFile(user.token);
       if (this.deleteOverlay.success) {
         await user.getMyself(user.token);
         this.hideDeleteOverlay();
       }
+    },
+    hideDeleteOverlay() {
+      filesStore.hideDeleteOverlay();
     }
   }
 }

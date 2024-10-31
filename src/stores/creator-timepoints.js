@@ -31,7 +31,7 @@ export const useCreatorTimepointsStore = defineStore('creatorGeneral', {
         getTimepointValue: (state) => (index) => state.timepoints[index].value,
         addTimepoint(state) { state.timepoints.push({ value: 0, class: 'slideInLeft' }) },
         removeTimepoint(state) { state.timepoints.pop() },
-        //changeTimepointsSize(state, val) { state.timepoints_size += val },  // Old vuex mutation
+        //changeTimepointsSize(state, val) { state.timepoints_size += val },  // Old mutation
         setTimepoint(state, { index, value }) { state.timepoints[index].value = value },
         changeTimepointClass(state, index) { state.timepoints[index].class = "slideOutLeft" },
         removeTimepointClass(state, index) { state.timepoints[index].class = ""},

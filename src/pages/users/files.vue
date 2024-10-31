@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import FileOverlay from "@/components/files";
 import FilterFiles from "@/components/files/FilterFiles.vue";
 import DeleteOverlay from "@/components/files/overlays/DeleteOverlay.vue";
@@ -124,9 +123,11 @@ import ShipOverlay from "@/components/files/overlays/ShipOverlay.vue";
 
 import { useUserStore } from "@/stores/user";
 import { useCreatorGeneralStore } from "@/stores/creator-general";
+import { useFilesStore } from "~/stores/files";
 
 const user = useUserStore();
 const creatorGeneral = useCreatorGeneralStore();
+const files = useFilesStore();
 
 export default {
   name: 'MePage',
@@ -142,10 +143,9 @@ export default {
     this.loading = false;
   },
   computed: {
-    ...mapState('files', ['shipOverlay']),
     files() { return user.getFiles() },
     reload() {
-      return this.shipOverlay.show
+      return files.shipOverlay.show
     },
     role() { return user.role }
   },

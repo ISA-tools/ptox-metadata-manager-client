@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
 import { required, minSize, isEmail } from "@/utils/rules";
 import { useUserStore } from '@/stores/user'
 import { useCreatorGeneralStore } from "@/stores/creator-general";

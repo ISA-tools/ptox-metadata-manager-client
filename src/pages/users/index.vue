@@ -79,10 +79,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "UsersListPage",
@@ -126,10 +127,9 @@ export default {
     }
   },
   async fetch() { await this.getUser() },
-  computed: { ...mapState('user', ['token']) },
   methods: {
     async activateUser(user_id) {
-      await restClient.activate_user(this.token, user_id)
+      await restClient.activate_user(user.token, user_id)
       await this.getUser()
     },
     async getUser() {
@@ -137,24 +137,24 @@ export default {
       this.success = false
       this.loading = true
       try {
-        this.users = await restClient.get(this.token, 'users')
+        this.users = await restClient.get(user.token, 'users')
         this.success = true
       }
       catch (e) { this.error = e }
       finally { this.loading = false }
     },
     async make_admin(user_id) {
-      await restClient.make_admin(this.token, user_id)
+      await restClient.make_admin(user.token, user_id)
       await this.getUser()
     },
     async ban_user(user_id) {
-      await restClient.ban_user(this.token, user_id)
+      await restClient.ban_user(user.token, user_id)
       await this.getUser()
     },
     async delete_user(user_id) {
       this.error = false
       try {
-        await restClient.delete_user(this.token, user_id)
+        await restClient.delete_user(user.token, user_id)
         await this.getUser()
       }
       catch (e) {

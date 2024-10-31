@@ -72,10 +72,11 @@
 
 <script>
 import { required, minSize } from "@/utils/rules"
-import { mapMutations, mapState, mapActions } from "vuex";
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "ChangePwdWithToken",
@@ -96,11 +97,16 @@ export default {
       }
     }
   },
-  computed: { ...mapState('user', ['isLoggedIn']) },
+  computed: {
+    isLoggedIn() {
+      return user.isLoggedIn
+    }
+  },
   async mounted() { if (this.isLoggedIn) await this.logout() },
   methods: {
-    ...mapMutations('user', ['setPassword', 'setResetPasswordMessage']),
-    ...mapActions('user', ['logout']),
+    setPassword(password) { user.setPassword(password) },
+    setResetPasswordMessage(password) { user.setResetPasswordMessage(password) },
+    logout() { user.logout },
     async submit() {
       this.response = { loading: false, success: false, error: false, message: null }
       if (this.password !== this.confirmPassword) {
