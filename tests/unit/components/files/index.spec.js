@@ -1,17 +1,17 @@
 import {createLocalVue, shallowMount} from "@vue/test-utils";
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import { createTestingPinia } from '@pinia/testing';
+import { PiniaVuePlugin } from 'pinia';
+import Vuetify from 'vuetify';
 
 import FileOverlay from '@/components/files/index.vue'
 
 const vuetify = new Vuetify();
 const localVue = createLocalVue();
-localVue.use(Vuex);
+localVue.use(PiniaVuePlugin);
 
-let file = {
+const file = {
     file_id: 1
 }
-
 
 describe("index.vue", function(){
     let wrapper;
@@ -22,7 +22,8 @@ describe("index.vue", function(){
             localVue,
             propsData: {
                 file: file
-            }
+            },
+            pinia: createTestingPinia()
         })
     });
 

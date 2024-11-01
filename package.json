@@ -26,9 +26,11 @@
     "nuxt-highcharts": "^2.0.2",
     "tsparticles": "^2.9.3",
     "vue": "2.7.14",
+    "vue-demi": "^0.14.10",
     "vue-server-renderer": "2.7.14",
     "vue-template-compiler": "2.7.14",
     "vue2-particles": "^2.9.3",
+    "vue-loader": "15.11.1",
     "vuetify": "^2.6.1",
     "webpack": "^4.46.0",
     "yaml-loader": "^0.6.0"
@@ -60,8 +62,5 @@
     "> 0.25%",
     "last 2 versions",
     "not dead"
-  ],
-  "overrides": {
-    "vuex": "../_EXCLUDED_"
-  }
+  ]
 }
