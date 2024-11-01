@@ -3,8 +3,7 @@ import { useAppStore } from "@/stores/app";
 const store = useAppStore();
 
 export default async function ({ redirect, route }) {
-    await store.bootApp;
-
+    await store.bootApp();
 
     if (route.path === '/logout') {
         await store.user.logout;

@@ -130,9 +130,11 @@ export default {
     },
   destroyed() { user.setResetPasswordMessage(null) },
   methods: {
-      updateUsername (e) { user.setUsername(e) },
+      updateUsername (e) {
+        user.setUsername(e)
+      },
       updatePassword (e) { user.setPassword(e) },
-      login() { user.login() },
+      login(router, form, next) { user.login(router, form, next) },
       setStep(num) { user.setStep(num) }
     }
 }

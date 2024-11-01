@@ -48,47 +48,46 @@ export const useUserStore = defineStore('user', {
         resetPasswordMessage: null
     }),
     getters: {
-        getFiles: state => {
-            const startDateBreakpoint = state.filesFilters.selectedDates[0]
-            const endDateBreakpoint = state.filesFilters.selectedDates[1]
+        getFiles () {
+            const startDateBreakpoint = this.filesFilters.selectedDates[0]
+            const endDateBreakpoint = this.filesFilters.selectedDates[1]
 
-            return state.userData.files.filter(file => {
+            return this.userData.files.filter(file => {
                 if (startDateBreakpoint && endDateBreakpoint) {
                     const afterStartDate = startDateBreakpoint ? new Date(file.start_date) >= new Date(startDateBreakpoint) : true
                     const beforeEndDate = endDateBreakpoint ? new Date(file.end_date) <= new Date(endDateBreakpoint) : true
                     if (!afterStartDate || !beforeEndDate) return false
                 }
 
-                if (state.filesFilters.selectedOrganism && state.filesFilters.selectedOrganism !== file.organism) return false
-                if (state.filesFilters.selectedVehicle && state.filesFilters.selectedVehicle !== file.vehicle) return false
-                if (state.filesFilters.validationStatus && state.filesFilters.validationStatus !== file.validated) return false
-                if (state.filesFilters.selectedBatch && !file.batch.includes(state.filesFilters.selectedBatch)) return false
-                return !(state.filesFilters.selectedCompound && !file.chemicals.includes(state.filesFilters.selectedCompound));
+                if (this.filesFilters.selectedOrganism && this.filesFilters.selectedOrganism !== this.organism) return false
+                if (this.filesFilters.selectedVehicle && this.filesFilters.selectedVehicle !== file.vehicle) return false
+                if (this.filesFilters.validationStatus && this.filesFilters.validationStatus !== file.validated) return false
+                if (this.filesFilters.selectedBatch && !file.batch.includes(this.filesFilters.selectedBatch)) return false
+                return !(this.filesFilters.selectedCompound && !file.chemicals.includes(this.filesFilters.selectedCompound));
             })
         }
     },
     actions: {
-        async login({ state, commit }, { router, form, next }) {
+        async login({ router, form, next }) {
+            console.log("Logging in!");
             await login_redirect(
                 router,
-                commit,
-                { username: state.username, password: state.password },
+                { username: this.username, password: this.password },
                 form,
                 next
             )
         },
-        autologin({ commit }) { autoLogin(commit) },
-        async logout({ state, commit }) {
-            await logout(state.token)
-            commit("logout")
+        autologin() { autoLogin() },
+        async logout() {
+            await logout(this.token)
         },
-        async getMyself({ commit, state }) { await getMyself(state.token, commit) },
-        async createUser({ state, commit }) {
-            await createUser(state.token, state.createUserData, commit)
+        async getMyself() { await getMyself(this.token) },
+        async createUser() {
+            await createUser(this.token, this.createUserData)
         },
-        async activateToken({ commit }, token) { await validateToken(token, commit) },
-        clearFilters(state) {
-            state.filesFilters = {
+        async activateToken(token) { await validateToken(token) },
+        clearFilters() {
+            this.filesFilters = {
                 selectedOrganism: null,
                 selectedVehicle: null,
                 selectedCompound: null,
@@ -97,33 +96,33 @@ export const useUserStore = defineStore('user', {
                 selectedDates: [null, null]
             }
         },
-        setUsername(state, username) { state.username = username },
-        setPassword(state, password) { state.password = password },
-        setRole(state, role) { state.role = role },
-        setUserData(state, userData) { state.userData = userData },
-        setNewUserUsername(state, username) { state.createUserData.username = username },
-        setNewUserPassword(state, password) { state.createUserData.password = password },
-        setNewUserConfirmPassword(state, confirmPassword) { state.createUserData.confirmPassword = confirmPassword },
-        setNewUserOrganisation(state, organisation) { state.createUserData.organisation = organisation },
-        setNewUserEmail(state, email) { state.createUserData.email = email },
-        resetNewUser(state) { state.createUserData = { ...NEW_USER } },
-        setCreationSuccess(state, success) { state.creationSuccess = success },
-        setTokenValidation(state, message) { state.tokenValidation = message },
-        setTokenError(state, error) { state.tokenError = error },
-        setStep(state, step) { state.pageStep = step },
-        error(state, error) { state.error = error },
+        setUsername(username) {this.username = username },
+        setPassword(password) { this.password = password },
+        setRole(role) { this.role = role },
+        setUserData(userData) { this.userData = userData },
+        setNewUserUsername(username) { this.createUserData.username = username },
+        setNewUserPassword(password) { this.createUserData.password = password },
+        setNewUserConfirmPassword(confirmPassword) { this.createUserData.confirmPassword = confirmPassword },
+        setNewUserOrganisation(organisation) { this.createUserData.organisation = organisation },
+        setNewUserEmail(email) { this.createUserData.email = email },
+        resetNewUser() { this.createUserData = { ...NEW_USER } },
+        setCreationSuccess(success) { this.creationSuccess = success },
+        setTokenValidation(message) { this.tokenValidation = message },
+        setTokenError(error) { this.tokenError = error },
+        setStep(step) { this.pageStep = step },
+        error(error) { this.error = error },
 
-        setSelectedOrganism(state, organism) { Vue.set(state.filesFilters, 'selectedOrganism', organism) },
-        setSelectedVehicle(state, vehicle) { Vue.set(state.filesFilters, "selectedVehicle", vehicle) },
-        setSelectedChemical(state, compound) { Vue.set(state.filesFilters, "selectedCompound", compound) },
-        setValidationStatus(state, status) { Vue.set(state.filesFilters, "validationStatus", status) },
-        setSelectedBatch(state, batch) { Vue.set(state.filesFilters, "selectedBatch", batch) },
-        setSelectedDates(state, dates) {
-            Vue.set(state.filesFilters, "selectedDates", dates).sort((a, b) => new Date(a) - new Date(b))
+        setSelectedOrganism(organism) { Vue.set(this.filesFilters, 'selectedOrganism', organism) },
+        setSelectedVehicle(vehicle) { Vue.set(this.filesFilters, "selectedVehicle", vehicle) },
+        setSelectedChemical(compound) { Vue.set(this.filesFilters, "selectedCompound", compound) },
+        setValidationStatus(status) { Vue.set(this.filesFilters, "validationStatus", status) },
+        setSelectedBatch(batch) { Vue.set(this.filesFilters, "selectedBatch", batch) },
+        setSelectedDates(dates) {
+            Vue.set(this.filesFilters, "selectedDates", dates).sort((a, b) => new Date(a) - new Date(b))
         },
 
-        setResetPasswordMessage(state, message) {
-            state.resetPasswordMessage = message
+        setResetPasswordMessage(message) {
+            this.resetPasswordMessage = message
         },
     }
 

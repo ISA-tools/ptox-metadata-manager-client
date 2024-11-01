@@ -19,9 +19,9 @@ export const useAppStore = defineStore('app', {
         }
     },
     actions: {
-        async bootApp (state) {
+        async bootApp () {
             const token = this.getToken()
-            if (!state.booted && token) {
+            if (!this.booted && token) {
                 try { await restClient.test_token(token) }
                 catch (error) {
                     await userStore.logout;
@@ -35,8 +35,8 @@ export const useAppStore = defineStore('app', {
                 this.setBooted(true);
             }
         },
-        setBooted(state, value) {
-            state.booted = value;
+        setBooted(value) {
+            this.booted = value;
         }
     }
 })
