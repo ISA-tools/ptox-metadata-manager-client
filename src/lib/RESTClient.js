@@ -230,7 +230,6 @@ class RESTClient {
             headers: { ...this.HEADERS, "Authorization": `Bearer ${token}` }
         }
         const response = await axios(request)
-        console.log(response.data)
         return response.data
     }
 

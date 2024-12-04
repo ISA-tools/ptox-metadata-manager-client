@@ -1,6 +1,11 @@
-export default {
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  devServer: {},
+  vite: {},
   target: 'static',
   ssr: false,
+
   head: {
     titleTemplate: 'PrecisionTox Metadata Manager',
     title: 'PrecisionTox Metadata Manager',
@@ -16,26 +21,31 @@ export default {
       { name: 'twitter:card', content: 'summary_large_image' }
     ]
   },
+
   css: ["@/assets/styles/layout.css", "animate.css/animate.min.css", "@/assets/styles/colors.css"],
   plugins: ["@/plugins/particles"],
   components: true,
+
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
-    //'@nuxtjs/composition-api/module', //TODO: Chokes on babel.config.js if uncommented.
     ['@pinia/nuxt', { disable_vuex: true }]
   ],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', ['nuxt-highcharts', {}]],
+
+  modules: [['nuxt-highcharts', {}]],
   axios: { baseURL: '/', headers: { common: { Accept: 'application/json' }}},
   pwa: { manifest: { lang: 'en' }},
   vuetify: { defaultAssets: { icons: 'fa' }},
+
   // Added for nuxt 4 compliance
   pinia: {
     storesDirs: ['./src/stores/**']
   },
+
   static: { prefix: false },
   srcDir: 'src/',
   router: { middleware: 'auth' },
+
   build: {
     extend(config) {
       const rules = [
@@ -44,11 +54,6 @@ export default {
           include: [/node_modules/, /.nuxt/],
           type: "javascript/auto"
         },
-        {
-          test: /\.ya?ml$/,
-          type: 'json',
-          use: 'yaml-loader'
-        }
       ]
       config.module.rules.push(...rules)
     },
@@ -59,6 +64,8 @@ export default {
           '@babel/plugin-transform-nullish-coalescing-operator'
       ]
     },
-    transpile: ["tsparticles", "tsparticles-engine"]
-  }
-}
+    transpile: ["tsparticles", "tsparticles-engine", "globby"]
+  },
+
+  compatibilityDate: '2024-11-06'
+})

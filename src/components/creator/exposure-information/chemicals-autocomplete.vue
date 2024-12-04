@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { easeInOutQuint } from 'vuetify/lib/services/goto/easing-patterns'
+//import { easeInOutQuint } from '@vuetify/lib/services/goto/easing-patterns'
 import { searchChemicals } from "@/utils/search"
 import { useCreatorChemicalsStore } from '@/stores/creator-chemicals'
 import doseMixin from "@/mixins/doseCSSMixin"
@@ -109,7 +109,8 @@ export default {
   data () {
     return {
       def: "",
-      scrollOption: { duration: 1000, easing: easeInOutQuint, offset: 0 }
+      //scrollOption: { duration: 1000, easing: easeInOutQuint, offset: 0 }
+      scrollOption: { duration: 1000, offset: 0 }
     }
   },
   computed: {

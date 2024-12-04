@@ -88,7 +88,7 @@
 import CreatorSubtitle from "@/components/creator/general-information/creator-subtitle";
 import CreatorTimepoints from "@/components/creator/timepoints/content";
 import UnitSelector from "@/components/creator/timepoints/unit-selector";
-import definitions from "@/assets/data/definitions.yml"
+import definitions from "@/assets/data/definitions.json"
 import {useCreatorTimepointsStore} from "@/stores/creator-timepoints";
 
 const creatorTimepoints = useCreatorTimepointsStore();

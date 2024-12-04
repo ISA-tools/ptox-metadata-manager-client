@@ -93,7 +93,7 @@ import CreatorOrganism from "./creator-organism.vue";
 import CreatorSolvent from "./creator-solvent.vue";
 import CreatorControls from "./conditions/creator-controls.vue";
 
-import definitions from "@/assets/data/definitions.yml"
+import definitions from "@/assets/data/definitions.json"
 
 export default {
   name: "CreateSpreadsheet",

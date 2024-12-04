@@ -1,9 +1,10 @@
 import { login_redirect, logout, autoLogin, getMyself, createUser, validateToken } from "@/lib/login"
 import { defineStore, createPinia } from "pinia";
-import Vue from 'vue';
+import { createApp } from 'vue';
 
 const pinia = createPinia();
-Vue.use(pinia);
+const app = createApp({})
+app.use(pinia);
 
 const NEW_USER = {
     organisation: null,
