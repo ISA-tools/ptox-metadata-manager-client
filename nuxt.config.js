@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   vite: {},
   target: 'static',
   ssr: false,
+  sourcemap: {
+    server: true,
+    client: true
+  },
 
   head: {
     titleTemplate: 'PrecisionTox Metadata Manager',
