@@ -67,10 +67,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "SamplesPage",
@@ -87,7 +88,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['token']),
     page() { return this.pagination.current_page }
   },
   watch: { async page() { await this.getData() } },
@@ -97,7 +97,7 @@ export default {
       this.loading = true
       this.samples = []
       const current_page = page === 0 ? this.pagination.current_page : page
-      const data  = await restClient.getSamples(this.token, current_page, this.pagination.per_page)
+      const data  = await restClient.getSamples(user.token, current_page, this.pagination.per_page)
       this.makeHeaders(data.samples[0])
       this.samples = data.samples
       this.pagination = data.pagination

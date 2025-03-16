@@ -65,20 +65,19 @@
   </v-col>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import {useCreatorGeneralStore} from "@/stores/creator-general";
+const creatorGeneral = useCreatorGeneralStore();
 
 import DateShow from "./date-show.vue";
 export default {
   name: "CreateDates",
   components: { DateShow },
   computed: {
-    ...mapState("creator-general", ["dates"]),
     selectedDates: {
-      get() { return this.dates },
-      set(value) { this.sortDates(value) }
+      get() { return creatorGeneral.dates },
+      set(value) { creatorGeneral.sortDates(value) }
     }
-  },
-  methods: { ...mapActions("creator-general", ["sortDates"]) },
+  }
 }
 </script>
 <style>

@@ -1,43 +1,48 @@
-export default async function ({ store, redirect, route }) {
-    await store.dispatch('app/bootApp')
+import { useAppStore } from "@/stores/app";
+import { defineNuxtRouteMiddleware} from "nuxt/app";
+import { navigateTo} from "nuxt/app";
 
+const store = useAppStore();
 
-    if (route.path === '/logout') {
-        await store.dispatch('user/logout')
-        return redirect('/')
+export default defineNuxtRouteMiddleware(async (to) => {
+    await store.bootApp();
+
+    if (to.path === '/logout') {
+        await store.user.logout;
+        return navigateTo('/')
     }
-    else if (!route.path.includes('/users/enable') && !route.path.includes('unauthorized')) {
-        store.dispatch('user/autologin')
+    else if (!to.path.includes('/users/enable') && !to.path.includes('unauthorized')) {
+        store.user.autologin;
 
-        const user_role = store.state.user.role
-        if (user_role === 'banned') return redirect('/unauthorized')
+        const user_role = store.user.role;
+        if (user_role === 'banned') return navigateTo('/unauthorized')
 
-        if (route.path !== "/" && !route.path.includes('/users/reset_pwd')) {
+        if (to.path !== "/" && !to.path.includes('/users/reset_pwd')) {
 
             // Protect all routes from unauthenticated users
-            if (route.path !== "/login" && !store.state.user.isLoggedIn) return redirect('/login?next=' + route.path)
+            if (to.path !== "/login" && !store.user.isLoggedIn) return navigateTo('/login?next=' + to.path)
 
             // Redirect not activated users to the home page if they try to access any other page
-            if (user_role === 'disabled' && route.path !== '/users/disabled') return redirect('/users/disabled')
+            if (user_role === 'disabled' && to.path !== '/users/disabled') return navigateTo('/users/disabled')
 
             // Protect admin routes from non-admin users
-            if ((route.path === '/users' || route.path === '/users/'
-                || route.path === '/files/' || route.path === '/files/')
-                && user_role !== 'admin') { return redirect('/unauthorized') }
+            if ((to.path === '/users' || to.path === '/users/'
+                || to.path === '/files/' || to.path === '/files/')
+                && user_role !== 'admin') { return navigateTo('/unauthorized') }
 
             // Protect create routes from non activated users
-            if ((route.path === '/files/create' || route.path === '/files/create/')
+            if ((to.path === '/files/create' || to.path === '/files/create/')
                 && (user_role !== 'admin' && user_role !== 'user')) {
-                return redirect('/unauthorized')
+                return navigateTo('/unauthorized')
             }
 
             // Protect register routes from disabled users
-            if ((route.path === '/files/register' || route.path === '/files/register')
-                && (user_role === 'disabled')) { return redirect('/unauthorized') }
+            if ((to.path === '/files/register' || to.path === '/files/register')
+                && (user_role === 'disabled')) { return navigateTo('/unauthorized') }
 
             // Redirect authenticated users to the home page
-            else if (route.path === "/login" && store.state.user.isLoggedIn) return redirect('/')
+            else if (to.path === "/login" && store.user.isLoggedIn) return navigateTo('/')
         }
     }
-}
+})
 

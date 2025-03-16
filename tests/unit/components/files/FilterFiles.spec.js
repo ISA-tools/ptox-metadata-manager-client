@@ -10,14 +10,15 @@ localVue.use(Vuex);
 
 import CreatorChemicals from '@/store/creator-chemicals'
 import CreatorGeneral from '@/store/creator-general'
-import User from '@/store/user'
+import { useUserStore } from '@/stores/user'
+const user = useUserStore();
 
 const $store = new Vuex.Store(
     {
         modules: {
             'creator-chemicals': CreatorChemicals,
             'creator-general': CreatorGeneral,
-            user: User,
+            user: user,
         }
     }
 )

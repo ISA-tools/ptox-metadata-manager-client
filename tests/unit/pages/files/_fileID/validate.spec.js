@@ -1,6 +1,8 @@
 import {createLocalVue, shallowMount} from "@vue/test-utils";
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+//import { useUserStore } from '@/stores/user'
+import { createTestingPinia } from '@pinia/testing'
 
 import FilePage from '@/pages/files/_fileID/validate.vue'
 
@@ -8,14 +10,27 @@ const vuetify = new Vuetify();
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-import User from '@/store/user'
+let testUserStore = createTestingPinia({
+    user: {
+        initialState: {
+            organisation: 'organisation',
+            username: 'username',
+            password: 'password',
+            confirmPassword: 'password',
+            email: 'email@email.com',
+        }
+    }
+});
+
+/*
 const $store = new Vuex.Store(
     {
         modules: {
-            user: User
+            user: user
         },
     }
 )
+ */
 
 const $route = {
     path: "/",
@@ -25,7 +40,6 @@ const $route = {
 
 jest.mock('@/lib/RESTClient');
 
-
 describe("isa.vue", function(){
     let wrapper;
 
@@ -33,7 +47,9 @@ describe("isa.vue", function(){
         wrapper = await shallowMount(FilePage, {
             vuetify,
             localVue,
-            mocks: { $store, $route }
+            //mocks: { $store, $route }
+            mocks: { $route },
+            plugins: [ testUserStore ]
         })
     });
 

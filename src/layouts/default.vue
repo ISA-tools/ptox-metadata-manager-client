@@ -76,9 +76,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import { loadFull } from "tsparticles"
 import NavDrawer from "../components/nav-drawer"
+import { useUserStore } from "~/stores/user";
+const user = useUserStore();
 
 const particlesInit = async engine => { await loadFull(engine); };
 
@@ -96,7 +97,9 @@ export default {
   computed: {
     drawerHeight() { return this.$vuetify.breakpoint.mdAndDown ? '33%' : '100%' },
     drawerWidth() { return this.$vuetify.breakpoint.mdAndDown ? '80%' : '300px' },
-    ...mapState('user', ['isLoggedIn']),
+    isLoggedIn() {
+      return user.isLoggedIn
+    },
     options: {
       get() {
         return {

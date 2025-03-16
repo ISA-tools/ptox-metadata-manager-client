@@ -97,12 +97,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import { isURL } from "@/utils/rules"
 import FileCard from "@/components/files/";
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "@/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "RegisterFile",
@@ -118,7 +119,6 @@ export default {
       fileData: null
     }
   },
-  computed: { ...mapState("user", ['token']) },
   methods: {
     async submitForm() {
       if (!this.$refs.RegisterFile.validate()) return
@@ -132,7 +132,7 @@ export default {
       const fileID = url.pathname.split('d/')[1].split('/')[0]
       try {
         this.fileID = fileID
-        const response = await restClient.register_file(this.token, fileID)
+        const response = await restClient.register_file(user.token, fileID)
         console.log(response.data.file)
         this.fileData = response.data.file
       }

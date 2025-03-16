@@ -95,10 +95,12 @@
 </template>
 
 <script>
-import { easeInOutQuint } from 'vuetify/lib/services/goto/easing-patterns'
-import { mapGetters, mapActions, mapMutations } from "vuex"
+//import { easeInOutQuint } from '@vuetify/lib/services/goto/easing-patterns'
 import { searchChemicals } from "@/utils/search"
+import { useCreatorChemicalsStore } from '@/stores/creator-chemicals'
 import doseMixin from "@/mixins/doseCSSMixin"
+
+const creatorChemicals = useCreatorChemicalsStore();
 
 export default {
   name: "ChemicalAutocomplete",
@@ -107,20 +109,24 @@ export default {
   data () {
     return {
       def: "",
-      scrollOption: { duration: 1000, easing: easeInOutQuint, offset: 0 }
+      //scrollOption: { duration: 1000, easing: easeInOutQuint, offset: 0 }
+      scrollOption: { duration: 1000, offset: 0 }
     }
   },
   computed: {
     chemicals: {
-      get() { return this.getSelectedChemicals()(this.index) || [] },
-      set(value) { this.setChemicalGroupChemicals({ index: this.index, chemicals: value }) }
+      get() { return creatorChemicals.getSelectedChemicals()(this.index) || [] },
+      set(value) { creatorChemicals.setChemicalGroupChemicals({ index: this.index, chemicals: value }) }
     }
   },
   methods: {
-    ...mapGetters("creator-chemicals", ["getAvailableChemicals", "getSelectedChemicals", "getChemical"]),
-    ...mapActions("creator-chemicals", ["setChemicalGroupChemicals"]),
-    ...mapMutations("creator-chemicals", ["removeChemicalFromSelectedGroup"]),
-    searchChemicals: (chemical, queryText) => searchChemicals(chemical, queryText)
+    searchChemicals: (chemical, queryText) => searchChemicals(chemical, queryText),
+    getAvailableChemicals: (index) => { creatorChemicals.getAvailableChemicals(index) },
+    getSelectedChemicals: (index) => { creatorChemicals.getSelectedChemicals(index) },
+    getChemical: (name) => { creatorChemicals.getChemical(name) },
+    removeChemicalFromSelectedGroup: ({ index, chemical: chemicalName }) => {
+      creatorChemicals.removeChemicalFromSelectedGroup({ index, chemical: chemicalName })
+    }
   },
 }
 </script>

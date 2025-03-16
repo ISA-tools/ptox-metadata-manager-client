@@ -97,14 +97,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import NavLink from "@/components/nav-drawer/link.vue"
+import { useUserStore } from "@/stores/user"
 
+const user = useUserStore();
 
 export default {
   name: "NavDrawer",
   components: { NavLink },
-  computed: { ...mapState("user", ["isLoggedIn", "username", "role"]) },
+  computed: {
+    isLoggedIn() { return user.isLoggedIn },
+    role() { return user.role },
+    username() { return user.username }
+  },
 }
 </script>
 

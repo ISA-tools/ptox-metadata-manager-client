@@ -12,17 +12,23 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { useCreatorTimepointsStore } from "@/stores/creator-timepoints";
+const creatorTimepoints = useCreatorTimepointsStore();
+
 export default {
   name: "UnitSelector",
   computed: {
-    ...mapState("creator-timepoints", ["units", "unit"]),
     selected_unit: {
       get() { return this.unit },
-      set(value) { this.changeUnit(value) }
+      set(value) { creatorTimepoints.changeUnit(value) }
     },
-  },
-  methods: { ...mapMutations("creator-timepoints", ["changeUnit"]) }
+    units() {
+      return creatorTimepoints.units;
+    },
+    unit() {
+      return creatorTimepoints.unit;
+    }
+  }
 }
 </script>
 

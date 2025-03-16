@@ -1,4 +1,10 @@
+/*
 import Vue from 'vue'
-import Particles from "vue2-particles"
+import Particles from "nuxt-particles"
+import { defineNuxtPlugin} from "nuxt/app";
 
-Vue.use(Particles);
+
+export default defineNuxtPlugin(() => {
+    Vue.use(Particles);
+})
+ */

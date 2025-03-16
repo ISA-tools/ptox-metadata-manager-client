@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import {useCreatorGeneralStore} from "@/stores/creator-general";
+const creatorGeneral = useCreatorGeneralStore();
 
 export default {
   name: "CreatorSolvent",
-  computed: { ...mapState('creator-general', ['solvent']) },
   methods: {
-    ...mapMutations('creator-general', ['setSolvent']),
-    color(solvent) { return this.solvent.toLowerCase() === solvent ? 'primary lighten-2' : '' }
+    color(solvent) { return creatorGeneral.solvent.toLowerCase() === solvent ? 'primary lighten-2' : '' },
+    setSolvent(solvent) { return creatorGeneral.setSolvent(solvent); }
   }
 }
 </script>

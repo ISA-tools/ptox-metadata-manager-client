@@ -15,15 +15,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import LoginUser from "@/components/login/login"
 import CreateUser from "@/components/login/create_user"
 import ResetPwd from "@/components/login/reset_pwd"
+import { useUserStore } from "~/stores/user";
+
+const user = useUserStore();
 
 export default {
   name: 'LoginPage',
   components: { ResetPwd, CreateUser, LoginUser },
-  computed: { ...mapState('user', ['pageStep']) }
+  computed: {
+    pageStep() { return user.pageStep }
+  }
 }
 </script>
 

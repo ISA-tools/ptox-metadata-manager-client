@@ -169,15 +169,18 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
 import GeneralLoader from "@/components/GeneralLoader"
 import StatusBadge from "@/components/files/StatusBadge";
 import DeleteOverlay from "@/components/files/overlays/DeleteOverlay.vue";
 import PublishOverlay from "@/components/files/overlays/PublishOverlay.vue";
 import publishOverlay from "@/components/files/overlays/PublishOverlay.vue";
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore} from "@/stores/user";
+import { useFilesStore } from "@/stores/files";
 
 const restClient = new RESTClient();
+const user = useUserStore();
+const files = useFilesStore();
 
 export default {
   name: "SearchFilesForAdmin",
@@ -279,9 +282,7 @@ export default {
     publishOverlay() {
       return publishOverlay
     },
-    ...mapState("user", ["token"]),
-    ...mapState("files", ["deleteOverlay", "publishOverlay"]),
-    showDelOverlay() { return this.deleteOverlay.show },
+    showDelOverlay() { return files.deleteOverlay.show },
     showPubOverlay() { return this.publishOverlay.show },
   },
   watch: {
@@ -291,19 +292,27 @@ export default {
   async mounted() { await this.getData() },
   destroyed() { this.setPublishOverlaySuccess(false) },
   methods: {
-    ...mapMutations("files", ['showDeleteOverlay', 'showPublishOverlay', 'setPublishOverlaySuccess']),
+    showDeleteOverlay() {
+      return files.showDeleteOverlay();
+    },
+    showPublishOverlay() {
+      return files.showPublishOverlay();
+    },
+    setPublishOverlaySuccess(newValue) {
+      return files.setPublishOverlaySuccess(newValue);
+    },
     async getData() {
       this.loading = true
       let query = `per_page=${this.perPage}`
       if (this.search) query += `&search=${this.search}`
-      const response = await restClient.searchFiles(this.token, query)
+      const response = await restClient.searchFiles(user.token, query)
       this.files = response.data
       this.loading = false
     },
     async downloadISA(fileID) {
       this.isa = { error: null, loading: true }
       try {
-        const isa = await restClient.convertFileToISA(this.token, fileID)
+        const isa = await restClient.convertFileToISA(user.token, fileID)
         const data = JSON.stringify(isa)
         const blob = new Blob([data], { type: 'application/json' })
         const url = window.URL.createObjectURL(blob)

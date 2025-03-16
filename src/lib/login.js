@@ -1,7 +1,8 @@
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
-
+const user = useUserStore();
 
 /**
  * Login the user and store the token in the local storage or gets the token from the local storage
@@ -37,25 +38,26 @@ export async function logout(token) {
 /**
  * Redirect the user to given page after login
  * @param router
- * @param commit
  * @param username
  * @param password
  * @param next the next page
  * @param form
  */
-export async function login_redirect(router, commit, { username, password }, form, next) {
+export async function login_redirect(router, { username, password }, form, next) {
     form.validate()
-    commit("error", null)
+
     try {
         let data = await login(username, password);
-        const user = JSON.parse(data)
-        commit("login", user.token)
+        const currentUser = JSON.parse(data)
+        // TODO: The purpose of this next line is unclear. What is it committing and where?
+        //commit("login", currentUser.token) // ????
+        user.token = currentUser.token;
         router.push(next)
     }
     catch (error) {
         await logout()
-        commit("logout")
-        commit("error", error.response.data.msg)
+        user.logout();
+        user.error = error.response.data.msg;
     }
 }
 

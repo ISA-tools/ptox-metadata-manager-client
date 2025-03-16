@@ -8,14 +8,15 @@ const vuetify = new Vuetify();
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-import User from '@/store/user'
+import { useUserStore } from '@/stores/user'
+const user = useUserStore();
 import Files from '@/store/files'
 
 const $store = new Vuex.Store(
     {
         modules: {
             files: Files,
-            user: User
+            user: user
         }
     }
 )

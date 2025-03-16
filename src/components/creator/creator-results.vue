@@ -49,14 +49,20 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { useCreatorStore } from "@/stores/creator";
+import { useCreatorStepsStore } from "@/stores/creator-steps";
+
+const creator = useCreatorStore();
+const creatorSteps = useCreatorStepsStore();
 
 export default {
   name: "CreatorResults",
-  computed: { ...mapState('creator', ['created']) },
+  computed: {
+    created() { return creator.created }
+  },
   methods: {
-    ...mapMutations('creator-steps', ['setStep']),
-    copyURL() { navigator.clipboard.writeText(this.created) }
+    copyURL() { navigator.clipboard.writeText(creator.created.toString()) },
+    setStep() { creatorSteps.setStep() }
   }
 }
 </script>

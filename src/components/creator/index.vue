@@ -52,26 +52,36 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions} from "vuex";
 import CreatorLayout from "@/components/creator/layout"
 import CreatorResults from "@/components/creator/creator-results.vue";
 import StepsHeader from "@/components/creator/layout/steps-header";
 
+import { useUserStore } from "@/stores/user";
+import { useCreatorStore } from "@/stores/creator";
+import { useCreatorStepsStore } from "@/stores/creator-steps";
+import { useCreatorChemicalsStore } from "@/stores/creator-chemicals";
+
+const user = useUserStore();
+const creator = useCreatorStore();
+const creatorSteps = useCreatorStepsStore();
+const creatorChemicals = useCreatorChemicalsStore();
+
 export default {
   name: "CreatorIndex",
   components: { CreatorLayout, StepsHeader, CreatorResults },
-  async fetch() { await this.getFormData(this.token) },
+  async fetch() { await this.getFormData(user.token) },
   computed: {
-    ...mapState('creator-steps', ['currentStep', 'stepsSize']),
-    ...mapState('creator', ['created']),
-    ...mapState('user', ['token']),
-    ...mapGetters('creator-steps', ['getSectionName'])
+    currentStep() { return creatorSteps.currentStep },
+    stepsSize() { return creatorSteps.stepsSize },
+    getSectionName() { return creatorSteps.getSectionName }
   },
   watch: {
-    created() { if (this.created) window.open(this.created, '_blank') }
+    created() { if (creator.created) window.open(creator.created, '_blank') }
   },
   methods: {
-    ...mapActions("creator-chemicals", ["getFormData"])
+    getFormData() {
+      return creatorChemicals.getFormData;
+    }
   }
 }
 </script>

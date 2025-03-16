@@ -22,8 +22,10 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from "vuex";
 import LoginUser from "@/components/login/login.vue";
+import { useUserStore } from "~/stores/user";
+
+const user = useUserStore();
 
 export default {
   name: "ValidateAccount",
@@ -34,11 +36,13 @@ export default {
   },
   computed: {
     token() { return this.$route.params.token },
-    ...mapState('user', ['tokenValidation', 'tokenError'])
+    tokenValidation() { return user.tokenValidation },
+    tokenError() { return user.tokenError }
   },
   methods: {
-    ...mapActions('user', ['activateToken']),
-    ...mapMutations('user', ['setTokenError', 'setTokenValidation'])
+    activateToken() { user.activateToken() },
+    setTokenError() { user.setTokenError() },
+    setTokenValidation() { user.setTokenValidation() }
   },
 }
 </script>

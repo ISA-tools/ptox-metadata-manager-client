@@ -136,8 +136,12 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
 import { required, minSize, isEmail } from "@/utils/rules";
+import { useUserStore } from '@/stores/user'
+import { useCreatorGeneralStore } from "@/stores/creator-general";
+
+const user = useUserStore();
+const creatorGeneral = useCreatorGeneralStore();
 
 export default {
   name: "CreateUser",
@@ -154,39 +158,37 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['createUserData', 'error', 'creationSuccess']),
-    ...mapState('creator-general', ['availablePartners']),
+    availablePartners() {
+      return creatorGeneral.availablePartners;
+    },
     username: {
-      get() { return this.createUserData.username },
-      set(value) { this.setNewUserUsername(value) }
+      get() { return user.createUserData.username },
+      set(value) { user.setNewUserUsername(value) }
     },
     password: {
-      get() { return this.createUserData.password },
-      set(value) { this.setNewUserPassword(value) }
+      get() { return user.createUserData.password },
+      set(value) { user.setNewUserPassword(value) }
     },
     confirmPassword: {
-      get() { return this.createUserData.confirmPassword },
-      set(value) { this.setNewUserConfirmPassword(value) }
+      get() { return user.createUserData.confirmPassword },
+      set(value) { user.setNewUserConfirmPassword(value) }
     },
     organisation: {
-      get() { return this.createUserData.organisation },
-      set(value) { this.setNewUserOrganisation(value) }
+      get() { return user.createUserData.organisation },
+      set(value) { user.setNewUserOrganisation(value) }
     },
     email: {
-      get() { return this.createUserData.email },
-      set(value) { this.setNewUserEmail(value) }
-    }
+      get() { return user.createUserData.email },
+      set(value) { user.setNewUserEmail(value) }
+    },
+    error() { return user.error },
+    creationSuccess() { return user.creationSuccess }
   },
-  watch: { error() { if (this.error) this.showSnackbar = true } },
-  async mounted() { if (this.availablePartners.length === 0) await this.getFormData() },
-  destroyed() { this.setStep(1) },
+  watch: { error() { if (user.error) this.showSnackbar = true } },
+  async mounted() { if (this.availablePartners.length === 0) await creatorGeneral.getFormData() },
+  destroyed() { user.setStep(1) },
   methods: {
-    ...mapActions('creator-general', ['getFormData']),
-    ...mapActions('user', ['createUser']),
-    ...mapMutations('user', [
-        'setNewUserUsername', 'setNewUserPassword', 'setNewUserConfirmPassword', 'setNewUserOrganisation',
-        'setNewUserEmail', 'setStep'
-    ])
+    createUser() { return user.createUser }
   }
 }
 </script>

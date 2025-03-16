@@ -31,10 +31,17 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from "vuex"
 import CreatorIndex from "@/components/creator/"
 import GeneralLoader from "@/components/GeneralLoader.vue";
+import { useCreatorStepsStore } from "@/stores/creator-steps";
+import { useCreatorStore } from '@/stores/creator'
+import { useUserStore } from '@/stores/user'
+import { useCreatorGeneralStore } from "@/stores/creator-general";
 
+const creatorSteps = useCreatorStepsStore();
+const creator = useCreatorStore();
+const user = useUserStore();
+const creatorGeneral = useCreatorGeneralStore()
 
 export default {
   name: 'IndexPage',
@@ -42,21 +49,16 @@ export default {
   data() { return { showSnackbar: false, loading: false }  },
   async fetch() {
     this.loading = true
-    await this.getMyself()
-    await this.getFormData(this.token)
+    await user.getMyself()
+    await creatorGeneral.getFormData(user.token)
     this.loading = false
   },
   computed: {
-    ...mapState('user', ['token']),
-    ...mapState('creator', ['created', 'error'])
+    created() { return creator.created },
+    error() { return creator.error }
   },
   watch: { error() { if (this.error) this.showSnackbar = true } },
-  beforeDestroy() { this.setStep(1) },
-  methods: {
-    ...mapActions('creator-general', ['getFormData']),
-    ...mapMutations('creator-steps', ['setStep']),
-    ...mapActions('user', ['getMyself'])
-  }
+  beforeDestroy() { creatorSteps.setStep(1) },
 }
 </script>
 

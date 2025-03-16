@@ -70,11 +70,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import { required, isEmail } from "@/utils/rules"
 import RESTClient from "@/lib/RESTClient";
+import { useUserStore } from "~/stores/user";
 
 const restClient = new RESTClient();
+const user = useUserStore();
 
 export default {
   name: "ResetPwd",
@@ -91,7 +92,6 @@ export default {
   },
   destroyed() { this.setStep(1) },
   methods: {
-    ...mapMutations('user', ['setStep']),
     async submit() {
       this.response = { message: null, error: false, loading: false, success: false };
       try {
@@ -105,6 +105,9 @@ export default {
         this.response.error = true
       }
       finally { this.loading = false }
+    },
+    setStep(val) {
+      user.setStep(val);
     }
   }
 }
